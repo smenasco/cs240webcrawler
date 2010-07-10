@@ -1,3 +1,5 @@
+#ifndef GENERATEXML_H
+#define GENERATEXML_H
 /*
  *  GenerateXML.h
  *  
@@ -7,3 +9,4 @@
  *
  */
 
+#endif

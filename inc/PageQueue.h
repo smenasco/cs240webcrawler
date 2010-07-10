@@ -1,3 +1,5 @@
+#ifndef PAGEQUEUE_H
+#define PAGEQUEUE_H
 /*
  *  PageQueue.h
  *  
@@ -7,3 +9,4 @@
  *
  */
 
+#endif

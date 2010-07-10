@@ -1,3 +1,5 @@
+#ifndef STOPWORDS_H
+#define STOPWORDS_H
 /*
  *  StopWords.h
  *  
@@ -7,3 +9,4 @@
  *
  */
 
+#endif 

@@ -1,3 +1,5 @@
+#ifndef HTMLPARSER_H
+#define	HTMLPARSER_H
 /*
  *  HTMLParser.h
  *  
@@ -7,3 +9,4 @@
  *
  */
 
+#endif
