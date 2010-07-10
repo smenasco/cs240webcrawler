@@ -2,19 +2,19 @@
 #include <iostream>
 #include "CS240Exception.h"
 #include <string>
+#include <cassert>
+#include "WebCrawler.h"
 
 using namespace std;
 
 int main(int argc, char * argv[]){
-	printOutput();
+	assert(argc ==4);
+	if (argc < 4) {
+		cout << "USAGE: webcrawler <start-url> <output-file> <stopwords-file>\n";
+	}
+	WebCrawler * wc = new WebCrawler();
+	
 	return 0;
 }
 
-void printOutput(){
-	
-	try{
-		cout << "Hello Make\n";
-	} catch (CS240Exception &e) {
-		cout << "Exception Occurred:" << e.GetMessage() <<endl;
-	}
-}
+

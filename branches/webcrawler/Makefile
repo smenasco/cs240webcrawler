@@ -2,11 +2,11 @@
 
 BIN_FILE = bin/webcrawler
 
-SRC_FILES= src/main.cpp
+SRC_FILES= src/main.cpp src/WebCrawler.cpp
 
-INC_FILES= inc/main.h
+INC_FILES= inc/main.h inc/WebCrawler.h
 
-OBJ_FILES=obj/main.o 
+OBJ_FILES=obj/main.o obj/WebCrawler.o
 
 LIB_SRC = utils/src
 LIB_OBJ = utils/obj
@@ -47,6 +47,11 @@ bin/testdriver : lib $(LIB_FILE) obj/testdriver.o
 
 obj/testdriver.o : src/testdriver.cpp inc/testdriver.h
 	g++ -g  -c -o obj/testdriver.o -I inc -I $(LIB_INC) src/testdriver.cpp
+	
+##########---------BUILD THE SOURCE FILES############	
+
+obj/WebCrawler.o : src/WebCrawler.cpp inc/WebCrawler.h
+	g++ -g  -c -o obj/WebCrawler.o -I inc -I $(LIB_INC) src/WebCrawler.cpp
 
 
 #########-------BUILD THE LIBRARY FROM CS240 UTILS--------#########
