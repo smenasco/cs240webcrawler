@@ -8,14 +8,19 @@
  */
 
 #include "WebCrawler.h"
-
+#include "URL.h"
 #include <string>
 
 //! WebCrawler implements a webcrawler
 //!  No-arg constructor.  Initializes an empty linked list
-WebCrawler::WebCrawler() : startURL(NULL), outputFileName(NULL), stopwordsFileName(NULL){
+WebCrawler::WebCrawler(){
 }
 
+//!  Initizes a new webcrawler with the start URL, output file, and stopwords file 
+WebCrawler::WebCrawler(const URL & url,const std::string & op,const std::string & sw) {
+}
+
+//LLNode(const std::string & v, LLNode * p, LLNode * n) : value(v), prev(p), next(n){
 //! Call delete on the WebCrawler
 void WebCrawler::Free() {
 	
@@ -44,8 +49,14 @@ WebCrawler & WebCrawler::operator =(const WebCrawler & other) {
 }
 
 //!  Return a pointer to the StartURL
-std::string * WebCrawler::GetStartURL(){
+const URL & WebCrawler::GetStartURL() const {
 	return startURL;
+}
+
+
+//!  Begin the crawling process with the given start URL, output file location, and stopwords file
+void WebCrawler::Crawl(){
+	return;
 }
 
 

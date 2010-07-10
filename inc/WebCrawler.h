@@ -10,14 +10,15 @@
  */
 
 #include <string>
+#include "URL.h"
 
 
 //!  WebCrawler implements a WebCrawler 
 class WebCrawler {
 private:
-	std::string * startURL;
-	std::string * outputFileName;
-	std::string * stopwordsFileName;
+	URL startURL;
+	std::string outputFileName;
+	std::string stopwordsFileName;
 	
 	void Free();
 	void Init(const WebCrawler & other);
@@ -26,6 +27,8 @@ public:
 	//!  No-arg constructor.  Initializes an empty webcrawler
 	WebCrawler();
 	
+	//!  Initizes a new webcrawler with the start URL, output file, and stopwords file 
+	WebCrawler(const URL & url,const std::string & op,const std::string & sw);
 	
 	//!  Copy constructor.  Makes a complete copy of its argument
 	WebCrawler(const WebCrawler & other);
@@ -41,7 +44,9 @@ public:
 	
 	
 	//!  @return a pointer to start URL
-	std::string * GetStartURL();
+	const URL & GetStartURL() const;
 	
+	//!  Begin the crawling process with the given start URL, output file location, and stopwords file
+	void Crawl();
 };
 #endif
