@@ -20,7 +20,7 @@ WebCrawler::WebCrawler(){
 WebCrawler::WebCrawler(const URL & url,const std::string & op,const std::string & sw) {
 }
 
-//LLNode(const std::string & v, LLNode * p, LLNode * n) : value(v), prev(p), next(n){
+
 //! Call delete on the WebCrawler
 void WebCrawler::Free() {
 	
@@ -30,6 +30,7 @@ void WebCrawler::Free() {
 void WebCrawler::Init(const WebCrawler & other) {
 	
 }
+
 //!  Copy constructor.  Makes a complete copy of its argument
 WebCrawler::WebCrawler(const WebCrawler & other) {
 	Init(other);

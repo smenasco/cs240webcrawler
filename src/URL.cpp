@@ -10,7 +10,7 @@
 #include "URL.h"
 #include <string>
 
-//delete the URL;
+//! Delete URL from memory
 void URL::Free(){
 		
 }
@@ -25,6 +25,13 @@ URL::URL(){
 	
 }
 
+//!  Constructor with a url that needs resolved
+//!
+//!  @param base The value to which you base your resolved URL from
+//!  @param rel the part of the URL to be resolved into the base
+URL::URL(const std::string & base, const std::string & rel){
+	resolveURL(base,rel);
+}
 
 //!  Copy constructor.  Makes a complete copy of its argument
 URL::URL(const URL & other){
@@ -34,7 +41,7 @@ URL::URL(const URL & other){
 
 //!  Destructor
 URL::~URL(){
-	
+	Free();
 }
 
 
@@ -44,8 +51,15 @@ URL& URL::operator =(const URL & other){
 	
 }
 
+//! Return full resolved URL
 const std::string & URL::getURL() const {
 	return fullurl;
 }
 
-
+//! Called from Constructor with two arguments
+//!
+//!  @param base The value to which you base your resolved URL from
+//!  @param rel the part of the URL to be resolved into the base
+void URL::resolveURL(const std::string & base, const std::string & rel){
+	
+}

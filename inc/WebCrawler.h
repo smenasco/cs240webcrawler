@@ -21,6 +21,7 @@ private:
 	std::string stopwordsFileName;
 	
 	void Free();
+	
 	void Init(const WebCrawler & other);
 public:
 	
