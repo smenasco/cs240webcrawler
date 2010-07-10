@@ -1,6 +1,7 @@
 #include "main.h"
 #include <iostream>
 #include "CS240Exception.h"
+#include <string>
 
 using namespace std;
 
