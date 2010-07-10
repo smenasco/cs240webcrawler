@@ -2,11 +2,11 @@
 
 BIN_FILE = bin/webcrawler
 
-SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp
+SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp
 
-INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h
+INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h
 
-OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o
+OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o
 
 LIB_SRC = utils/src
 LIB_OBJ = utils/obj
@@ -50,6 +50,9 @@ obj/testdriver.o : src/testdriver.cpp inc/testdriver.h
 	
 ##########---------BUILD THE SOURCE FILES############	
 
+obj/URLFilter.o : src/URLFilter.cpp inc/URLFilter.h inc/URL.h
+	g++ -g  -c -o obj/URLFilter.o -I inc -I $(LIB_INC) src/URLFilter.cpp
+	
 obj/WebCrawler.o : src/WebCrawler.cpp inc/WebCrawler.h inc/URL.h
 	g++ -g  -c -o obj/WebCrawler.o -I inc -I $(LIB_INC) src/WebCrawler.cpp
 	
