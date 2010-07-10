@@ -46,7 +46,7 @@ public:
 	
 private:
 	std::string value;		  //!< url value stored in the node
-	int count;
+	int count;			      //!< the number of times the word appears on the url
 	OccurenceNode * left;     //!< pointer to the node's left child
 	OccurenceNode * right;    //!< pointer to the node's right child
 };
