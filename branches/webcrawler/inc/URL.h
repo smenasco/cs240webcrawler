@@ -15,17 +15,32 @@ class URL{
 private:
 	//   format = <scheme>://<net_loc>/<path>?<query>#<fragment>
 	std::string fullurl;
+	std::string scheme;
 	std::string net_loc;
 	std::string urlpath;
 	
-	
+	//! Delete URL from memory
 	void Free();
+
+	//! Called from constructor, copy constructor, and assignment operator
 	void Init(const URL & other);
+	
+	//! Called from Constructor with two arguments
+	//!
+	//!  @param base The value to which you base your resolved URL from
+	//!  @param rel the part of the URL to be resolved into the base
+	void resolveURL(const std::string & base, const std::string & rel);
+	
 public:
 	
 	//!  No-arg constructor.  Initializes an empty URL
 	URL();
 	
+	//!  Constructor with a url that needs resolved
+	//!
+	//!  @param base The value to which you base your resolved URL from
+	//!  @param rel the part of the URL to be resolved into the base
+	URL(const std::string & base, const std::string & rel);
 	
 	//!  Copy constructor.  Makes a complete copy of its argument
 	URL(const URL & other);
@@ -39,6 +54,7 @@ public:
 	//! @return A reference to oneself
 	URL& operator =(const URL & other);
 	
+	//! Return string containing full url
 	const std::string & getURL() const;
 	
 	
