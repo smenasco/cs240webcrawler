@@ -17,6 +17,9 @@ $(LIB_OBJ)/HTTPInputStream.o $(LIB_OBJ)/StringUtil.o $(LIB_OBJ)/URLInputStream.o
 LIB_FILE = lib/libcs240utils.a
 
 
+all: bin test
+
+
 #########-------BUILD THE Webcrawler Executable--------#########
 
 bin: $(BIN_FILE)
@@ -80,8 +83,9 @@ $(LIB_OBJ)/URLInputStream.o : $(LIB_SRC)/URLInputStream.cpp $(LIB_INC)/URLInputS
 #########---------------Delete the Junx-----------------#########
 
 clean: 
-	- echo "Removing Generated Files"
+	- @echo "Removing Generated Files"
 	- rm -f $(LIB_OBJ)/*
 	- rm -f bin/*
 	- rm -f obj/*
 	- rm -f lib/*
+	- @rm -rf build

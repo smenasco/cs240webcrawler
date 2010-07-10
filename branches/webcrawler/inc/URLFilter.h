@@ -1,3 +1,5 @@
+#ifndef URLFILTER_H
+#define URLFILTER_H
 /*
  *  URLFilter.h
  *  
@@ -6,4 +8,9 @@
  *  Copyright 2010 Samuel Menasco. All rights reserved.
  *
  */
+
+
+
+
+#endif
 

@@ -1,3 +1,5 @@
+#ifndef PAGEINDEX_H
+#define PAGEINDEX_H
 /*
  *  PageIndex.h
  *  
@@ -7,3 +9,4 @@
  *
  */
 
+#endif

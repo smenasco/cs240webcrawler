@@ -1,3 +1,5 @@
+#ifndef WORDINDEX_H
+#define WORDINDEX_H
 /*
  *  WordIndex.h
  *  
@@ -7,3 +9,8 @@
  *
  */
 
+
+
+
+
+#endif
