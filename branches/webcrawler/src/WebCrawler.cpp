@@ -49,7 +49,7 @@ WebCrawler & WebCrawler::operator =(const WebCrawler & other) {
 }
 
 //!  Return a pointer to the StartURL
-const URL & WebCrawler::GetStartURL() const {
+const URL * WebCrawler::GetStartURL() const {
 	return startURL;
 }
 

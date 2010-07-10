@@ -16,7 +16,7 @@
 //!  WebCrawler implements a WebCrawler 
 class WebCrawler {
 private:
-	URL startURL;
+	URL * startURL;
 	std::string outputFileName;
 	std::string stopwordsFileName;
 	
@@ -44,7 +44,7 @@ public:
 	
 	
 	//!  @return a pointer to start URL
-	const URL & GetStartURL() const;
+	const URL * GetStartURL() const;
 	
 	//!  Begin the crawling process with the given start URL, output file location, and stopwords file
 	void Crawl();
