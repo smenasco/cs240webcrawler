@@ -2,11 +2,11 @@
 
 BIN_FILE = bin/webcrawler
 
-SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp
+SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurenceSet.cpp
 
-INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h
+INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurenceSet.h
 
-OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o
+OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurenceSet.o
 
 LIB_SRC = utils/src
 LIB_OBJ = utils/obj
@@ -58,6 +58,9 @@ obj/WebCrawler.o : src/WebCrawler.cpp inc/WebCrawler.h inc/URL.h
 	
 obj/URL.o : src/URL.cpp inc/URL.h
 	g++ -g  -c -o obj/URL.o -I inc -I $(LIB_INC) src/URL.cpp
+	
+obj/OccurenceSet.o : src/OccurenceSet.cpp inc/OccurenceSet.h
+	g++ -g  -c -o obj/OccurenceSet.o -I inc -I $(LIB_INC) src/OccurenceSet.cpp
 
 
 #########-------BUILD THE LIBRARY FROM CS240 UTILS--------#########
