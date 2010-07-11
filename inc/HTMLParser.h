@@ -9,4 +9,6 @@
  *
  */
 
+#include "HTMLTokenizer.h"
+
 #endif
