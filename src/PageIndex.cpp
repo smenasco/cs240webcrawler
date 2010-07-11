@@ -103,8 +103,6 @@ int PageIndex::GetSize() const {
 //!
 //!  @return a pointer to the newly inserted node, or NULL if v was already
 //!          in the tree (i.e., NULL is used to indicate a duplicate insertion)
-
-
 PageNode * PageIndex::InsertAgain(PageNode * n, const std::string & v) {
 	if (n == NULL) {
 		n = new PageNode(v);

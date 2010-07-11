@@ -16,8 +16,8 @@
 /*
  URL url
  if url is not inside pageindex 
-	if url is not in pagequeue 
-		add to pagequeue
+	if url is not in urlqueue 
+		add to urlqueue
 	else 
 		already queued to download
  else 
