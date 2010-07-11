@@ -1,7 +1,5 @@
-#ifndef GENERATEXML_H
-#define GENERATEXML_H
 /*
- *  GenerateXML.h
+ *  XMLGenerator.cpp
  *  
  *
  *  Created by Sam on 7/10/10.
@@ -9,4 +7,7 @@
  *
  */
 
-#endif
+
+
+#include "XMLGenerator.h"
+

@@ -9,3 +9,4 @@
 
 #include "HTMLParser.h"
 
+#include "HTMLTokenizer.h"
