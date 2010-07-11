@@ -2,11 +2,11 @@
 
 BIN_FILE = bin/webcrawler
 
-SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurenceSet.cpp src/WordIndex.cpp
+SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurenceSet.cpp src/WordIndex.cpp src/PageIndex.cpp
 
-INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurenceSet.h inc/WordIndex.h
+INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurenceSet.h inc/WordIndex.h inc/PageIndex.h
 
-OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurenceSet.o obj/WordIndex.o
+OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurenceSet.o obj/WordIndex.o obj/PageIndex.o
 
 LIB_SRC = utils/src
 LIB_OBJ = utils/obj
@@ -64,6 +64,9 @@ obj/OccurenceSet.o : src/OccurenceSet.cpp inc/OccurenceSet.h
 
 obj/WordIndex.o : src/WordIndex.cpp inc/WordIndex.h inc/OccurenceSet.h
 	g++ -g  -c -o obj/WordIndex.o -I inc -I $(LIB_INC) src/WordIndex.cpp
+	
+obj/PageIndex.o : src/PageIndex.cpp inc/PageIndex.h 
+	g++ -g  -c -o obj/PageIndex.o -I inc -I $(LIB_INC) src/PageIndex.cpp
 
 #########-------BUILD THE LIBRARY FROM CS240 UTILS--------#########
 
