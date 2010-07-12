@@ -24,6 +24,11 @@ public:
 		set = new OccurenceSet();
 	}
 	
+	//!  Destructor
+	~WordNode(){
+		delete set;
+	}
+	
 	//!  Read-only public methods for use by clients of the WordIndex class
 	const std::string & GetValue() const {
 		return value;
