@@ -68,11 +68,12 @@ URLQueue::URLQueue(const URLQueue & other) {
 
 //!  Assignment operator.  Makes a complete copy of its argument
 //!  @return Reference to oneself
-void URLQueue::operator =(const URLQueue & other) {
+URLQueue & URLQueue::operator =(const URLQueue & other) {
 	if (this != &other) {
 		Free();
 		Init(other);
 	}
+	return *this;
 }
 
 //! Destructor

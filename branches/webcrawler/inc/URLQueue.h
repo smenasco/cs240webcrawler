@@ -61,7 +61,7 @@ public:
 	
 	//!  Assignment operator.  Makes a complete copy of its argument
 	//!  @return Reference to oneself
-	void operator =(const URLQueue & other);
+	URLQueue & operator =(const URLQueue & other);
 	
 	//! Destructor
 	~URLQueue();
