@@ -2,11 +2,11 @@
 
 BIN_FILE = bin/webcrawler
 
-SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurenceSet.cpp src/WordIndex.cpp src/PageIndex.cpp src/URLQueue.cpp src/StopWords.cpp
+SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurenceSet.cpp src/WordIndex.cpp src/PageIndex.cpp src/URLQueue.cpp src/StopWords.cpp src/XMLGenerator.cpp
 
-INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurenceSet.h inc/WordIndex.h inc/PageIndex.h inc/URLQueue.h inc/StopWords.h
+INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurenceSet.h inc/WordIndex.h inc/PageIndex.h inc/URLQueue.h inc/StopWords.h inc/XMLGenerator.h
 
-OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurenceSet.o obj/WordIndex.o obj/PageIndex.o obj/URLQueue.o obj/StopWords.o
+OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurenceSet.o obj/WordIndex.o obj/PageIndex.o obj/URLQueue.o obj/StopWords.o obj/XMLGenerator.o
 
 LIB_SRC = utils/src
 LIB_OBJ = utils/obj
@@ -73,6 +73,11 @@ obj/URLQueue.o : src/URLQueue.cpp inc/URLQueue.h
 
 obj/StopWords.o : src/StopWords.cpp inc/StopWords.h 
 	g++ -g  -c -o obj/StopWords.o -I inc -I $(LIB_INC) src/StopWords.cpp	
+	
+obj/XMLGenerator.o : src/XMLGenerator.cpp inc/XMLGenerator.h $(LIB_INC)/StringUtil.h
+	g++ -g  -c -o obj/XMLGenerator.o -I inc -I $(LIB_INC) src/XMLGenerator.cpp	
+	
+
 
 #########-------BUILD THE LIBRARY FROM CS240 UTILS--------#########
 
