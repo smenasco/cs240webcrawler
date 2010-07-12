@@ -45,7 +45,26 @@ StopWords& StopWords::operator =(const StopWords & other){
 //!
 //! @param file the filename to look for in the current working directory to be loaded into array
 void StopWords::Load(const std::string & file){
-	
+	/*  This is a way to dynamically allocate an array by way of expanding the array
+	 int max = 10;           // no longer const
+	 int* a = new int[max];  // allocated on heap
+	 int n = 0;
+	 
+	 //--- Read into the array
+	 while (cin >> a[n]) {
+	 n++;
+	 if (n >= max) {
+	 max = max * 2;            // double the previous size
+	 int* temp = new int[max]; // create new bigger array.
+	 for (int i=0; i<n; i++) {
+	 temp[i] = a[i];       // copy values to new array.
+	 }
+	 delete [] a;              // free old array memory.
+	 a = temp;                 // now a points to new array.
+	 }         
+	 }
+	 //--- Write out the array etc.
+	 */
 }
 
 //! Find string in Array of StopWords
