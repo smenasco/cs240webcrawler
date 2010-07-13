@@ -40,10 +40,6 @@ public:
 	~HTMLParser();
 	
 	
-	//! Assignment operator.  Makes a complete copy of its argument
-	//! @return A reference to oneself
-	HTMLParser& operator =(const HTMLParser & other);
-	
 	//! Begin Parsing the given HTML file
 	//!
 	//! @returns TRUE if URL needs indexed into WordIndex, 
@@ -53,6 +49,27 @@ public:
 	//! Resets the HTMLParser with a new path to parse
 	//! @param p the path to set the HTMLParser to parse
 	void SetPath(const std::string & p);
+	
+	//! Checks see if current path is actually HTML
+	//! @NOTE this does not check to see if it was handed a
+	//! valid HTML url, the URLFilter should do that before it Queue's them
+	//!
+	//! @return TRUE if was in fact HTML, and needs to be indexed
+	//!			FALSE if we can just ignore it and move on
+	bool CheckHTML();
+	
+	//!  The following methods are different states in the Parsing state machine.
+	//!  They will be called by each other as the HTMLParser encounters different 
+	//!  States... I think its pretty awesome, you should see my drawing of the 
+	//!  state machine altogether in all of its glory.  It would bring you to tears.
+	//!
+	//!  There states and purpose should be pretty self explanatory.
+	void ParseHTML();
+	void ParseTitle();
+	void ParseHeading();
+	void ParseScript();
+	void ParseBody();
+	void ParseText();
 	
 private:
 	string path;				//!< the url to be parsed
