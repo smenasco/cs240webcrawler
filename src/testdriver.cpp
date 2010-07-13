@@ -15,12 +15,12 @@ int main(int argc, char * argv[]){
 		cout << "success\n";
 	else 
 		cout << "failure\n";
-	path = "http://www.byu.edu";
+	/*path = "http://www.byu.edu";
 	p->SetPath(path);
 	if (p->Parse())
 		cout << "success\n";
 	else 
-		cout << "failure\n";
+		cout << "failure\n";*/
 	return 0;
 }
 

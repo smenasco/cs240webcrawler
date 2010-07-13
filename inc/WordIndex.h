@@ -112,12 +112,12 @@ public:
 	int GetSize() const;
 	
 	
-	//!  Inserts value v into the WordIndex
+	//!  Inserts value a word after into the WordIndex
 	//!  
 	//!  @param v The new value being inserted
 	//!
-	//!  @return a pointer to the newly inserted node, or NULL if v was already
-	//!          in the tree (i.e., NULL is used to indicate a duplicate insertion)
+	//!  @return a pointer to the newly inserted node or the node 
+	//!   that currently has its word so you can add an occurence to the wordnode->OccurenceSet
 	WordNode * Insert(const std::string & v);
 	
 	
