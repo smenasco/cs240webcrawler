@@ -48,8 +48,8 @@ public:
 	//! Implements a binary search through an array
 	//! @param word the existance of the word that we are interested in
 	//!
-	//! @return return the stopword if it was found, else return NULL
-	const std::string & Find(const std::string & word) const;
+	//! @return return TRUE if word was found, else return FALSE
+	bool IsStopWord(const std::string & word);
 	
 	
 	
