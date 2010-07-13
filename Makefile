@@ -2,11 +2,11 @@
 
 BIN_FILE = bin/webcrawler
 
-SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurenceSet.cpp src/WordIndex.cpp src/PageIndex.cpp src/URLQueue.cpp src/StopWords.cpp src/XMLGenerator.cpp
+SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurrenceSet.cpp src/WordIndex.cpp src/PageIndex.cpp src/URLQueue.cpp src/StopWords.cpp src/XMLGenerator.cpp
 
-INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurenceSet.h inc/WordIndex.h inc/PageIndex.h inc/URLQueue.h inc/StopWords.h inc/XMLGenerator.h
+INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurrenceSet.h inc/WordIndex.h inc/PageIndex.h inc/URLQueue.h inc/StopWords.h inc/XMLGenerator.h
 
-OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurenceSet.o obj/WordIndex.o obj/PageIndex.o obj/URLQueue.o obj/StopWords.o obj/XMLGenerator.o
+OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurrenceSet.o obj/WordIndex.o obj/PageIndex.o obj/URLQueue.o obj/StopWords.o obj/XMLGenerator.o
 
 LIB_SRC = utils/src
 LIB_OBJ = utils/obj
@@ -59,10 +59,10 @@ obj/WebCrawler.o : src/WebCrawler.cpp inc/WebCrawler.h inc/URL.h
 obj/URL.o : src/URL.cpp inc/URL.h
 	g++ -g  -c -o obj/URL.o -I inc -I $(LIB_INC) src/URL.cpp
 	
-obj/OccurenceSet.o : src/OccurenceSet.cpp inc/OccurenceSet.h
-	g++ -g  -c -o obj/OccurenceSet.o -I inc -I $(LIB_INC) src/OccurenceSet.cpp
+obj/OccurrenceSet.o : src/OccurrenceSet.cpp inc/OccurrenceSet.h
+	g++ -g  -c -o obj/OccurrenceSet.o -I inc -I $(LIB_INC) src/OccurrenceSet.cpp
 
-obj/WordIndex.o : src/WordIndex.cpp inc/WordIndex.h inc/OccurenceSet.h
+obj/WordIndex.o : src/WordIndex.cpp inc/WordIndex.h inc/OccurrenceSet.h
 	g++ -g  -c -o obj/WordIndex.o -I inc -I $(LIB_INC) src/WordIndex.cpp
 	
 obj/PageIndex.o : src/PageIndex.cpp inc/PageIndex.h 
@@ -74,7 +74,7 @@ obj/URLQueue.o : src/URLQueue.cpp inc/URLQueue.h
 obj/StopWords.o : src/StopWords.cpp inc/StopWords.h 
 	g++ -g  -c -o obj/StopWords.o -I inc -I $(LIB_INC) src/StopWords.cpp	
 	
-obj/XMLGenerator.o : src/XMLGenerator.cpp inc/XMLGenerator.h $(LIB_INC)/StringUtil.h
+obj/XMLGenerator.o : src/XMLGenerator.cpp inc/XMLGenerator.h $(LIB_INC)/StringUtil.h inc/URL.h inc/PageIndex.h inc/WordIndex.h
 	g++ -g  -c -o obj/XMLGenerator.o -I inc -I $(LIB_INC) src/XMLGenerator.cpp	
 	
 
