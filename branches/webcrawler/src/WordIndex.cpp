@@ -109,8 +109,13 @@ WordNode * WordIndex::InsertAgain(WordNode * n, const std::string & v) {
 		return n;
 	}
 	
-	if (v == n->value)
-		return NULL;
+	if (v == n->value){
+		//add an Occurence of this word 
+		
+		
+		return n;
+	}
+		
 	if (v > n->value){
 		if (n->right == NULL) {
 			n->right = new WordNode(v);

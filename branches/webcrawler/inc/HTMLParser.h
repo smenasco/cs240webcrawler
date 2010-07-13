@@ -50,6 +50,20 @@ public:
 	//! @param p the path to set the HTMLParser to parse
 	void SetPath(const std::string & p);
 	
+	
+private:
+	string path;				//!< the url to be parsed
+	string description;			//!< the description of the current url being parsed.
+	URLInputStream * stream;	//!< the stream to load the url from
+	HTMLTokenizer *tokenizer;	//!< the downloaded page to tokenize
+	int count;					//!< the number of chars in the description to be referenced 
+								//!  only when adding char characters from body to desciption
+	bool foundDescription;		//!< keep track of whether or not the URL has found a description
+	
+	void Free();		//! Delete HTMLParser from memory
+	
+	bool IsTag(HTMLTokenType type) const;
+	
 	//! Checks see if current path is actually HTML
 	//! @NOTE this does not check to see if it was handed a
 	//! valid HTML url, the URLFilter should do that before it Queue's them
@@ -66,19 +80,14 @@ public:
 	//!  There states and purpose should be pretty self explanatory.
 	void ParseHTML();
 	void ParseTitle();
-	void ParseHeading();
 	void ParseScript();
 	void ParseBody();
-	void ParseText();
-	
-private:
-	string path;				//!< the url to be parsed
-	URLInputStream * stream;	//!< the stream to load the url from
-	HTMLTokenizer *tokenizer;	//!< the downloaded page to tokenize
-	bool foundDescription;		//!< keep track of whether or not the URL has found a description
-	
-	void Free();		//! Delete HTMLParser from memory
-	
+
+	void ParseHeading(const HTMLToken & t);
+	void ParseText(const HTMLToken & t);
+	void ParseHREF(const HTMLToken & t);
+	void SetDescription(const HTMLToken & t);
+	void SetDescriptionBody(const HTMLToken & t);
 	
 	//! Called from constructor, copy constructor, and assignment operator
 	void Init(const HTMLParser & other);
