@@ -64,26 +64,36 @@ HTMLParser::~HTMLParser(){
 }
 
 
-//! Assignment operator.  Makes a complete copy of its argument
-//! @return A reference to oneself
-HTMLParser& HTMLParser::operator =(const HTMLParser & other){
-	
-}
-
 
 //! Resets the HTMLParser with a new path to parse
 //! @param p the path to set the HTMLParser to parse
 void HTMLParser::SetPath(const std::string & p){
-	path = p;
-	foundDescription = false;
-	delete stream;
-	delete tokenizer;
-	stream = new URLInputStream(path);
-	tokenizer = new HTMLTokenizer(stream);
-	
-	path = stream->GetLocation();
-	
-	stream->Close();
+	try {
+		path = p;
+		foundDescription = false;
+		delete stream;
+		delete tokenizer;
+		stream = new URLInputStream(path);
+		tokenizer = new HTMLTokenizer(stream);
+		
+		path = stream->GetLocation();
+		
+		stream->Close();
+	}
+	catch (std::exception &e) {
+		
+		std::cout << "HTMLParser: Exception Occurred:" << e.what() << std::endl;
+		path = "";
+	}
+	catch (CS240Exception &e) {
+		std::cout << "HTMLParser: Exception Occurred:" << e.GetMessage() << std::endl;
+		path = "";
+	}
+	catch (...) {
+		std::cout << "HTMLParser: Unknown Exception Occurred" << std::endl;
+		path = "";
+	}	
+
 }
 
 
@@ -96,19 +106,12 @@ bool HTMLParser::Parse(){
 	try{
 		if (path.empty())
 			throw CS240Exception("There is no URL loaded into the HTMLParser");
-		//Print source URL
-		std::cout << "Printing: " << path << std::endl;
-		std::cout << "=======================================" << std::endl;
 		
-		while(tokenizer->HasNextToken()){
-			HTMLToken token = tokenizer->GetNextToken();
-			HTMLTokenType type = token.GetType();
-			std::cout << "type: "<<TypeToString(type)<< " Value: " << token.GetValue()<< std::endl;
-			if (token.GetValue() == "a" || token.GetValue() == "A")
-				if (token.AttributeExists("hRef")){
-					std::cout << "Found HREF: " << token.GetAttribute("href") << std::endl;
-				}
-		}
+		
+		
+		
+		
+		//Handle redirections (Find out where we redirected to)
 		path = stream->GetLocation();
 		std::cout << "=======================================" << std::endl;
 		std::cout << "Actual Location: " << path << std::endl;
@@ -123,7 +126,7 @@ bool HTMLParser::Parse(){
 		std::cout << "Unknown Exception Occurred" << std::endl;
 	}
 	
-	//Handle redirections (Find out where we redirected to)
+
 	
 	return true;
 }
