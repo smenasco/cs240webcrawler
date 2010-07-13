@@ -15,8 +15,7 @@
 
 class URLNode {
 	friend class URLQueue;  //!< URLQueue can access private members of URLNode
-private:
-	URLNode * prev;		   	//!< previous node in the stack
+
 public:
 	
 	//! Constructor
@@ -31,7 +30,15 @@ public:
 	//! @param p previous node in the stack
 	URLNode(const std::string & v, URLNode * p);
 	
-	std::string value;		//!< the value of the url in the node
+	
+	//! Return the url value
+	//! @returns value the value stored in the URL
+	const std::string & GetValue() const;
+	
+	
+private:
+	std::string value;		//!< the value of the url in the nodestd::string value;
+	URLNode * prev;		   	//!< previous node in the stack
 	
 	
 	

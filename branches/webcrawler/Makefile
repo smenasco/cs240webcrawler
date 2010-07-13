@@ -25,11 +25,11 @@ all: bin test
 bin: $(BIN_FILE)
 
 $(BIN_FILE) : lib $(OBJ_FILES) $(LIB_FILE) 
-	g++ -g -o $(BIN_FILE) $(OBJ_FILES) $(LIB_FILE)
+	g++ -Wall -g -o $(BIN_FILE) $(OBJ_FILES) $(LIB_FILE)
 	chmod ugo+x $(BIN_FILE)
 
 obj/main.o : $(SRC_FILES) $(INC_FILES)
-	g++ -g -c -o obj/main.o src/main.cpp -I inc -I $(LIB_INC)
+	g++ -Wall -g -c -o obj/main.o src/main.cpp -I inc -I $(LIB_INC)
 
 run: bin
 	@bin/webcrawler
@@ -41,44 +41,44 @@ test : testdriver
 	@bin/testdriver
 testdriver : bin/testdriver
 
-bin/testdriver : lib $(LIB_FILE) obj/testdriver.o
-	g++ -g  -o bin/testdriver -I inc obj/testdriver.o $(LIB_FILE)
+bin/testdriver : lib $(LIB_FILE) obj/testdriver.o $(OBJ_FILES)
+	g++ -Wall -g  -o bin/testdriver -I inc obj/testdriver.o $(LIB_FILE)
 	chmod ugo+x bin/testdriver
 
-obj/testdriver.o : src/testdriver.cpp inc/testdriver.h
-	g++ -g  -c -o obj/testdriver.o -I inc -I $(LIB_INC) src/testdriver.cpp
+obj/testdriver.o : src/testdriver.cpp inc/testdriver.h $(INC_FILES)
+	g++ -Wall -g  -c -o obj/testdriver.o -I inc -I $(LIB_INC) src/testdriver.cpp
 	
 ##########---------BUILD THE SOURCE FILES############	
 
 obj/URLFilter.o : src/URLFilter.cpp inc/URLFilter.h inc/URL.h
-	g++ -g  -c -o obj/URLFilter.o -I inc -I $(LIB_INC) src/URLFilter.cpp
+	g++ -Wall -g  -c -o obj/URLFilter.o -I inc -I $(LIB_INC) src/URLFilter.cpp
 	
 obj/WebCrawler.o : src/WebCrawler.cpp inc/WebCrawler.h inc/URL.h
-	g++ -g  -c -o obj/WebCrawler.o -I inc -I $(LIB_INC) src/WebCrawler.cpp
+	g++ -Wall -g  -c -o obj/WebCrawler.o -I inc -I $(LIB_INC) src/WebCrawler.cpp
 	
 obj/URL.o : src/URL.cpp inc/URL.h
-	g++ -g  -c -o obj/URL.o -I inc -I $(LIB_INC) src/URL.cpp
+	g++ -Wall -g  -c -o obj/URL.o -I inc -I $(LIB_INC) src/URL.cpp
 	
 obj/OccurrenceSet.o : src/OccurrenceSet.cpp inc/OccurrenceSet.h
-	g++ -g  -c -o obj/OccurrenceSet.o -I inc -I $(LIB_INC) src/OccurrenceSet.cpp
+	g++ -Wall -g  -c -o obj/OccurrenceSet.o -I inc -I $(LIB_INC) src/OccurrenceSet.cpp
 
 obj/WordIndex.o : src/WordIndex.cpp inc/WordIndex.h inc/OccurrenceSet.h
-	g++ -g  -c -o obj/WordIndex.o -I inc -I $(LIB_INC) src/WordIndex.cpp
+	g++ -Wall -g  -c -o obj/WordIndex.o -I inc -I $(LIB_INC) src/WordIndex.cpp
 	
 obj/PageIndex.o : src/PageIndex.cpp inc/PageIndex.h 
-	g++ -g  -c -o obj/PageIndex.o -I inc -I $(LIB_INC) src/PageIndex.cpp
+	g++ -Wall -g  -c -o obj/PageIndex.o -I inc -I $(LIB_INC) src/PageIndex.cpp
 	
 obj/URLQueue.o : src/URLQueue.cpp inc/URLQueue.h 
-	g++ -g  -c -o obj/URLQueue.o -I inc -I $(LIB_INC) src/URLQueue.cpp
+	g++ -Wall -g  -c -o obj/URLQueue.o -I inc -I $(LIB_INC) src/URLQueue.cpp
 
 obj/StopWords.o : src/StopWords.cpp inc/StopWords.h 
-	g++ -g  -c -o obj/StopWords.o -I inc -I $(LIB_INC) src/StopWords.cpp	
+	g++ -Wall -g  -c -o obj/StopWords.o -I inc -I $(LIB_INC) src/StopWords.cpp	
 	
 obj/XMLGenerator.o : src/XMLGenerator.cpp inc/XMLGenerator.h $(LIB_INC)/StringUtil.h inc/URL.h inc/PageIndex.h inc/WordIndex.h
-	g++ -g  -c -o obj/XMLGenerator.o -I inc -I $(LIB_INC) src/XMLGenerator.cpp	
+	g++ -Wall -g  -c -o obj/XMLGenerator.o -I inc -I $(LIB_INC) src/XMLGenerator.cpp	
 	
 obj/HTMLParser.o : src/HTMLParser.cpp inc/HTMLParser.h $(LIB_INC)/HTMLTokenizer.h
-	g++ -g  -c -o obj/HTMLParser.o -I inc -I $(LIB_INC) src/HTMLParser.cpp
+	g++ -Wall -g  -c -o obj/HTMLParser.o -I inc -I $(LIB_INC) src/HTMLParser.cpp
 
 #########-------BUILD THE LIBRARY FROM CS240 UTILS--------#########
 
@@ -88,28 +88,28 @@ $(LIB_FILE) : $(LIB_OBJ_FILES)
 	ar r lib/libcs240utils.a $(LIB_OBJ)/*.o
 
 $(LIB_OBJ)/CommandRunner.o : $(LIB_SRC)/CommandRunner.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h $(LIB_INC)/CommandRunner.h
-	g++ -g  -c -o $(LIB_OBJ)/CommandRunner.o -I $(LIB_INC) $(LIB_SRC)/CommandRunner.cpp
+	g++ -Wall -g  -c -o $(LIB_OBJ)/CommandRunner.o -I $(LIB_INC) $(LIB_SRC)/CommandRunner.cpp
 
 $(LIB_OBJ)/FileInputStream.o : $(LIB_SRC)/FileInputStream.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/FileInputStream.h
-	g++ -g  -c -o $(LIB_OBJ)/FileInputStream.o -I $(LIB_INC) $(LIB_SRC)/FileInputStream.cpp
+	g++ -Wall -g  -c -o $(LIB_OBJ)/FileInputStream.o -I $(LIB_INC) $(LIB_SRC)/FileInputStream.cpp
 	 
 $(LIB_OBJ)/FileSystem.o : $(LIB_SRC)/FileSystem.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/FileSystem.h $(LIB_INC)/UnitTest.h
-	g++ -g  -c -o $(LIB_OBJ)/FileSystem.o -I $(LIB_INC) $(LIB_SRC)/FileSystem.cpp
+	g++ -Wall -g  -c -o $(LIB_OBJ)/FileSystem.o -I $(LIB_INC) $(LIB_SRC)/FileSystem.cpp
   
 $(LIB_OBJ)/HTMLToken.o : $(LIB_SRC)/HTMLToken.cpp $(LIB_INC)/HTMLToken.h
-	g++ -g  -c -o $(LIB_OBJ)/HTMLToken.o -I $(LIB_INC) $(LIB_SRC)/HTMLToken.cpp
+	g++ -Wall -g  -c -o $(LIB_OBJ)/HTMLToken.o -I $(LIB_INC) $(LIB_SRC)/HTMLToken.cpp
 
 $(LIB_OBJ)/HTMLTokenizer.o : $(LIB_SRC)/HTMLTokenizer.cpp $(LIB_INC)/HTMLTokenizer.h
-	g++ -g  -c -o $(LIB_OBJ)/HTMLTokenizer.o -I $(LIB_INC) $(LIB_SRC)/HTMLTokenizer.cpp	 
+	g++ -Wall -g  -c -o $(LIB_OBJ)/HTMLTokenizer.o -I $(LIB_INC) $(LIB_SRC)/HTMLTokenizer.cpp	 
 
 $(LIB_OBJ)/HTTPInputStream.o : $(LIB_SRC)/HTTPInputStream.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h $(LIB_INC)/HTTPInputStream.h
-	g++ -g  -c -o $(LIB_OBJ)/HTTPInputStream.o -I $(LIB_INC) $(LIB_SRC)/HTTPInputStream.cpp
+	g++ -Wall -g  -c -o $(LIB_OBJ)/HTTPInputStream.o -I $(LIB_INC) $(LIB_SRC)/HTTPInputStream.cpp
 
 $(LIB_OBJ)/StringUtil.o : $(LIB_SRC)/StringUtil.cpp $(LIB_INC)/StringUtil.h
-	g++ -g  -c -o $(LIB_OBJ)/StringUtil.o -I $(LIB_INC) $(LIB_SRC)/StringUtil.cpp	 
+	g++ -Wall -g  -c -o $(LIB_OBJ)/StringUtil.o -I $(LIB_INC) $(LIB_SRC)/StringUtil.cpp	 
 	
 $(LIB_OBJ)/URLInputStream.o : $(LIB_SRC)/URLInputStream.cpp $(LIB_INC)/URLInputStream.h $(LIB_INC)/StringUtil.h $(LIB_INC)/CS240Exception.h $(LIB_INC)/HTTPInputStream.h $(LIB_INC)/FileInputStream.h
-	g++ -g  -c -o $(LIB_OBJ)/URLInputStream.o -I $(LIB_INC) $(LIB_SRC)/URLInputStream.cpp	
+	g++ -Wall -g  -c -o $(LIB_OBJ)/URLInputStream.o -I $(LIB_INC) $(LIB_SRC)/URLInputStream.cpp	
 	
 #########---------------Delete the Junx-----------------#########
 

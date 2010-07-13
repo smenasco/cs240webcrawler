@@ -13,7 +13,8 @@ int main(int argc, char * argv[]){
 		cout << "USAGE: webcrawler <start-url> <output-file> <stopwords-file>\n";
 	}
 	WebCrawler * wc = new WebCrawler();
-	
+	wc->Crawl();
+	delete wc;
 	return 0;
 }
 

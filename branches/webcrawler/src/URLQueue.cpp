@@ -8,6 +8,7 @@
  */
 
 #include "URLQueue.h"
+#include <string>
 
 //! Constructor
 //!
@@ -22,6 +23,13 @@ URLNode::URLNode(const std::string & v) : value(v), prev(0) {
 //! @param p previous node in the stack
 URLNode::URLNode(const std::string & v, URLNode * p) : value(v), prev(p) {
 	return;
+}
+
+
+//! Return the url value
+//! @returns value the value stored in the URL
+const std::string & URLNode::GetValue() const{
+	return value;
 }
 
 
