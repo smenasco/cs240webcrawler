@@ -8,8 +8,7 @@
  *  Copyright 2010 Samuel Menasco. All rights reserved.
  *
  */
-
-void printOutput();
+#include "HTMLParser.h"
 
 
 #endif

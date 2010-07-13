@@ -8,7 +8,7 @@
  */
 
 #include "HTMLParser.h"
-#include "HTMLTokenizer.h"
+#include <string>
 
 //! Delete HTMLParser from memory
 void HTMLParser::Free(){
@@ -28,6 +28,29 @@ HTMLParser::HTMLParser(){
 	
 }
 
+//!  Constructor.  Initializes an empty HTMLParser
+//!  @param p the path to set the HTMLParser to parse
+HTMLParser::HTMLParser(const std::string & p): path(p){
+
+	try {
+		stream = new URLInputStream(path);
+		tokenizer = new HTMLTokenizer(stream);
+		
+		path = stream->GetLocation();
+		
+		stream->Close();
+	}
+	catch (std::exception &e) {
+		
+		std::cout << "HTMLParser: Exception Occurred:" << e.what() << std::endl;
+	}
+	catch (CS240Exception &e) {
+			std::cout << "HTMLParser: Exception Occurred:" << e.GetMessage() << std::endl;
+	}
+	catch (...) {
+		std::cout << "HTMLParser: Unknown Exception Occurred" << std::endl;
+	}
+}
 
 //!  Copy constructor.  Makes a complete copy of its argument
 HTMLParser::HTMLParser(const HTMLParser & other){
@@ -45,4 +68,62 @@ HTMLParser::~HTMLParser(){
 //! @return A reference to oneself
 HTMLParser& HTMLParser::operator =(const HTMLParser & other){
 	
+}
+
+
+//! Resets the HTMLParser with a new path to parse
+//! @param p the path to set the HTMLParser to parse
+void HTMLParser::SetPath(const std::string & p){
+	path = p;
+	foundDescription = false;
+	delete stream;
+	delete tokenizer;
+	stream = new URLInputStream(path);
+	tokenizer = new HTMLTokenizer(stream);
+	
+	path = stream->GetLocation();
+	
+	stream->Close();
+}
+
+
+//! Begin Parsing the given HTML file
+//!
+//! @returns TRUE if URL needs indexed into WordIndex 
+//!			 FALSE if it didnt end up as HTML after all
+bool HTMLParser::Parse(){
+	
+	try{
+		if (path.empty())
+			throw CS240Exception("There is no URL loaded into the HTMLParser");
+		//Print source URL
+		std::cout << "Printing: " << path << std::endl;
+		std::cout << "=======================================" << std::endl;
+		
+		while(tokenizer->HasNextToken()){
+			HTMLToken token = tokenizer->GetNextToken();
+			HTMLTokenType type = token.GetType();
+			std::cout << "type: "<<TypeToString(type)<< " Value: " << token.GetValue()<< std::endl;
+			if (token.GetValue() == "a" || token.GetValue() == "A")
+				if (token.AttributeExists("hRef")){
+					std::cout << "Found HREF: " << token.GetAttribute("href") << std::endl;
+				}
+		}
+		path = stream->GetLocation();
+		std::cout << "=======================================" << std::endl;
+		std::cout << "Actual Location: " << path << std::endl;
+	}
+	catch (std::exception &e) {
+		std::cout << "Exception Occurred:" << e.what() << std::endl;
+	}
+	catch (CS240Exception &e) {
+		std::cout << "CS240Exception Occurred:" << e.GetMessage() << std::endl;
+	}
+	catch (...) {
+		std::cout << "Unknown Exception Occurred" << std::endl;
+	}
+	
+	//Handle redirections (Find out where we redirected to)
+	
+	return true;
 }
