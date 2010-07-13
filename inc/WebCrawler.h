@@ -28,7 +28,10 @@ public:
 	//!  No-arg constructor.  Initializes an empty webcrawler
 	WebCrawler();
 	
-	//!  Initizes a new webcrawler with the start URL, output file, and stopwords file 
+	//!  Constructor.  Initizes a new webcrawler 
+	//!  @param  url the start-URL to be indexed
+	//!  @param op the name of the output-file
+	//!  @param sw the name of the stopwords-file
 	WebCrawler(const URL & url,const std::string & op,const std::string & sw);
 	
 	//!  Copy constructor.  Makes a complete copy of its argument

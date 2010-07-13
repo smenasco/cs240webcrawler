@@ -18,8 +18,7 @@
 //!std::string EncodeToXmlCopy (const std::string & str);
 
 #include <string>
-#include <fstream>
-#include <iostream>
+
 
 
 
