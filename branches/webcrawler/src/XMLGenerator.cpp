@@ -22,15 +22,13 @@
 #include <iostream>
 
 
-	
-//!  No-arg constructor.  Initializes an empty XMLGenerator
-XMLGenerator::XMLGenerator(){
-		
-	}
-	
 
 //!  Constructor.  Initializes an empty XMLGenerator using the filename from the commandline
-XMLGenerator::XMLGenerator(const std::string & outputfile){
+XMLGenerator::XMLGenerator(const std::string & outputFile,
+						   URL * startURL,
+						   PageIndex * pageIndex,
+						   WordIndex * wordIndex) {
+	
 	
 }
 
@@ -52,11 +50,7 @@ XMLGenerator& XMLGenerator::operator =(const XMLGenerator & other){
 	
 }
 
-//! Tells the XMLGenerator where to write its XML
-void setOutputFile(const std::string & outputfile);
-
-
-//! The caller function to begin writing all of the XML to an outputfile
+//! The caller function to begin writing all of the XML to an outputFile
 //! An XML File will have the form:  
 //!
 //! <website>
@@ -66,13 +60,14 @@ void setOutputFile(const std::string & outputfile);
 //!				<url>theurl</url>
 //!				<description>thedescription<>
 //!			</page>
+//!		</pages>
 //!		<index>
 //!			<word>
 //!				<value>thevalue</value>
-//!				<occurence>
+//!				<Occurrence>
 //!					<url>www.theurl.com</url>
 //!					<count>x</count>
-//!				</occurence>
+//!				</Occurrence>
 //!			</word>
 //!		</index>
 //!	</website>
@@ -86,23 +81,110 @@ void setOutputFile(const std::string & outputfile);
 //!
 //! @throws FileException when there is an error writing to a file
 void XMLGenerator::WriteXML(){
+	//NOTE TO SELF: make sure to hand desciptions and url's to EncodeToXml so 
+	//				they dont get junxed
+	
 	
 	/*
 	 PSUEDO CODE FOR WRITING XML
-	 //ofstream file(outputfile); 
+	 //ofstream file(outputFile); 
 	 WriteStartTag(website);
 	 cout << endl;
-	 cout << "\t";
-	 WriteStartTag(url);
-	 WriteStartURL();
-	 Write
-	 
-	 
-	 
-	 
-	 
+	 printTab(1);	
+		WriteStartTag(start_url);
+		WriteStartURL();
+		WriteEndTag(start_url);
+	 cout << endl;
+	 printTab(1);
+		WriteStartTag(pages);
+	 cout << endl;
+	 IteratePages();
+	 printTab(1);
+		WriteEndTag(pages);
+	 cout << endl;
+	 printTab(1);
+		WriteStartTag(index);
+	 cout << endl;
+	 IterateWords():
+	 printTab(1);
+		WriteEndTag(index);
+	 cout << endl;
+	 WriteEndTag(website);
 	 
 	 */
+	
+}
+//!  Prints a specified number of tabs to standard out;
+//!  @param n number of tabs to print
+void XMLGenerator::PrintTab(int n){
+		
+}
+	
+//!  Writes a formatted xml tag of specified type to standard out
+//!  Example:
+//!  WriteStartTag(website);
+//!
+//!  Output:
+//!
+//!  <website>
+//!
+//!  @param type the XML tag to be printed 
+void XMLGenerator::WriteStartTag(XMLTagType type){
+	
 }
 
- 
+
+//!  Writes a formatted xml tag of specified type to standard out
+//!  Example:
+//!  WriteStartTag(website);
+//!
+//!  Output:
+//!
+//!  </website>
+//!
+//!  @param type the XML tag to be printed 
+void XMLGenerator::WriteEndTag(XMLTagType type){
+	
+}
+
+
+//!  Prints each page parent and its children tags to standard out
+//!  @param n the Node to be printed
+void WritePage(PageNode * n){
+	
+}
+
+//!  Prints each occurrence parent tag and its children tags to standard out
+//!  @param n the Node to be printed
+void WriteOccurrence(OccurrenceNode * n){
+	
+}
+
+//!  Prints each word occurrence parent tag and the <value> child tag
+//!  @param n the Node to be printed
+void WriteWord(WordNode * n){
+	
+}
+	
+
+//!  Iterates over the PageIndex, Index of successfully indexed pages
+//!  and calls WritePage() on each page
+void XMLGenerator::IteratePages(){
+	
+}
+
+
+//!  Iterates over the WordIndex of successfully indexed words
+//!  and prints each word parent and its children tags to standard out
+//!  calls IterateOccurrences to print Occurences
+void XMLGenerator::IterateWords(){
+	
+}
+
+//!  Iterates over the Occurences of a particular word
+//!  and calls WriteOccurence() on each Occurrence prints each occurence parent tag and its children tags to standard out
+void XMLGenerator::IterateOccurrences(){
+	
+}
+
+

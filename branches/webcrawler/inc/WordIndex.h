@@ -10,18 +10,18 @@
  */
 
 #include <string>
-#include "OccurenceSet.h"
+#include "OccurrenceSet.h"
 
 
 //!  WordNode implements a binary search tree node
 class WordNode {
-	friend class WordIndex;   //!< WordIndex can access private members of WordNode
+	friend class WordIndex;		//!< WordIndex can access private members of WordNode
 	
 public:
 	
 	//!  Constructor
 	WordNode(const std::string & v) : value(v), left(NULL), right(NULL) {
-		set = new OccurenceSet();
+		set = new OccurrenceSet();
 	}
 	
 	//!  Destructor
@@ -42,6 +42,14 @@ public:
 		return left;
 	}
 	
+	OccurrenceSet * GetSet(){
+		return set;
+	}
+	
+	const OccurrenceSet * GetSet() const {
+		return set;
+	}
+	
 	const WordNode * GetRight() const {
 		return right;
 	}
@@ -52,7 +60,7 @@ public:
 	
 private:
 	std::string value;		//!< url value stored in the node
-	OccurenceSet * set;
+	OccurrenceSet * set;
 	WordNode * left;		//!< pointer to the node's left child
 	WordNode * right;		//!< pointer to the node's right child
 };

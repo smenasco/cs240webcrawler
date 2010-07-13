@@ -1,5 +1,5 @@
 /*
- *  OccurenceSet.cpp
+ *  OccurrenceSet.cpp
  *  project1
  *
  *  Created by Sam on 7/10/10.
@@ -7,12 +7,12 @@
  *
  */
 
-#include "OccurenceSet.h"
+#include "OccurrenceSet.h"
 #include <string>
 
 
-//! Initialize a new OccurenceSet from ref & other
-void OccurenceSet::InInsert(OccurenceNode * n){
+//! Initialize a new OccurrenceSet from ref & other
+void OccurrenceSet::InInsert(OccurrenceNode * n){
 	if (n == NULL) {
 		return;
 	} 
@@ -22,8 +22,8 @@ void OccurenceSet::InInsert(OccurenceNode * n){
 	if(n->right != NULL)
 		InInsert(n->right);
 }
-//! call delete on all the elements in the OccurenceSet
-void OccurenceSet::Free(OccurenceNode * n) {
+//! call delete on all the elements in the OccurrenceSet
+void OccurrenceSet::Free(OccurrenceNode * n) {
 	if (n == NULL) 
 		return;
 	if(n->left != NULL)
@@ -33,30 +33,30 @@ void OccurenceSet::Free(OccurenceNode * n) {
 	delete n;
 	count = 0;
 }
-OccurenceSet::OccurenceSet() : count(0), root(0){
+OccurrenceSet::OccurrenceSet() : count(0), root(0){
 	return;
 }
 
 
 //!  Copy constructor.  Makes a complete copy of its argument
-OccurenceSet::OccurenceSet(const OccurenceSet & other){
+OccurrenceSet::OccurrenceSet(const OccurrenceSet & other){
 	root = 0;
 	count = 0;
-	OccurenceNode * n = other.root;
+	OccurrenceNode * n = other.root;
 	InInsert(n);
 }
 
 //!  Destructor
-OccurenceSet::~OccurenceSet() {
+OccurrenceSet::~OccurrenceSet() {
 	Free(root);
 }
 
 
 //!  Assignment operator.  Makes a complete copy of its argument
 //!  @return Reference to oneself
-OccurenceSet& OccurenceSet::operator =(const OccurenceSet & other){
+OccurrenceSet& OccurrenceSet::operator =(const OccurrenceSet & other){
 	if (this != &other) {
-		OccurenceNode * n = other.root;
+		OccurrenceNode * n = other.root;
 		Free(root);
 		root=NULL;
 		count=0;
@@ -67,35 +67,35 @@ OccurenceSet& OccurenceSet::operator =(const OccurenceSet & other){
 
 
 //!  @return a pointer to the root node of the tree, or NULL if the tree is empty.
-//!  @note This is useful for OccurenceSet clients that need to traverse the tree.)
-OccurenceNode * OccurenceSet::GetRoot() {
+//!  @note This is useful for OccurrenceSet clients that need to traverse the tree.)
+OccurrenceNode * OccurrenceSet::GetRoot() {
 	if (IsEmpty())
 		return NULL;
 	return root;
 }
 
 
-//!  @return true if the OccurenceSet is empty, or false if the OccurenceSet is not empty
-bool OccurenceSet::IsEmpty() const {
+//!  @return true if the OccurrenceSet is empty, or false if the OccurrenceSet is not empty
+bool OccurrenceSet::IsEmpty() const {
 	return (count ==0);
 }
 
 
-//!  Removes all values from the OccurenceSet
-void OccurenceSet::Clear() {
+//!  Removes all values from the OccurrenceSet
+void OccurrenceSet::Clear() {
 	Free(root);
 	root = 0;
 	count =0;
 }
 
 
-//!  @return the number of values in the OccurenceSet
-int OccurenceSet::GetSize() const {
+//!  @return the number of values in the OccurrenceSet
+int OccurrenceSet::GetSize() const {
 	return count;
 }
 
 
-//!  Inserts value v into the OccurenceSet
+//!  Inserts value v into the OccurrenceSet
 //!  
 //!  @param v The new value being inserted
 //!
@@ -103,9 +103,9 @@ int OccurenceSet::GetSize() const {
 //!          in the tree (i.e., NULL is used to indicate a duplicate insertion)
 
 
-OccurenceNode * OccurenceSet::InsertAgain(OccurenceNode * n, const std::string & v) {
+OccurrenceNode * OccurrenceSet::InsertAgain(OccurrenceNode * n, const std::string & v) {
 	if (n == NULL) {
-		n = new OccurenceNode(v);
+		n = new OccurrenceNode(v);
 		return n;
 	}
 	
@@ -113,7 +113,7 @@ OccurenceNode * OccurenceSet::InsertAgain(OccurenceNode * n, const std::string &
 		return NULL;
 	if (v > n->value){
 		if (n->right == NULL) {
-			n->right = new OccurenceNode(v);
+			n->right = new OccurrenceNode(v);
 			count++;
 			return n->right;
 		} else
@@ -121,7 +121,7 @@ OccurenceNode * OccurenceSet::InsertAgain(OccurenceNode * n, const std::string &
 		
 	} else {
 		if (n->left == NULL){
-			n->left = new OccurenceNode(v);
+			n->left = new OccurrenceNode(v);
 			count++;
 			return n->left;
 		} else
@@ -129,9 +129,9 @@ OccurenceNode * OccurenceSet::InsertAgain(OccurenceNode * n, const std::string &
 	}
 }
 
-OccurenceNode * OccurenceSet::Insert(const std::string & v) {
+OccurrenceNode * OccurrenceSet::Insert(const std::string & v) {
 	if (root == NULL) {
-		root = new OccurenceNode(v);
+		root = new OccurrenceNode(v);
 		count++;
 		return root;
 	}
@@ -144,7 +144,7 @@ OccurenceNode * OccurenceSet::Insert(const std::string & v) {
 //!  @param v The new value being searched for
 //!
 //!  @return a pointer to the node containing v, or NULL if v is not in the tree
-OccurenceNode * OccurenceSet::FindAgain(OccurenceNode * n,const std::string & v) const {
+OccurrenceNode * OccurrenceSet::FindAgain(OccurrenceNode * n,const std::string & v) const {
 	if (n == NULL)
 		return NULL;
 	if (n->value == v)
@@ -155,7 +155,7 @@ OccurenceNode * OccurenceSet::FindAgain(OccurenceNode * n,const std::string & v)
 		return FindAgain(n->left,v);
 }
 
-OccurenceNode * OccurenceSet::Find(const std::string & v) const {
+OccurrenceNode * OccurrenceSet::Find(const std::string & v) const {
 	return FindAgain(root,v);
 }
 
@@ -168,6 +168,6 @@ OccurenceNode * OccurenceSet::Find(const std::string & v) const {
 //!  @param v The value being removed from the tree
 //!
 //!  @return true if v was removed from the tree, or false if v was not in the tree
-/*bool OccurenceSet::Remove(const std::string & v) {
+/*bool OccurrenceSet::Remove(const std::string & v) {
  }*/
 
