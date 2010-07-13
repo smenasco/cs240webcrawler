@@ -24,6 +24,10 @@ string TypeToString(HTMLTokenType type)
 			result = "END";
 			break;
 			
+		case COMMENT:
+			result = "COMMENT";
+			break;
+			
 		default:
 			result = "ERROR!  Contact TA's about TypeToString() in HTMLToken.cpp.";
 			break;

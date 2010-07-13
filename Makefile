@@ -2,11 +2,11 @@
 
 BIN_FILE = bin/webcrawler
 
-SRC_FILES= src/main.cpp src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurrenceSet.cpp src/WordIndex.cpp src/PageIndex.cpp src/URLQueue.cpp src/StopWords.cpp src/XMLGenerator.cpp src/HTMLParser.cpp
+SRC_FILES= src/WebCrawler.cpp src/URL.cpp src/URLFilter.cpp src/OccurrenceSet.cpp src/WordIndex.cpp src/PageIndex.cpp src/URLQueue.cpp src/StopWords.cpp src/XMLGenerator.cpp src/HTMLParser.cpp
 
-INC_FILES= inc/main.h inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurrenceSet.h inc/WordIndex.h inc/PageIndex.h inc/URLQueue.h inc/StopWords.h inc/XMLGenerator.h inc/HTMLParser.h
+INC_FILES= inc/WebCrawler.h inc/URL.h inc/URLFilter.h inc/OccurrenceSet.h inc/WordIndex.h inc/PageIndex.h inc/URLQueue.h inc/StopWords.h inc/XMLGenerator.h inc/HTMLParser.h
 
-OBJ_FILES= obj/main.o obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurrenceSet.o obj/WordIndex.o obj/PageIndex.o obj/URLQueue.o obj/StopWords.o obj/XMLGenerator.o obj/HTMLParser.o
+OBJ_FILES= obj/WebCrawler.o obj/URL.o obj/URLFilter.o obj/OccurrenceSet.o obj/WordIndex.o obj/PageIndex.o obj/URLQueue.o obj/StopWords.o obj/XMLGenerator.o obj/HTMLParser.o
 
 LIB_SRC = utils/src
 LIB_OBJ = utils/obj
@@ -24,11 +24,11 @@ all: bin test
 
 bin: $(BIN_FILE)
 
-$(BIN_FILE) : lib $(OBJ_FILES) $(LIB_FILE) 
-	g++ -Wall -g -o $(BIN_FILE) $(OBJ_FILES) $(LIB_FILE)
+$(BIN_FILE) : lib  obj/main.o $(OBJ_FILES) $(LIB_FILE) 
+	g++ -Wall -g -o $(BIN_FILE) obj/main.o $(OBJ_FILES) $(LIB_FILE)
 	chmod ugo+x $(BIN_FILE)
 
-obj/main.o : $(SRC_FILES) $(INC_FILES)
+obj/main.o : src/main.cpp $(SRC_FILES) $(INC_FILES) inc/main.h 
 	g++ -Wall -g -c -o obj/main.o src/main.cpp -I inc -I $(LIB_INC)
 
 run: bin
@@ -42,10 +42,10 @@ test : testdriver
 testdriver : bin/testdriver
 
 bin/testdriver : lib $(LIB_FILE) obj/testdriver.o $(OBJ_FILES)
-	g++ -Wall -g  -o bin/testdriver -I inc obj/testdriver.o $(LIB_FILE)
+	g++ -Wall -g  -o bin/testdriver -I inc obj/testdriver.o $(OBJ_FILES) $(LIB_FILE)
 	chmod ugo+x bin/testdriver
 
-obj/testdriver.o : src/testdriver.cpp inc/testdriver.h $(INC_FILES)
+obj/testdriver.o : src/testdriver.cpp inc/testdriver.h $(INC_FILES) 
 	g++ -Wall -g  -c -o obj/testdriver.o -I inc -I $(LIB_INC) src/testdriver.cpp
 	
 ##########---------BUILD THE SOURCE FILES############	
@@ -77,7 +77,7 @@ obj/StopWords.o : src/StopWords.cpp inc/StopWords.h
 obj/XMLGenerator.o : src/XMLGenerator.cpp inc/XMLGenerator.h $(LIB_INC)/StringUtil.h inc/URL.h inc/PageIndex.h inc/WordIndex.h
 	g++ -Wall -g  -c -o obj/XMLGenerator.o -I inc -I $(LIB_INC) src/XMLGenerator.cpp	
 	
-obj/HTMLParser.o : src/HTMLParser.cpp inc/HTMLParser.h $(LIB_INC)/HTMLTokenizer.h
+obj/HTMLParser.o : src/HTMLParser.cpp inc/HTMLParser.h $(LIB_INC)/HTMLTokenizer.h $(LIB_INC)/InputStream.h $(LIB_INC)/URLInputStream.h $(LIB_INC)/CS240Exception.h 
 	g++ -Wall -g  -c -o obj/HTMLParser.o -I inc -I $(LIB_INC) src/HTMLParser.cpp
 
 #########-------BUILD THE LIBRARY FROM CS240 UTILS--------#########
