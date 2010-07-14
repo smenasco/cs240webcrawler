@@ -117,7 +117,8 @@ const std::string & URLQueue::Top() const {
 	return top->value;
 }
 
-//! @return string to url at top of stack and removes value from stack, or NULL if the stack is empty.
+//! @return string to url at top of stack and removes value from stack
+//!  or NULL if the stack is empty.
 std::string URLQueue::Pop() {
 	if (this->IsEmpty())
 		return NULL;
