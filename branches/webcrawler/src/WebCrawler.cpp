@@ -24,7 +24,12 @@ WebCrawler::WebCrawler(){
 }
 
 //!  Initizes a new webcrawler with the start URL, output file, and stopwords file 
-WebCrawler::WebCrawler(const std::string & url,const std::string & op,const std::string & sw): outputFileName(), stopwordsFileName(sw), startURL(url) {
+WebCrawler::WebCrawler(const std::string & url,
+					   const std::string & op,
+					   const std::string & sw): 
+						outputFileName(op),
+						stopwordsFileName(sw),
+						startURL(url) {
 	return;
 }
 
