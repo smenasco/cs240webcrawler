@@ -115,7 +115,8 @@ private:
 	void IterateWords();
 	
 	//!  Iterates over the Occurences of a particular word
-	//!  and calls WriteOccurence() on each Occurrence prints each occurrence parent tag and its children tags to standard out
+	//!  and calls WriteOccurence() on each Occurrence prints each 
+	//!  occurrence parent tag and its children tags to standard out
 	void IterateOccurrences();
 	
 public:
