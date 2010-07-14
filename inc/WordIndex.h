@@ -21,6 +21,7 @@ class WordNode {
 public:
 	
 	//!  Constructor
+	//!  @param v the value to set the WordNode to at initialization 
 	WordNode(const std::string & v) : value(v), left(NULL), right(NULL) {
 		set = new OccurrenceSet();
 	}
@@ -61,7 +62,7 @@ public:
 	
 private:
 	std::string value;		//!< url value stored in the node
-	OccurrenceSet * set;
+	OccurrenceSet * set;	//!< the set of Occurences that each word maps to.
 	WordNode * left;		//!< pointer to the node's left child
 	WordNode * right;		//!< pointer to the node's right child
 };
