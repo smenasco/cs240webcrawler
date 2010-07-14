@@ -24,7 +24,7 @@
 
 //!  Constructor.  Initializes an empty XMLGenerator using the filename from the commandline
 XMLGenerator::XMLGenerator(const std::string & outputFile,
-						   URL * startURL,
+						   const std::string & startURL,
 						   PageIndex * pageIndex,
 						   WordIndex * wordIndex) {
 	

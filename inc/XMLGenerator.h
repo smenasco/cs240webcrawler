@@ -126,7 +126,7 @@ public:
 	//!  @param PageIndex the index of web pages that needs to be iterated over and printed
 	//!  @param wordIndex the index of words that needs to be iterated over and printed
 	XMLGenerator(const std::string & outputFile,
-				 URL * startURL,
+				 const std::string & startURL,
 				 PageIndex * pageIndex,
 				 WordIndex * wordIndex);
 	
