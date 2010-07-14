@@ -15,14 +15,6 @@
 
 //!  WebCrawler implements a WebCrawler 
 class WebCrawler {
-private:
-	URL * startURL;
-	std::string outputFileName;
-	std::string stopwordsFileName;
-	
-	void Free();
-	
-	void Init(const WebCrawler & other);
 public:
 	
 	//!  No-arg constructor.  Initializes an empty webcrawler
@@ -32,7 +24,7 @@ public:
 	//!  @param  url the start-URL to be indexed
 	//!  @param op the name of the output-file
 	//!  @param sw the name of the stopwords-file
-	WebCrawler(const URL & url,const std::string & op,const std::string & sw);
+	WebCrawler(const std::string & url,const std::string & op,const std::string & sw);
 	
 	//!  Copy constructor.  Makes a complete copy of its argument
 	WebCrawler(const WebCrawler & other);
@@ -42,15 +34,20 @@ public:
 	~WebCrawler();
 	
 	
-	//! Assignment operator.  Makes a complete copy of its argument
-	//! @return A reference to oneself
-	WebCrawler& operator =(const WebCrawler & other);
-	
-	
 	//!  @return a pointer to start URL
-	const URL * GetStartURL() const;
+	 std::string  GetStartURL() ;
 	
 	//!  Begin the crawling process with the given start URL, output file location, and stopwords file
 	void Crawl();
+	
+private:
+	std::string outputFileName;
+	std::string stopwordsFileName;
+	std::string startURL;
+	
+	void Free();
+	
+	void Init(const WebCrawler & other);
+	
 };
 #endif

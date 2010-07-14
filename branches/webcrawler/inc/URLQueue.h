@@ -63,6 +63,9 @@ public:
 	//! No-arg Constructor.  creates an empty URLQueue
 	URLQueue();
 	
+	//! Constructor.  creates a URLQueue and pushes v
+	URLQueue(const std::string & v);
+	
 	//! Copy constructor.  Makes a complete copy of its argument 
 	URLQueue(const URLQueue & other);
 	

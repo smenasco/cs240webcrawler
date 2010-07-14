@@ -53,7 +53,7 @@ obj/testdriver.o : src/testdriver.cpp inc/testdriver.h $(INC_FILES)
 obj/URLFilter.o : src/URLFilter.cpp inc/URLFilter.h inc/URL.h
 	g++ -Wall -g  -c -o obj/URLFilter.o -I inc -I $(LIB_INC) src/URLFilter.cpp
 	
-obj/WebCrawler.o : src/WebCrawler.cpp inc/WebCrawler.h inc/URL.h
+obj/WebCrawler.o : src/WebCrawler.cpp $(INC_FILES)
 	g++ -Wall -g  -c -o obj/WebCrawler.o -I inc -I $(LIB_INC) src/WebCrawler.cpp
 	
 obj/URL.o : src/URL.cpp inc/URL.h
@@ -62,7 +62,7 @@ obj/URL.o : src/URL.cpp inc/URL.h
 obj/OccurrenceSet.o : src/OccurrenceSet.cpp inc/OccurrenceSet.h
 	g++ -Wall -g  -c -o obj/OccurrenceSet.o -I inc -I $(LIB_INC) src/OccurrenceSet.cpp
 
-obj/WordIndex.o : src/WordIndex.cpp inc/WordIndex.h inc/OccurrenceSet.h
+obj/WordIndex.o : src/WordIndex.cpp inc/WordIndex.h inc/OccurrenceSet.h inc/StopWords.h
 	g++ -Wall -g  -c -o obj/WordIndex.o -I inc -I $(LIB_INC) src/WordIndex.cpp
 	
 obj/PageIndex.o : src/PageIndex.cpp inc/PageIndex.h 

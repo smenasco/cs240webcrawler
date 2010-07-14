@@ -11,6 +11,7 @@
 
 #include <string>
 #include "OccurrenceSet.h"
+#include "StopWords.h"
 
 
 //!  WordNode implements a binary search tree node
@@ -68,19 +69,12 @@ private:
 
 //!  WordIndex implements a binary search tree
 class WordIndex {
-private:
-	int count;
-	WordNode * root;
-	
-	void InInsert(WordNode * n);
-	WordNode * InsertAgain(WordNode * n, const std::string & v);
-	WordNode * FindAgain(WordNode * n,const std::string & v) const;
-	void Free(WordNode * n);
+
 public:
 	
-	//!  No-arg constructor.  Initializes an empty WordIndex
-	WordIndex();
 	
+	//!  Constructor.  Initializes an empty WordIndex with a pointer to StopWords
+	WordIndex(StopWords	* sw);
 	
 	//!  Copy constructor.  Makes a complete copy of its argument
 	WordIndex(const WordIndex & other);
@@ -138,7 +132,14 @@ public:
 	//!
 	//!  @return true if v was removed from the tree, or false if v was not in the tree
 	//bool Remove(const std::string & v);
-	
+private:
+	int count;
+	WordNode * root;
+	StopWords * stopWords;		//! pointer to the StopWordsFile
+	void InInsert(WordNode * n);
+	WordNode * InsertAgain(WordNode * n, const std::string & v);
+	WordNode * FindAgain(WordNode * n,const std::string & v) const;
+	void Free(WordNode * n);	
 	
 };
 

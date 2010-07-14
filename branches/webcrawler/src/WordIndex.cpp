@@ -33,10 +33,11 @@ void WordIndex::Free(WordNode * n) {
 	delete n;
 	count = 0;
 }
-WordIndex::WordIndex() : count(0), root(0){
-	return;
-}
 
+//!  Constructor.  Initializes an empty WordIndex with a pointer to StopWords
+WordIndex::WordIndex(StopWords	* sw) : count(0), root(0), stopWords(sw){
+	
+}
 
 //!  Copy constructor.  Makes a complete copy of its argument
 WordIndex::WordIndex(const WordIndex & other){

@@ -33,6 +33,7 @@ const std::string & URLNode::GetValue() const{
 }
 
 
+
 //! Method that implements destructor
 void URLQueue::Free() {
 	while (top != 0) {
@@ -67,6 +68,11 @@ void URLQueue::Init(const URLQueue & other) {
 //! No-arg Constructor.  creates an empty URLQueue
 URLQueue::URLQueue() : top(0), count(0) {
 	return;
+}
+
+//! Constructor.  creates a URLQueue and pushes v
+URLQueue::URLQueue(const std::string & v): top(0), count(0){
+	Push(v);
 }
 
 //! Copy constructor.  Makes a complete copy of its argument 

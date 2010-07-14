@@ -25,6 +25,11 @@ URL::URL(){
 	
 }
 
+//!  Constructor.  Initializes an a URL with full URL v
+URL::URL(const std::string & v): fullurl(v){
+	
+}
+
 //!  Constructor with a url that needs resolved
 //!
 //!  @param base The value to which you base your resolved URL from
