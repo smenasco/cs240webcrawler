@@ -86,7 +86,8 @@ public:
 	//! @return url at the top of the stack, or NULL if stack is empty
 	const std::string & Top() const;
 	
-	//! @return string to url at top of stack and removes value from stack, or NULL if the stack is empty.
+	//! @return string to url at top of stack and removes value from stack, 
+	//! or NULL if the stack is empty.
 	std::string Pop();
 	
 	//! @return the number of items on the stack of urls

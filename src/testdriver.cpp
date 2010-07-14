@@ -8,7 +8,7 @@ using namespace std;
 
 
 int main(int argc, char * argv[]){
-	/*
+	
 	std::string path = "http://apple.com/";
 	HTMLParser * p = new HTMLParser();
 	p->SetPath(path);
@@ -21,7 +21,7 @@ int main(int argc, char * argv[]){
 	if (p->Parse())
 		cout << "success\n";
 	else 
-		cout << "failure\n";*/
+		cout << "failure\n";
 	return 0;
 }
 

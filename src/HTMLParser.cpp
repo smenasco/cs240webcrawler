@@ -27,7 +27,8 @@ void HTMLParser::Init(const HTMLParser & other){
 
 //!  No-arg constructor.  Initializes an empty HTMLParser
 HTMLParser::HTMLParser(){
-	
+	stream = NULL;
+	tokenizer = NULL;
 }
 
 //!  Constructor.  Initializes an empty HTMLParser
@@ -77,8 +78,14 @@ void HTMLParser::SetPath(const std::string & p){
 		foundDescription = false;
 		description= "";
 		count = 0;
-		delete stream;
-		delete tokenizer;
+		if (stream != NULL){
+			delete stream;
+		}
+			
+		if (tokenizer != NULL) {
+			delete tokenizer;
+		}
+			
 		stream = new URLInputStream(path);
 		tokenizer = new HTMLTokenizer(stream);
 		
@@ -382,11 +389,12 @@ void HTMLParser::ParseText(const HTMLToken & t ){
 	
 	string tokenval = 	 StringUtil::TrimCopy(token.GetValue());
 
-	//tokenizer token.GetValue into separate words... delimit using whitespace and any non wordcharacters
-	//then filter words that dont start with alphabetic chars... all case-insensitive
-	//after words have been filtered as "words" then check them against stopwords file 
-	//after they are filtered futher, add the remaining to the wordindex using path.
+	//tokenizer token.GetValue into separate words... delimit using whitespace and any 
+	//non wordcharacters then filter words that dont start with alphabetic chars... all 
+	//case-insensitive after words have been filtered as "words" then check them against 
+	//stopwords file after they are filtered futher, add the remaining to the wordindex 
+	//using path.
 	if (!tokenval.empty()){
-		std::cout << "Found Text: " << tokenval << std::endl; //this is where we would do all that checking
+		std::cout << "Found Text: " << tokenval << std::endl; 
 	}
 }
