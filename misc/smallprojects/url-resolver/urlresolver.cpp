@@ -8,32 +8,35 @@
  */
 #include "urlresolver.h"
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <cassert>
 
-using namespace std;
-char  base[STRSIZE];
-char  rel[STRSIZE];
-//char  output[STRSIZE*2];	//might have been used to create the final output string
+
+std::string base;
+std::string rel;
+std::string final;
 int slashCount=0;
 int slashes[STRSIZE];
 int cur = 0;
 
 
 int main(int argc, char * argv[]) {
+	base = "";
+	rel = "";
+	final = "";
 	assert(argc == 3);
 	if (argc != 3) { //check the number of args from the command line
-		cout << "USAGE: url-resolver <base url> <relative url>\n";
+		std::cout << "USAGE: url-resolver <base url> <relative url>\n";
 		return -1;
 	}	
 	
 	//get the base url and relative url from the command line
-	strcpy(base,argv[1]);
-	strcpy(rel,argv[2]);
-
+	base+=argv[1];
+	rel+=argv[2];
+	
 #ifdef DEBUG
-	cout << "base url: " << base << "\n";
-	cout << "relative url: " << rel << "\n";
+	std::cout << "base url: " << base << "\n";
+	std::cout << "relative url: " << rel << "\n";
 #endif
 	
 	
@@ -46,15 +49,15 @@ int main(int argc, char * argv[]) {
 
 void countSlashes(){
 	slashCount=0;
-	for (int i = 0; i < strlen(base); i++){
+	for (int i = 0; i < base.length(); i++){
 		if (base[i]=='/'){
 			slashes[slashCount]=i;
 			slashCount++;
 			
 #ifdef DEBUG
-			for (int o = 0; o < i; o++) cout << base[o];
-			cout << "\n";
-			for (int o = 0; o < slashCount;o++) cout << "Slash("<<o<<"): "<< slashes[o] <<"\n";
+			for (int o = 0; o < i; o++) std::cout << base[o];
+			std::cout << "\n";
+			for (int o = 0; o < slashCount;o++) std::cout << "Slash("<<o<<"): "<< slashes[o] <<"\n";
 #endif
 		}
 		
@@ -68,38 +71,35 @@ void resolveURL(){
 	int numKill = 0;	//number of slashes to back up to.
 	int placeholder;	//store the value rel[placeholder] where the last slash is
 	if (slashCount == 2){
-		strcat(base,"/");
+		base+="/";
 		countSlashes();
 	}
-
+	
 	//check to see if relative url begins with slash, if it does resolve it
 	if (rel[0] == '/'){ 
 		
 		assert(slashCount>=3);  //the base gots to have 3 slashes!
-		for (int i =0; i < slashes[2];i++) cout << base[i]; //output base url
-		for (int i = 0; i < strlen(rel); i++) cout << rel[i]; //output relative url
-		cout << "\n";
+		for (int i =0; i < slashes[2];i++) final+=base[i]; //output base url
+		final+=rel;
 		return;
 	} 
 	
     //check to see if relative url begins with lb. sign, if it does resolve it
 	if (rel[0] == '#'){ 
-		for (int i =0; i <  strlen(base);i++) cout << base[i]; //output base url
-		for (int i = 0; i < strlen(rel); i++) cout << rel[i]; //output relative url
-		cout << "\n";
+		final+=base;
+		final+=rel;
 		return;
 	} 
-
+	
 	//check to see if relative url doesnt begin with a dot, a slash, or a lb. sign
 	if ((rel[0] != '.') && (rel[0] != '/') && (rel[0] != '#')){ 
-		for (int i =0; i <=  slashes[slashCount-1];i++) cout << base[i]; //output base url
-		for (int i = 0; i < strlen(rel); i++) cout << rel[i]; //output relative url
-		cout << "\n";
+		for (int i =0; i <=  slashes[slashCount-1];i++) final+=base[i]; //output base url
+		final+=rel;
 		return;
 	}
-		
+	
 	//loop through relative url to find double dot slashes
-	for (int i=0;i+2<strlen(rel);i++){ 
+	for (int i=0;i+2<rel.length();i++){ 
 		if (rel[i]=='.'){
 			if (rel[i+1]=='/'){
 				//found dot slash
@@ -109,24 +109,23 @@ void resolveURL(){
 			else if (rel[i+1]=='.'){
 				//found double dot
 				if (rel[i+2]=='/'){
-					if (i+3<strlen(rel) && rel[i+3]!='.') 
+					if (i+3<rel.length() && rel[i+3]!='.') 
 						placeholder=i+2;
 					//found double dot slash
 					numKill+=1;
-
+					
 				}
 			}
 		}
 	}
 #ifdef DEBUG
-	cout<< "numKill: " << numKill << "\n";
-	cout<< "placeholder: " << placeholder << "\n";
+	std::cout<< "numKill: " << numKill << "\n";
+	std::cout<< "placeholder: " << placeholder << "\n";
 #endif	
 	int stop = slashes[slashCount-1-numKill];   //output the resolved url
 	if (slashCount-numKill<3)
 		stop = slashes[2];
-	for (int i = 0;i < stop;i++) cout << base[i];
-	for (int i = placeholder; i < strlen(rel);i++) cout << rel[i];
-	cout << "\n";
+	for (int i = 0;i < stop;i++) final+= base[i];
+	for (int i = placeholder; i < rel.length();i++) final+=rel[i];
 	return;
 }
