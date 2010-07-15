@@ -9,13 +9,14 @@
  *
  */
 #include <string>
-#include "URL.h"
+#include <iostream>
+#include <cassert>
 
 class URLFilter{
 private:
 	
-	URL * url;
-	URL * scope;
+	std::string url;
+	std::string scope;
 	
 	//! Delete URLFilter from memory
 	void Free();
@@ -23,15 +24,15 @@ private:
 	//! Called from constructor, copy constructor, and assignment operator
 	void Init(const URLFilter & other);
 	
+	//! Sets the scope of the current filter
+	//! @param origURL  the url to parse the scope from
+	void SetScope(const std::string & origURL);
 	
 public:
-	
-	//!  No-arg constructor.  Initializes an empty URLFilter
-	URLFilter();
-	
+
 	
 	//!  Constructor.  Creates a new URLFilter with a scope.
-	URLFilter(const std::string & scope);
+	URLFilter(const std::string & origURL);
 	
 	//!  Copy constructor.  Makes a complete copy of its argument
 	URLFilter(const URLFilter & other);
@@ -56,7 +57,7 @@ public:
 	//!     For example, http://www.espn.com/football/scores/index.html
 	//! 
 	//! @return TRUE if holds else return FALSE
-	bool IsHTML();
+	bool IsHTML(const std::string & testurl);
 	
 	//! Checks if the URL it is handed is in scope
 	//! Ignore any links on pages that move outside the prefix of the scope. 
@@ -74,7 +75,9 @@ public:
 	//! @param testURL the url that it will check
 	//!
 	//! @return TRUE if testURL is in scope else @return FALSE
-	bool IsInScope(URL * testurl);
+	bool IsInScope(const std::string & testurl);
+	
+	const std::string & GetScope() const;
 	
 };
 #endif

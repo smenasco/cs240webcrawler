@@ -32,7 +32,7 @@ class PageNode {
 public:
 	
 	//!  Constructor
-	PageNode(const std::string & v) : url(v), left(NULL), right(NULL) {
+	PageNode(const std::string & v, const std::string & d) : url(v),description(d),  left(NULL), right(NULL) {
 	}
 	
 	//!  Read-only public methods for use by clients of the PageIndex class
@@ -71,7 +71,7 @@ private:
 	PageNode * root;
 	
 	void InInsert(PageNode * n);
-	PageNode * InsertAgain(PageNode * n, const std::string & v);
+	PageNode * InsertAgain(PageNode * n, const std::string & v, const std::string & d);
 	PageNode * FindAgain(PageNode * n,const std::string & v) const;
 	void Free(PageNode * n);
 public:
@@ -116,7 +116,7 @@ public:
 	//!
 	//!  @return a pointer to the newly inserted node, or NULL if v was already
 	//!          in the tree (i.e., NULL is used to indicate a duplicate insertion)
-	PageNode * Insert(const std::string & v);
+	PageNode * Insert(const std::string & v,const std::string & d);
 	
 	
 	//!  Searches the tree for value v
@@ -124,7 +124,7 @@ public:
 	//!  @param v The new value being searched for
 	//!
 	//!  @return a pointer to the node containing v, or NULL if v is not in the tree
-	PageNode * Find(const std::string & v) const;
+	bool Find(const std::string & v) const;
 	
 	
 	//! @NOTE: YOU ARE NOT REQUIRED TO IMPLEMENT THE Remove METHOD BELOW
