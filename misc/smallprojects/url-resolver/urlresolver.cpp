@@ -42,7 +42,7 @@ int main(int argc, char * argv[]) {
 	
 	countSlashes();
 	resolveURL();
-	
+	std::cout << final<< std::endl;
 	return 0;
 }
 
