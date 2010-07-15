@@ -18,7 +18,7 @@ void PageIndex::InInsert(PageNode * n){
 	if (n == NULL) {
 		return;
 	} 
-	Insert(n->url);
+	Insert(n->url,n->description);
 	if(n->left != NULL)
 		InInsert(n->left);
 	if(n->right != NULL)
@@ -103,9 +103,9 @@ int PageIndex::GetSize() const {
 //!
 //!  @return a pointer to the newly inserted node, or NULL if v was already
 //!          in the tree (i.e., NULL is used to indicate a duplicate insertion)
-PageNode * PageIndex::InsertAgain(PageNode * n, const std::string & v) {
+PageNode * PageIndex::InsertAgain(PageNode * n, const std::string & v,const std::string & d) {
 	if (n == NULL) {
-		n = new PageNode(v);
+		n = new PageNode(v,d);
 		return n;
 	}
 	
@@ -113,29 +113,29 @@ PageNode * PageIndex::InsertAgain(PageNode * n, const std::string & v) {
 		return NULL;
 	if (v > n->url){
 		if (n->right == NULL) {
-			n->right = new PageNode(v);
+			n->right = new PageNode(v,d);
 			count++;
 			return n->right;
 		} else
-			return InsertAgain(n->right,v);
+			return InsertAgain(n->right,v,d);
 		
 	} else {
 		if (n->left == NULL){
-			n->left = new PageNode(v);
+			n->left = new PageNode(v,d);
 			count++;
 			return n->left;
 		} else
-			return InsertAgain(n->left,v);
+			return InsertAgain(n->left,v,d);
 	}
 }
 
-PageNode * PageIndex::Insert(const std::string & v) {
+PageNode * PageIndex::Insert(const std::string & v,const std::string & d) {
 	if (root == NULL) {
-		root = new PageNode(v);
+		root = new PageNode(v,d);
 		count++;
 		return root;
 	}
-	return InsertAgain(root,v);
+	return InsertAgain(root,v,d);
 }
 
 
@@ -155,8 +155,12 @@ PageNode * PageIndex::FindAgain(PageNode * n,const std::string & v) const {
 		return FindAgain(n->left,v);
 }
 
-PageNode * PageIndex::Find(const std::string & v) const {
-	return FindAgain(root,v);
+bool PageIndex::Find(const std::string & v) const {
+	PageNode * n = FindAgain(root,v);
+	if (n == NULL)
+		return false;
+	else 
+		return true;
 }
 
 

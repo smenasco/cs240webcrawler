@@ -9,8 +9,8 @@ using namespace std;
 
 int main(int argc, char * argv[]){
 	
-	std::string path = "http://apple.com/";
-	HTMLParser * p = new HTMLParser();
+	/*std::string path = "http://apple.com/";
+	 HTMLParser * p = new HTMLParser();
 	p->SetPath(path);
 	if (p->Parse())
 		cout << "success\n";
@@ -22,6 +22,6 @@ int main(int argc, char * argv[]){
 		cout << "success\n";
 	else 
 		cout << "failure\n";
-	return 0;
+	return 0;*/
 }
 

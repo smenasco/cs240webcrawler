@@ -15,8 +15,13 @@
 #include "InputStream.h"
 #include "URLInputStream.h"
 #include "CS240Exception.h"
+#include "WordIndex.h"
+#include "URLQueue.h"
+#include "PageIndex.h"
+#include "URLFilter.h"
+#include "URL.h"
 
-
+#define DEBUG
 
 
 class HTMLParser{
@@ -25,12 +30,15 @@ class HTMLParser{
 	
 public:
 	
-	//!  No-arg constructor.  Initializes an empty HTMLParser
-	HTMLParser();
-	
+
 	//!  Constructor.  Initializes an empty HTMLParser
-	//!  @param p the path to set the HTMLParser to parse
-	HTMLParser(const std::string & p);
+	//!  @params the projects word index, url queue, pageindex, and url filter 
+	//			 which all are initialized in WebCrawler->Crawl()
+	//			 filter caries
+	HTMLParser(WordIndex * w,
+			   URLQueue * q,
+			   PageIndex * i,
+			   URLFilter *f);
 	
 	//!  Copy constructor.  Makes a complete copy of its argument
 	HTMLParser(const HTMLParser & other);
@@ -54,6 +62,10 @@ public:
 private:
 	string path;				//!< the url to be parsed
 	string description;			//!< the description of the current url being parsed.
+	WordIndex * words;
+	URLQueue *urlQueue;
+	PageIndex * pageIndex;		
+	URLFilter * filter;			//!< carries  the scope and checks if url isHTML()
 	URLInputStream * stream;	//!< the stream to load the url from
 	HTMLTokenizer *tokenizer;	//!< the downloaded page to tokenize
 	int count;					//!< the number of chars in the description to be referenced 
@@ -90,7 +102,7 @@ private:
 	void SetDescriptionBody(const HTMLToken & t);
 	
 	//! Called from constructor, copy constructor, and assignment operator
-	void Init(const HTMLParser & other);
+	void Init();
 	
 };
 

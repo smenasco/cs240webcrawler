@@ -77,7 +77,8 @@ obj/StopWords.o : src/StopWords.cpp inc/StopWords.h
 obj/XMLGenerator.o : src/XMLGenerator.cpp inc/XMLGenerator.h $(LIB_INC)/StringUtil.h inc/URL.h inc/PageIndex.h inc/WordIndex.h
 	g++ -Wall -g  -c -o obj/XMLGenerator.o -I inc -I $(LIB_INC) src/XMLGenerator.cpp	
 	
-obj/HTMLParser.o : src/HTMLParser.cpp inc/HTMLParser.h $(LIB_INC)/HTMLTokenizer.h $(LIB_INC)/InputStream.h $(LIB_INC)/URLInputStream.h $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h 
+obj/HTMLParser.o : src/HTMLParser.cpp inc/HTMLParser.h $(LIB_INC)/HTMLTokenizer.h $(LIB_INC)/InputStream.h $(LIB_INC)/URLInputStream.h $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h inc/WordIndex.h inc/URLQueue.h inc/PageIndex.h inc/URLFilter.h inc/URL.h
+
 	g++ -Wall -g  -c -o obj/HTMLParser.o -I inc -I $(LIB_INC) src/HTMLParser.cpp
 
 #########-------BUILD THE LIBRARY FROM CS240 UTILS--------#########

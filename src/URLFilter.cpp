@@ -8,7 +8,7 @@
  */
 
 #include "URLFilter.h"
-#include "URL.h"
+
 #include <string>
 
 
@@ -24,15 +24,22 @@ void URLFilter::Init(const URLFilter & other){
 
 
 
-//!  No-arg constructor.  Initializes an empty URLFilter
-URLFilter::URLFilter(){
-	
-}
+
 
 
 //!  Constructor.  Creates a new URLFilter with a scope.
-URLFilter::URLFilter(const std::string & scope){
-	
+URLFilter::URLFilter(const std::string & origURL){
+	SetScope(origURL);
+}
+
+//! Sets the scope of the current filter
+//! @param origURL  the url to parse the scope from
+void URLFilter::SetScope(const std::string & origURL){
+	assert(!origURL.empty());
+	scope = "";
+	int pos = origURL.rfind ('/');
+	scope += origURL.substr(0,pos+1);
+	std::cout << "Scope  : " << scope << "\norigURL: " << origURL << std::endl;
 }
 
 //!  Copy constructor.  Makes a complete copy of its argument
@@ -65,8 +72,8 @@ URLFilter& URLFilter::operator =(const URLFilter & other){
 //!     For example, http://www.espn.com/football/scores/index.html
 //! 
 //! @return TRUE if holds else return FALSE
-bool URLFilter::IsHTML(){
-	
+bool URLFilter::IsHTML(const std::string & testurl){
+	return true;
 }
 
 //! Checks if the URL it is handed is in scope
@@ -85,6 +92,18 @@ bool URLFilter::IsHTML(){
 //! @param testURL the url that it will check
 //!
 //! @return TRUE if testURL is in scope else @return FALSEbool URLFilter::IsInScope(URL * testurl){
-bool URLFilter::IsInScope(URL * testurl){
-	
+bool URLFilter::IsInScope(const std::string & testurl){
+	assert(scope.length()> 0);
+	//std::cout << "Scope length: " << scope.length()<< std::endl;
+	for (unsigned int i = 0; i < scope.length(); i++ ){
+		//std::cout << "scope["<<i<<"]: "<< scope[i] << "\ntesturl["<< i << "]: " << testurl[i] << std::endl;
+		if (scope[i] != testurl[i])
+			return false;
+	}
+	return true;
+}
+
+
+const std::string & URLFilter::GetScope() const {
+	return scope;
 }

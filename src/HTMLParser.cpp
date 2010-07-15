@@ -18,74 +18,19 @@ void HTMLParser::Free(){
 }
 
 //! Called from constructor, copy constructor, and assignment operator
-void HTMLParser::Init(const HTMLParser & other){
-	
-}
-
-
-
-
-//!  No-arg constructor.  Initializes an empty HTMLParser
-HTMLParser::HTMLParser(){
-	stream = NULL;
-	tokenizer = NULL;
-}
-
-//!  Constructor.  Initializes an empty HTMLParser
-//!  @param p the path to set the HTMLParser to parse
-HTMLParser::HTMLParser(const std::string & p): path(p){
-
+void HTMLParser::Init(){
 	try {
-		stream = new URLInputStream(path);
-		tokenizer = new HTMLTokenizer(stream);
-		foundDescription = false;
-		description= "";
-		count = 0;
-		path = stream->GetLocation();
-		
-		stream->Close();
-	}
-	catch (std::exception &e) {
-		
-		std::cout << "HTMLParser: Exception Occurred:" << e.what() << std::endl;
-	}
-	catch (CS240Exception &e) {
-			std::cout << "HTMLParser: Exception Occurred:" << e.GetMessage() << std::endl;
-	}
-	catch (...) {
-		std::cout << "HTMLParser: Unknown Exception Occurred" << std::endl;
-	}
-}
-
-//!  Copy constructor.  Makes a complete copy of its argument
-HTMLParser::HTMLParser(const HTMLParser & other){
-	
-}
-
-
-//!  Destructor
-HTMLParser::~HTMLParser(){
-	
-}
-
-
-
-//! Resets the HTMLParser with a new path to parse
-//! @param p the path to set the HTMLParser to parse
-void HTMLParser::SetPath(const std::string & p){
-	try {
-		path = p;
 		foundDescription = false;
 		description= "";
 		count = 0;
 		if (stream != NULL){
 			delete stream;
 		}
-			
+		
 		if (tokenizer != NULL) {
 			delete tokenizer;
 		}
-			
+		
 		stream = new URLInputStream(path);
 		tokenizer = new HTMLTokenizer(stream);
 		
@@ -105,8 +50,39 @@ void HTMLParser::SetPath(const std::string & p){
 	catch (...) {
 		std::cout << "HTMLParser: Unknown Exception Occurred" << std::endl;
 		path = "";
-	}	
+	}
+}
 
+
+//!  Constructor.  Initializes an empty HTMLParser
+//!  @param p the path to set the HTMLParser to parse
+HTMLParser::HTMLParser(WordIndex * w,
+					   URLQueue * q,
+					   PageIndex * i,
+					   URLFilter *f): 
+					   words(w),urlQueue(q),pageIndex(i),filter(f),
+						stream(NULL),tokenizer(NULL){
+	Init();
+}
+
+//!  Copy constructor.  Makes a complete copy of its argument
+HTMLParser::HTMLParser(const HTMLParser & other){
+	
+}
+
+
+//!  Destructor
+HTMLParser::~HTMLParser(){
+	
+}
+
+
+
+//! Resets the HTMLParser with a new path to parse
+//! @param p the path to set the HTMLParser to parse
+void HTMLParser::SetPath(const std::string & p){
+	path = p;
+	Init();
 }
 
 
@@ -125,10 +101,21 @@ bool HTMLParser::Parse(){
 		std::cout << "Actual Location: " << path << std::endl;
 		//This is where the actual parsing beings
 		
-		CheckHTML();
-			
+		if (CheckHTML()) {
+#ifdef DEBUG
+			std::cout << "This is HTML, index it\n";
+			pageIndex->Insert(path,description);
+#endif
+		} else {
+#ifdef DEBUG
+			std::cout << "This is NOT HTML, so dont index it\n";
+#endif
+		}
+		delete stream;
+		delete tokenizer;
 		
-		
+		stream = NULL;
+		tokenizer = NULL;
 		
 		
 	}
@@ -171,7 +158,9 @@ bool HTMLParser::CheckHTML(){
 	
 		
 		if (tokenval == "html" && type == TAG_START){
+#ifdef DEBUG
 			std::cout << "Found Start HTML tag\n";
+#endif
 			ParseHTML();
 			return true;
 		}
@@ -201,19 +190,29 @@ void HTMLParser::ParseHTML(){
 			tokenval = token.GetValue();
 		
 		if (tokenval == "html" && type == TAG_END){
+#ifdef DEBUG
 			std::cout << "Found End HTML tag\n";
+#endif
 			return;
 		} else if (tokenval == "title" && type == TAG_START){
+#ifdef DEBUG
 			std::cout << "Found Title start tag\n";
+#endif
 			ParseTitle();
 		} else if (tokenval == "script" && type == TAG_START){
+#ifdef DEBUG
 			std::cout << "Found Script start tag\n";
+#endif
 			ParseScript();
 		} else if (tokenval == "body" && type == TAG_START){
+#ifdef DEBUG
 			std::cout << "Found Body start tag \n";
+#endif
 			ParseBody();
 		} else if (tokenval == "a" && type == TAG_START){
+#ifdef DEBUG
 			std::cout << "Found start a tag\n";
+#endif
 			ParseHREF(token);
 		}
 	}
@@ -233,23 +232,33 @@ void HTMLParser::ParseTitle(){
 			tokenval = token.GetValue();
 		
 		if (tokenval == "a" && type == TAG_START){
+#ifdef DEBUG
 			std::cout << "Found start a tag\n";
+#endif
 			ParseHREF(token);
 		} else if (tokenval == "title" && type == TAG_END){
+#ifdef DEBUG	
 			std::cout << "Found Title end tag\n";
+#endif			
 			return;
 		} else if (tokenval == "script" && type == TAG_START){
+#ifdef DEBUG			
 			std::cout << "Found Script start tag\n";
+#endif
 			ParseScript();
 		} else if (tokenval == "body" && type == TAG_START){
+#ifdef DEBUG	
 			std::cout << "Found Body start tag \n";
+#endif
 			ParseBody();
 		} else if (type == TEXT){
 			SetDescription(token);
 			if (!description.empty())
 				foundDescription= true;
 		} else if (tokenval == "html" && type == TAG_END){
+#ifdef DEBUG
 			std::cout << "Found End HTML tag\n";
+#endif
 			return;
 		}	
 		
@@ -269,13 +278,19 @@ void HTMLParser::ParseBody(){
 			tokenval = token.GetValue();
 			
 		if (tokenval == "a" && type == TAG_START){
+#ifdef DEBUG
 			std::cout << "Found start a tag\n";
+#endif
 			ParseHREF(token);
 		} else if (tokenval == "body" && type == TAG_END){
+#ifdef DEBUG			
 			std::cout << "Found body end tag\n";
+#endif			
 			return;
 		} else if (tokenval == "script" && type == TAG_START){
+#ifdef DEBUG			
 			std::cout << "Found Script start tag\n";
+#endif
 			ParseScript();
 		} else if (type == TEXT){
 			if (foundDescription){
@@ -283,10 +298,14 @@ void HTMLParser::ParseBody(){
 			} else
 				SetDescriptionBody(token);
 		} else if (tokenval == "html" && type == TAG_END){
+#ifdef DEBUG
 			std::cout << "Found End HTML tag\n";
+#endif
 			return;
 		} else if (tokenval[0] == 'h' && isdigit(tokenval[1])&& foundDescription == false){
+#ifdef DEBUG
 			std::cout << "Found Heading: " << tokenval<< std::endl;
+#endif
 			description = "";
 			ParseHeading(token);
 		}
@@ -307,19 +326,27 @@ void HTMLParser::ParseHeading(const HTMLToken & t){
 			tokenval = token.GetValue();
 		
 		if (tokenval == "a" && type == TAG_START){
+#ifdef DEBUG			
 			std::cout << "Found start a tag\n";
+#endif
 			ParseHREF(token);
 		} else if (tokenval == "script" && type == TAG_START){
+#ifdef DEBUG			
 			std::cout << "Found Script start tag\n";
+#endif
 			ParseScript();
 		} else if (type == TEXT){
 			SetDescription(token);
 			foundDescription = true;
 		} else if (tokenval == "html" && type == TAG_END){
+#ifdef DEBUG			
 			std::cout << "Found End HTML tag\n";
+#endif	
 			return;
 		} else if (tokenval == headingName && type == TAG_END){
+#ifdef DEBUG			
 			std::cout << "Found Heading end : " <<headingName<< std::endl;
+#endif			
 			return;
 		}
 		
@@ -333,17 +360,21 @@ void HTMLParser::SetDescriptionBody(const HTMLToken & t ){
 	string tokenval = token.GetValue();
 	int i =0;
 	
-	while (count != 100 && i < (int)tokenval.length()) {
+	while (count != 99 && i < (int)tokenval.length()) {
 		description = description + tokenval[i];
 		if (isgraph(tokenval[i])){
 			//checks to see if it is a prinitable char that is not whitespace
 			count++;
+#ifdef DEBUG
 			std::cout << "Char to add: " << tokenval[i] << std::endl;
+#endif
 		}	
 		i++;
 	}
 	
+#ifdef DEBUG
 	std::cout << "The Description ( "<< count << "): " << description << std::endl;
+#endif
 	ParseText(token);
 	return;
 }
@@ -351,7 +382,9 @@ void HTMLParser::SetDescriptionBody(const HTMLToken & t ){
 void HTMLParser::SetDescription(const HTMLToken & t ){
 	HTMLToken token = t;
 	description = description + token.GetValue();
+#ifdef DEBUG
 	std::cout << "The Description: " + description << std::endl;
+#endif
 	ParseText(token);
 	return;
 }
@@ -359,7 +392,38 @@ void HTMLParser::SetDescription(const HTMLToken & t ){
 void HTMLParser::ParseHREF(const HTMLToken & t ){
 	HTMLToken token = t;
 	if (token.AttributeExists("href")){
+#ifdef DEBUG
 		std::cout << "Found HREF: " << token.GetAttribute("href") << std::endl;
+#endif
+		
+		URLFilter * f = new URLFilter(path);
+		if (token.GetAttribute("href")[0] == '#'){
+#ifdef DEBUG
+			std::cout << "Ignoring HREF: " << token.GetAttribute("href") << std::endl;
+#endif
+			return;
+			
+		}
+		URL * u = new URL(f->GetScope(),token.GetAttribute("href"));
+		delete f;
+#ifdef DEBUG
+		std::cout << "Full URL: " << u->GetURL() << std::endl;
+#endif
+		if ((filter->IsHTML(u->GetURL())) && (filter->IsInScope(u->GetURL()))){
+			
+			if (pageIndex->Find(u->GetURL())){
+#ifdef DEBUG
+				std::cout << "We done already been indexin' that junx\n";
+#endif
+			} else {
+#ifdef DEBUG
+				std::cout << "Adding URL to Queue: " << u->GetURL()<< std::endl;
+#endif
+				urlQueue->Push(u->GetURL());				
+			}
+		}
+		delete u;
+		
 		//call FilterURL to see if needs to be added  to URLQueue;
 	}
 	return;
@@ -375,7 +439,9 @@ void HTMLParser::ParseScript(){
 		std::string tokenval = StringUtil::ToLowerCopy(token.GetValue());
 		
 		if (tokenval == "script" && type == TAG_END){
+#ifdef DEBUG
 			std::cout << "Found End Script tag\n";
+#endif
 			return;
 		}
 	}
@@ -395,6 +461,8 @@ void HTMLParser::ParseText(const HTMLToken & t ){
 	//stopwords file after they are filtered futher, add the remaining to the wordindex 
 	//using path.
 	if (!tokenval.empty()){
+#ifdef DEBUG
 		std::cout << "Found Text: " << tokenval << std::endl; 
+#endif
 	}
 }

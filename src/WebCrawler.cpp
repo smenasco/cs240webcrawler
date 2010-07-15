@@ -69,8 +69,9 @@ void WebCrawler::Crawl(){
 	StopWords * stopWords = new StopWords(stopwordsFileName);
 	WordIndex * words = new WordIndex(stopWords);
 	PageIndex * pageIndex = new PageIndex();
-	HTMLParser * parser = new HTMLParser();
-	
+	URLFilter * filter = new URLFilter(startURL);
+
+	HTMLParser * parser = new HTMLParser(words,urlQueue,pageIndex,filter);
 	std::string curURL;
 	try {
 		
@@ -92,9 +93,10 @@ void WebCrawler::Crawl(){
 			//!		against stopwords, and populate the WordIndex
 			//!  HTMLParser will also populate the PageIndex with valid, parsed HTML pages & descriptions
 			//!  once it determines they are, in fact, html (ie contain <html> tags)
-			parser->SetPath(curURL/*,words,urlQueue,pageIndex*/); //<--- as you can see this is not fully
+			std::cout << "Parsing URL: "<< curURL << std::endl;
+			parser->SetPath(curURL); //<--- as you can see this is not fully
 																  //     implemented but it will be :-)
-			
+			parser->Parse();
 			//!  As words are added to the WordIndex, word index checks to see whether or not the word
 			//!		is new.  If it is new it creates a new WordNode.  It then creates a new OccurenceSet 
 			//!     and the respective Occurence which the HTMLparser is parsing currently.
@@ -119,6 +121,7 @@ void WebCrawler::Crawl(){
 		
 	}
 	catch (...) {
+		std::cout << "Webcrawler: Exception Occurred!\n";
 		//there would, of course, be more useful catch's here
 	}
 }
