@@ -60,7 +60,7 @@ private:
 	
 	//! Delete URL from memory
 	void Free();
-	
+	void ResolveDotSlash();
 	//! Called from constructor, copy constructor, and assignment operator
 	void Init(const URL & other);
 	
