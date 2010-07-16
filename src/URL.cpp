@@ -7,8 +7,11 @@
  *
  */
 
+
+
 #include "URL.h"
-#include <string>
+
+
 
 //! Delete URL from memory
 void URL::Free(){
@@ -16,8 +19,15 @@ void URL::Free(){
 }
 
 //! Initialize a new URL
-void URL::Init(const URL & other){
-	
+void URL::Init(const std::string & base, const std::string & rel){
+	//check if needs resolved else just set fullurl to rel;
+	std::string f =  "file://";
+	std::string h = "http://";
+	if ( rel.substr(0,7) != f && rel.substr(0,7) != h ){
+		resolveURL(base,rel);
+	} else{
+		fullurl = rel;
+	}
 }
 
 
@@ -27,17 +37,7 @@ void URL::Init(const URL & other){
 //!  @param base The value to which you base your resolved URL from
 //!  @param rel the part of the URL to be resolved into the base
 URL::URL(const std::string & base, const std::string & rel){
-	//check if needs resolved else just set fullurl to rel;
-	std::string f =  "file://";
-	std::string h = "http://";
-	if ( rel.substr(0,7) != f && rel.substr(0,7) != h ){
-			resolveURL(base,rel);
-	} else{
-		if (rel[0] == '#'){
-			fullurl+=rel;
-		} else
-		fullurl = rel;
-	}
+	Init(base,rel);
 		
 	StripURL();
 }
@@ -161,6 +161,7 @@ void URL::ResolveDotSlash(){
 	PrintFinalURL(numKill,placeholder);
 	
 }
+
 void URL::PrintFinalURL(int numKill,int placeholder){
 	int stop = slashes[slashCount-1-numKill];   //output the resolved url
 	if (slashCount-numKill<3)
@@ -168,4 +169,97 @@ void URL::PrintFinalURL(int numKill,int placeholder){
 	for (int i = 0;i < stop;i++) final+= base[i];
 	for (unsigned int i = placeholder; i < rel.length();i++) final+=rel[i];
 	return;
+}
+
+//insert Test Here
+
+bool URL::Test(std::ostream & os) {
+	bool success = true;
+	
+	//1
+	URL url("http://www.cnn.com/news/financial/index.html","/images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/images/nasdaq.jpg");
+	//2
+	url.Init("file:///news/financial/index.html","/images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///images/nasdaq.jpg");
+	//3
+	url.Init("http://www.cnn.com/news/financial/index.html","./images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/news/financial/images/nasdaq.jpg");
+	//4
+	url.Init("file:///news/financial/index.html","./images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///news/financial/images/nasdaq.jpg");
+	//5 
+	url.Init("http://www.cnn.com/news/financial/index.html","../images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/news/images/nasdaq.jpg");
+	//6
+	url.Init("file:///news/financial/index.html","../images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///news/images/nasdaq.jpg");
+	//7
+	url.Init("http://www.cnn.com","/images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/images/nasdaq.jpg");
+	//8
+	url.Init("file://","/images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///images/nasdaq.jpg");
+	//9
+	url.Init("http://www.cnn.com","images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/images/nasdaq.jpg");
+	//10
+	url.Init("file://","images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///images/nasdaq.jpg");
+	//11
+	url.Init("http://www.cnn.com","./images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/images/nasdaq.jpg");
+	//12
+	url.Init("file://","./images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///images/nasdaq.jpg");
+	//13
+	url.Init("http://www.cnn.com/news/financial/index.html","#HEADLINES"); 
+	TEST(url.GetURL() == "http://www.cnn.com/news/financial/index.html#HEADLINES");
+	//14
+	url.Init("file:///news/financial/index.html","#HEADLINES"); 
+	TEST(url.GetURL() == "file:///news/financial/index.html#HEADLINES");
+	//15
+	url.Init("http://www.cnn.com/news/financial/index.html","images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/news/financial/images/nasdaq.jpg");
+	//16
+	url.Init("file:///news/financial/index.html","images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///news/financial/images/nasdaq.jpg");
+	//17
+	url.Init("http://www.cnn.com/news/financial/folder/another/again/still/index.html","./../.././././.././././.././../images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/news/images/nasdaq.jpg");
+	//18
+	url.Init("file:///news/financial/folder/another/again/still/index.html","./../.././././.././././.././../images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///news/images/nasdaq.jpg");
+	//19
+	url.Init("http://www.test.com/queries?name=test","./go/here"); 
+	TEST(url.GetURL() == "http://www.test.com/go/here");
+	//20
+	url.Init("file:///queries?name=test","./go/here"); 
+	TEST(url.GetURL() == "file:///go/here");
+	//21
+	url.Init("http://www.test.com/queries?name=test","#stay"); 
+	TEST(url.GetURL() == "http://www.test.com/queries?name=test#stay");
+	//22
+	url.Init( "file:///queries?name=test","#stay"); 
+	TEST(url.GetURL() == "file:///queries?name=test#stay");
+	//23
+	url.Init( "http://www.test.com/queries?name=test","./queries?name=newquery"); 
+	TEST(url.GetURL() == "http://www.test.com/queries?name=newquery");
+	//24
+	url.Init( "file:///queries?name=test","./queries?name=newquery"); 
+	TEST(url.GetURL() == "file:///queries?name=newquery");
+	//25
+	url.Init( "http://www.cnn.com/news;lang=english/financial;lang=english/index.html;lang=english","./images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/news;lang=english/financial;lang=english/images/nasdaq.jpg");
+	//26
+	url.Init( "file:///news;lang=english/financial;lang=english/index.html;lang=english","./images/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///news;lang=english/financial;lang=english/images/nasdaq.jpg");
+	//27
+	url.Init( "http://www.cnn.com/news;lang=english/financial;lang=english/index.html;lang=english","./images;lang=english/nasdaq.jpg"); 
+	TEST(url.GetURL() == "http://www.cnn.com/news;lang=english/financial;lang=english/images;lang=english/nasdaq.jpg");
+	//28
+	url.Init( "file:///news;lang=english/financial;lang=english/index.html;lang=english","./images;lang=english/nasdaq.jpg"); 
+	TEST(url.GetURL() == "file:///news;lang=english/financial;lang=english/images;lang=english/nasdaq.jpg");
+	
+	return success;
 }

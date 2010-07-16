@@ -5,23 +5,23 @@
 
 using namespace std;
 
-
-
 int main(int argc, char * argv[]){
+	bool success = true;
 	
-	/*std::string path = "http://apple.com/";
-	 HTMLParser * p = new HTMLParser();
-	p->SetPath(path);
-	if (p->Parse())
-		cout << "success\n";
-	else 
-		cout << "failure\n";
-	path = "http://www.byu.edu";
-	p->SetPath(path);
-	if (p->Parse())
-		cout << "success\n";
-	else 
-		cout << "failure\n";
-	return 0;*/
+	if (!URL::Test(cout)) success = false;
+	
+	//if (!Target::Test(cout)) success = false;
+	//if (!Command::Test(cout)) success = false;
+	//if (!MakeFileParser::Test(cout)) success = false;
+	//if (!DependencyGraph::Test(cout)) success = false;
+	
+	if (success) {
+		cout << "Tests Succeeded!" << endl;
+	}
+	else {
+		cout << "Tests Failed!" << endl;
+	}
+	
+	return 0;
 }
 

@@ -66,7 +66,7 @@ obj/URLFilter.o : src/URLFilter.cpp inc/URLFilter.h inc/URL.h
 obj/WebCrawler.o : src/WebCrawler.cpp $(INC_FILES)
 	g++ -Wall -g  -c -o obj/WebCrawler.o -I inc -I $(LIB_INC) src/WebCrawler.cpp
 	
-obj/URL.o : src/URL.cpp inc/URL.h
+obj/URL.o : src/URL.cpp inc/URL.h $(LIB_INC)/UnitTest.h
 	g++ -Wall -g  -c -o obj/URL.o -I inc -I $(LIB_INC) src/URL.cpp
 	
 obj/OccurrenceSet.o : src/OccurrenceSet.cpp inc/OccurrenceSet.h
