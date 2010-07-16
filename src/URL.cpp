@@ -158,7 +158,10 @@ void URL::ResolveDotSlash(){
 			}
 		}
 	}
+	PrintFinalURL(numKill,placeholder);
 	
+}
+void URL::PrintFinalURL(int numKill,int placeholder){
 	int stop = slashes[slashCount-1-numKill];   //output the resolved url
 	if (slashCount-numKill<3)
 		stop = slashes[2];
