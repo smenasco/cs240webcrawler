@@ -35,7 +35,7 @@ void HTMLParser::Init(){
 		foundDescription = false;
 		description= "";
 		count = 0;
-		Clean();
+		
 		if (path.empty())
 			return;
 		stream = new URLInputStream(path);
@@ -53,7 +53,7 @@ void HTMLParser::Init(){
 	
 	}
 	catch (CS240Exception &e) {
-		std::cout << "here HTMLParser: Exception Occurred:" << e.GetMessage() << std::endl;
+		std::cout << "HTMLParser: Exception Occurred:" << e.GetMessage() << std::endl;
 		path = "";
 		Clean();
 	}
@@ -73,6 +73,7 @@ HTMLParser::HTMLParser(WordIndex * w,
 					   URLFilter *f): path(""),
 					   words(w),urlQueue(q),pageIndex(i),filter(f),
 						stream(NULL),tokenizer(NULL){
+							
 							pagesParsed = 0;
 							Init();
 }

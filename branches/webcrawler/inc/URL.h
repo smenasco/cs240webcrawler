@@ -8,13 +8,19 @@
  *  Copyright 2010 Samuel Menasco. All rights reserved.
  *
  */
+#include "UnitTest.h"
 #include <string>
+#include <iostream>
+
 
 
 class URL{
 
 	
 public:
+	
+	//  Method used for unit testing
+	static bool Test(std::ostream & os);
 	
 	//!  Constructor with a url that needs resolved
 	//!
@@ -44,6 +50,7 @@ public:
 	void resolveURL(const std::string & base, const std::string & rel);
 	
 	
+	
 private:
 	//   format = <scheme>://<net_loc>/<path>?<query>#<fragment>
 	std::string fullurl;
@@ -62,8 +69,11 @@ private:
 	void Free();
 	void ResolveDotSlash();
 	void PrintFinalURL(int numKill,int placeholder);
-	//! Called from constructor, copy constructor, and assignment operator
-	void Init(const URL & other);
+	
+	
+	//! Initializes a new URL and resolves it if needed
+	//! Does not strip the # or ?
+	void Init(const std::string & base, const std::string & rel);
 	
 	void StripURL();
 	

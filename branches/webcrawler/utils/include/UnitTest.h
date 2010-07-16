@@ -43,7 +43,7 @@
 #define TEST(cond) \
 do {\
 	if (!(cond)) {\
-		success = false; os << "Test Failed [" << __FILE__ << ", " << __LINE__ << "]" << endl;\
+		success = false; os << "Test Failed [" << __FILE__ << ", " << __LINE__ << "]" << std::endl;\
 	}\
 }while(false)
 
