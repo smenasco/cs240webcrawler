@@ -112,6 +112,7 @@ void WebCrawler::Crawl(){
 		
 		
 		//clean things up
+		delete filter;
 		delete urlQueue;
 		delete stopWords;
 		delete words;
