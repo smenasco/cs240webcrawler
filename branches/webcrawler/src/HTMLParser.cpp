@@ -35,13 +35,7 @@ void HTMLParser::Init(){
 		foundDescription = false;
 		description= "";
 		count = 0;
-		if (stream != NULL){
-			delete stream;
-		}
-		
-		if (tokenizer != NULL) {
-			delete tokenizer;
-		}
+		Clean();
 		if (path.empty())
 			return;
 		stream = new URLInputStream(path);
@@ -132,11 +126,7 @@ bool HTMLParser::Parse(){
 #endif
 		}
 		std::cout << pagesParsed<<" Parsed URL: "<< path << std::endl;
-		delete stream;
-		delete tokenizer;
-		
-		stream = NULL;
-		tokenizer = NULL;
+		Clean();
 		
 		
 	}
