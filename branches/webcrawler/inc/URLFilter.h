@@ -12,6 +12,8 @@
 #include <iostream>
 #include <cassert>
 
+//#define DEBUG
+
 class URLFilter{
 private:
 	
