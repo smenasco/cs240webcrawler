@@ -21,7 +21,7 @@
 #include "URLFilter.h"
 #include "URL.h"
 
-#define DEBUG
+//#define DEBUG
 
 
 class HTMLParser{

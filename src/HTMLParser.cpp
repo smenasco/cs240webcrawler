@@ -107,14 +107,15 @@ bool HTMLParser::Parse(){
 		if (CheckHTML()) {
 #ifdef DEBUG
 			std::cout << "This is HTML, index it\n";
+#endif			
 			pageIndex->Insert(path,description);
-#endif
+
 		} else {
 #ifdef DEBUG
 			std::cout << "This is NOT HTML, so dont index it\n";
 #endif
 		}
-		std::cout << pagesParsed<<" Parsing URL: "<< path << std::endl;
+		std::cout << pagesParsed<<" Parsed URL: "<< path << std::endl;
 		delete stream;
 		delete tokenizer;
 		
@@ -405,6 +406,7 @@ void HTMLParser::ParseHREF(const HTMLToken & t ){
 #ifdef DEBUG
 			std::cout << "Ignoring HREF: " << token.GetAttribute("href") << std::endl;
 #endif
+			delete f;
 			return;
 		}
 		
@@ -418,6 +420,7 @@ void HTMLParser::ParseHREF(const HTMLToken & t ){
 #ifdef DEBUG
 			std::cout << "we've got circles!: " << u->GetURL() << std::endl;
 #endif
+			delete u;
 			return;
 
 		}
