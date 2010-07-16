@@ -23,8 +23,8 @@ all: bin test
 
 
 valgrind : all
-	@echo "Running Valgrind with: ./bin/webcrawler file:///users/ta/cs240ta/webcrawler/file/student/index.html sam sam"
-	valgrind --tool=memcheck --leak-check=yes --max-stackframe=5000000 --show-reachable=yes --suppressions=string.supp ./bin/webcrawler file:///users/ta/cs240ta/webcrawler/file/student/index.html sam sam
+	@echo "Running Valgrind with: ./bin/webcrawler file:///users/ta/cs240ta/webcrawler/file/student/index.html output.xml stopword.txt"
+	valgrind --tool=memcheck --leak-check=yes --max-stackframe=5000000 --show-reachable=yes --suppressions=string.supp ./bin/webcrawler file:///users/ta/cs240ta/webcrawler/file/student/index.html output.xml stopword.txt
 
 checkstyle: all
 	@echo "Running Checkstyle with:inc/* src/*"
