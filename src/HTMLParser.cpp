@@ -17,6 +17,18 @@ void HTMLParser::Free(){
 	
 }
 
+void HTMLParser::Clean(){
+	if (stream != NULL){
+		delete stream;
+		stream = NULL;
+	}
+	
+	if (tokenizer != NULL) {
+		delete tokenizer;
+		tokenizer = NULL;
+	}
+}
+
 //! Called from constructor, copy constructor, and assignment operator
 void HTMLParser::Init(){
 	try {
@@ -43,14 +55,18 @@ void HTMLParser::Init(){
 		
 		std::cout << "HTMLParser: Exception Occurred:" << e.what() << std::endl;
 		path = "";
+		Clean();
+	
 	}
 	catch (CS240Exception &e) {
 		std::cout << "here HTMLParser: Exception Occurred:" << e.GetMessage() << std::endl;
 		path = "";
+		Clean();
 	}
 	catch (...) {
 		std::cout << "HTMLParser: Unknown Exception Occurred" << std::endl;
 		path = "";
+		Clean();
 	}
 }
 
@@ -126,12 +142,15 @@ bool HTMLParser::Parse(){
 	}
 	catch (std::exception &e) {
 		std::cout << "Exception Occurred:" << e.what() << std::endl;
+		Clean();
 	}
 	catch (CS240Exception &e) {
 		std::cout << "CS240Exception Occurred:" << e.GetMessage() << std::endl;
+		Clean();
 	}
 	catch (...) {
 		std::cout << "Unknown Exception Occurred" << std::endl;
+		Clean();
 	}
 	
 

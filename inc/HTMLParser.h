@@ -71,6 +71,9 @@ private:
 	int pagesParsed;
 	int count;					//!< the number of chars in the description to be referenced 
 								//!  only when adding char characters from body to desciption
+	
+	void Clean();
+	
 	bool foundDescription;		//!< keep track of whether or not the URL has found a description
 	
 	void Free();		//! Delete HTMLParser from memory
