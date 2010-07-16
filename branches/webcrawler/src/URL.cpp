@@ -102,62 +102,67 @@ void URL::countSlashes(){
 	
 	
 void URL::resolveURLWorker(){
-		
-		int numKill = 0;	//number of slashes to back up to.
-		int placeholder;	//store the value rel[placeholder] where the last slash is
 		if (slashCount == 2){
-			base+="/";
-			countSlashes();
-		}
+		base+="/";
+		countSlashes();
+	}
+	
+	//check to see if relative url begins with slash, if it does resolve it
+	if (rel[0] == '/'){ 
 		
-		//check to see if relative url begins with slash, if it does resolve it
-		if (rel[0] == '/'){ 
-			
-			
-			for (int i =0; i < slashes[2];i++) final+=base[i]; //output base url
-			final+=rel;
-			return;
-		} 
 		
-		//check to see if relative url begins with lb. sign, if it does resolve it
-		if (rel[0] == '#'){ 
-			final+=base;
-			final+=rel;
-			return;
-		} 
-		
-		//check to see if relative url doesnt begin with a dot, a slash, or a lb. sign
-		if ((rel[0] != '.') && (rel[0] != '/') && (rel[0] != '#')){ 
-			for (int i =0; i <=  slashes[slashCount-1];i++) final+=base[i]; //output base url
-			final+=rel;
-			return;
-		}
-		
-		//loop through relative url to find double dot slashes
-		for (unsigned int i=0;i+2<rel.length();i++){ 
-			if (rel[i]=='.'){
-				if (rel[i+1]=='/'){
-					//found dot slash
-					if (rel[i+2]!='.') 
-						placeholder=i+1;
-				}
-				else if (rel[i+1]=='.'){
-					//found double dot
-					if (rel[i+2]=='/'){
-						if (i+3<rel.length() && rel[i+3]!='.') 
-							placeholder=i+2;
-						//found double dot slash
-						numKill+=1;
-						
-					}
+		for (int i =0; i < slashes[2];i++) final+=base[i]; //output base url
+		final+=rel;
+		return;
+	} 
+	
+	//check to see if relative url begins with lb. sign, if it does resolve it
+	if (rel[0] == '#'){ 
+		final+=base;
+		final+=rel;
+		return;
+	} 
+	
+	//check to see if relative url doesnt begin with a dot, a slash, or a lb. sign
+	if ((rel[0] != '.') && (rel[0] != '/') && (rel[0] != '#')){ 
+		for (int i =0; i <=  slashes[slashCount-1];i++) final+=base[i]; //output base url
+		final+=rel;
+		return;
+	}
+	ResolveDotSlash();
+	
+}
+
+void URL::ResolveDotSlash(){
+	//loop through relative url to find double dot slashes
+	
+	int numKill = 0;	//number of slashes to back up to.
+	int placeholder;	//store the value rel[placeholder] where the last slash is
+	
+	for (unsigned int i=0;i+2<rel.length();i++){ 
+		if (rel[i]=='.'){
+			if (rel[i+1]=='/'){
+				//found dot slash
+				if (rel[i+2]!='.') 
+					placeholder=i+1;
+			}
+			else if (rel[i+1]=='.'){
+				//found double dot
+				if (rel[i+2]=='/'){
+					if (i+3<rel.length() && rel[i+3]!='.') 
+						placeholder=i+2;
+					//found double dot slash
+					numKill+=1;
+					
 				}
 			}
 		}
-
-		int stop = slashes[slashCount-1-numKill];   //output the resolved url
-		if (slashCount-numKill<3)
-			stop = slashes[2];
-		for (int i = 0;i < stop;i++) final+= base[i];
-		for (unsigned int i = placeholder; i < rel.length();i++) final+=rel[i];
-		return;
 	}
+	
+	int stop = slashes[slashCount-1-numKill];   //output the resolved url
+	if (slashCount-numKill<3)
+		stop = slashes[2];
+	for (int i = 0;i < stop;i++) final+= base[i];
+	for (unsigned int i = placeholder; i < rel.length();i++) final+=rel[i];
+	return;
+}
