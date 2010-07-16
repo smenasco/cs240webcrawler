@@ -410,6 +410,13 @@ void HTMLParser::ParseHREF(const HTMLToken & t ){
 #ifdef DEBUG
 		std::cout << "Full URL: " << u->GetURL() << std::endl;
 #endif
+		if (u->GetURL() == path){
+#ifdef DEBUG
+			std::cout << "we've got circles!: " << u->GetURL() << std::endl;
+#endif
+			return;
+
+		}
 		if ((filter->IsHTML(u->GetURL())) && (filter->IsInScope(u->GetURL()))){
 			
 			if (pageIndex->Find(u->GetURL())){
