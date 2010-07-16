@@ -397,13 +397,14 @@ void HTMLParser::ParseHREF(const HTMLToken & t ){
 #endif
 		
 		URLFilter * f = new URLFilter(path);
-		if (token.GetAttribute("href")[0] == '#'){
+		if (token.GetAttribute("href")[0] == '#' || token.GetAttribute("href")[0] == '?'){
 #ifdef DEBUG
 			std::cout << "Ignoring HREF: " << token.GetAttribute("href") << std::endl;
 #endif
 			return;
-			
 		}
+		
+		
 		URL * u = new URL(f->GetScope(),token.GetAttribute("href"));
 		delete f;
 #ifdef DEBUG
