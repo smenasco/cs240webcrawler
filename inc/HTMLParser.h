@@ -68,6 +68,7 @@ private:
 	URLFilter * filter;			//!< carries  the scope and checks if url isHTML()
 	URLInputStream * stream;	//!< the stream to load the url from
 	HTMLTokenizer *tokenizer;	//!< the downloaded page to tokenize
+	int pagesParsed;
 	int count;					//!< the number of chars in the description to be referenced 
 								//!  only when adding char characters from body to desciption
 	bool foundDescription;		//!< keep track of whether or not the URL has found a description

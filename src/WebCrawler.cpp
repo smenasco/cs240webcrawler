@@ -93,7 +93,7 @@ void WebCrawler::Crawl(){
 			//!		against stopwords, and populate the WordIndex
 			//!  HTMLParser will also populate the PageIndex with valid, parsed HTML pages & descriptions
 			//!  once it determines they are, in fact, html (ie contain <html> tags)
-			std::cout << "Parsing URL: "<< curURL << std::endl;
+			//std::cout << "Parsing URL: "<< curURL << std::endl;
 			parser->SetPath(curURL); //<--- as you can see this is not fully
 																  //     implemented but it will be :-)
 			parser->Parse();

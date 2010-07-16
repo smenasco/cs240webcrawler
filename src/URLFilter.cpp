@@ -39,7 +39,9 @@ void URLFilter::SetScope(const std::string & origURL){
 	scope = "";
 	int pos = origURL.rfind ('/');
 	scope += origURL.substr(0,pos+1);
+#ifdef DEBUG
 	std::cout << "Scope  : " << scope << "\norigURL: " << origURL << std::endl;
+#endif
 }
 
 //!  Copy constructor.  Makes a complete copy of its argument

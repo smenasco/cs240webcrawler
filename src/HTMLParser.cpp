@@ -30,7 +30,8 @@ void HTMLParser::Init(){
 		if (tokenizer != NULL) {
 			delete tokenizer;
 		}
-		
+		if (path.empty())
+			return;
 		stream = new URLInputStream(path);
 		tokenizer = new HTMLTokenizer(stream);
 		
@@ -44,7 +45,7 @@ void HTMLParser::Init(){
 		path = "";
 	}
 	catch (CS240Exception &e) {
-		std::cout << "HTMLParser: Exception Occurred:" << e.GetMessage() << std::endl;
+		std::cout << "here HTMLParser: Exception Occurred:" << e.GetMessage() << std::endl;
 		path = "";
 	}
 	catch (...) {
@@ -59,10 +60,11 @@ void HTMLParser::Init(){
 HTMLParser::HTMLParser(WordIndex * w,
 					   URLQueue * q,
 					   PageIndex * i,
-					   URLFilter *f): 
+					   URLFilter *f): path(""),
 					   words(w),urlQueue(q),pageIndex(i),filter(f),
 						stream(NULL),tokenizer(NULL){
-	Init();
+							pagesParsed = 0;
+							Init();
 }
 
 //!  Copy constructor.  Makes a complete copy of its argument
@@ -97,10 +99,11 @@ bool HTMLParser::Parse(){
 			throw CS240Exception("There is no URL loaded into the HTMLParser");
 		//Handle redirections (Find out where we redirected to)
 		path = stream->GetLocation();
-		std::cout << "=======================================" << std::endl;
-		std::cout << "Actual Location: " << path << std::endl;
+		//std::cout << "=======================================" << std::endl;
+		//std::cout << "Actual Location: " << path << std::endl;
 		//This is where the actual parsing beings
 		
+		pagesParsed++;
 		if (CheckHTML()) {
 #ifdef DEBUG
 			std::cout << "This is HTML, index it\n";
@@ -111,6 +114,7 @@ bool HTMLParser::Parse(){
 			std::cout << "This is NOT HTML, so dont index it\n";
 #endif
 		}
+		std::cout << pagesParsed<<" Parsing URL: "<< path << std::endl;
 		delete stream;
 		delete tokenizer;
 		
