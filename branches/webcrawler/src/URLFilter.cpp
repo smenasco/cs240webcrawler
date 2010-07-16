@@ -96,7 +96,8 @@ bool URLFilter::IsInScope(const std::string & testurl){
 	assert(scope.length()> 0);
 	//std::cout << "Scope length: " << scope.length()<< std::endl;
 	for (unsigned int i = 0; i < scope.length(); i++ ){
-		//std::cout << "scope["<<i<<"]: "<< scope[i] << "\ntesturl["<< i << "]: " << testurl[i] << std::endl;
+		//std::cout << "scope["<<i<<"]: "<< scope[i] << std::endl;
+		//std::cout << "testurl["<< i << "]: " << testurl[i] << std::endl;
 		if (scope[i] != testurl[i])
 			return false;
 	}

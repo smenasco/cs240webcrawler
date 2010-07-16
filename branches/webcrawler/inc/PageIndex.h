@@ -32,7 +32,8 @@ class PageNode {
 public:
 	
 	//!  Constructor
-	PageNode(const std::string & v, const std::string & d) : url(v),description(d),  left(NULL), right(NULL) {
+	PageNode(const std::string & v, const std::string & d) : 
+			 url(v),description(d),  left(NULL), right(NULL) {
 	}
 	
 	//!  Read-only public methods for use by clients of the PageIndex class
