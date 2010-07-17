@@ -60,7 +60,7 @@ obj/testdriver.o : src/testdriver.cpp inc/testdriver.h $(INC_FILES)
 	
 ##########---------BUILD THE SOURCE FILES############	
 
-obj/URLFilter.o : src/URLFilter.cpp inc/URLFilter.h inc/URL.h
+obj/URLFilter.o : src/URLFilter.cpp inc/URLFilter.h inc/URL.h $(LIB_INC)/UnitTest.h
 	g++ -Wall -g  -c -o obj/URLFilter.o -I inc -I $(LIB_INC) src/URLFilter.cpp
 	
 obj/WebCrawler.o : src/WebCrawler.cpp $(INC_FILES)

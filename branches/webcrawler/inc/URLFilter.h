@@ -11,7 +11,7 @@
 #include <string>
 #include <iostream>
 #include <cassert>
-
+#include "UnitTest.h"
 //#define DEBUG
 
 class URLFilter{
@@ -32,6 +32,9 @@ private:
 	
 public:
 
+	
+	//  Method used for unit testing
+	static bool Test(std::ostream & os);
 	
 	//!  Constructor.  Creates a new URLFilter with a scope.
 	URLFilter(const std::string & origURL);
@@ -60,6 +63,8 @@ public:
 	//! 
 	//! @return TRUE if holds else return FALSE
 	bool IsHTML(const std::string & testurl);
+	
+	bool CheckSuffix(const std::string & suffix);
 	
 	//! Checks if the URL it is handed is in scope
 	//! Ignore any links on pages that move outside the prefix of the scope. 
