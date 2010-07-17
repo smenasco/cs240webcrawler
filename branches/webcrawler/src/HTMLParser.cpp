@@ -534,7 +534,10 @@ void HTMLParser::ParseText(const HTMLToken & t ){
 
 const std::string HTMLParser::GetWord(std::string & phrase){
 	std::string word = "";
-	while (isalpha(phrase[curPos]) || isdigit(phrase[curPos]) || phrase[curPos] == '-' || phrase[curPos] == '_' ){
+	while (isalpha(phrase[curPos]) || 
+		   isdigit(phrase[curPos]) || 
+		   phrase[curPos] == '-'   || 
+		   phrase[curPos] == '_' ){
 		word += phrase[curPos];
 		curPos++;
 	}
