@@ -8,41 +8,31 @@
  *  Copyright 2010 Samuel Menasco. All rights reserved.
  *
  */ 
-
+#include "CS240Exception.h"
+#include "UnitTest.h"
+#include <iostream>
+#include <fstream>
 #include <string>
+
 class StopWords{
-	
-private:
-	int count;	//number of stopwords to iterate through when searching for words
-	//Array [] words //dynamically allocated array of strings
-	
-	
 public: 
-	//!  No-arg constructor.  Initializes an empty StopWords
-	StopWords();
+	//  Method used for unit testing
+	static bool Test(std::ostream & os);
+	
 	
 	//!  Constructor with a url that needs resolved
 	//!
 	//!  @param filelocation string containing the location of the file to load
 	StopWords(const std::string & filelocation);
 	
-	//!  Copy constructor.  Makes a complete copy of its argument
-	StopWords(const StopWords & other);
-	
 	
 	//!  Destructor
 	~StopWords();
 	
-	
-	//! Assignment operator.  Makes a complete copy of its argument
-	//! @return A reference to oneself
-	StopWords& operator =(const StopWords & other);
-	
-	
 	//! Load the stopwords file into dynamically sized array
 	//!
 	//! @param file the filename to look for in the current working directory to be loaded into array
-	void Load(const std::string & file);
+	void Load(const std::string & filelocation);
 	
 	//! Find string in Array of StopWords
 	//! Implements a binary search through an array
@@ -51,7 +41,13 @@ public:
 	//! @return return TRUE if word was found, else return FALSE
 	bool IsStopWord(const std::string & word);
 	
+private:
+	int count;	//number of stopwords to iterate through when searching for words
+	int MAX;	//the max number of words before we need to grow the array
+	std::string * words;  // an array of words on the heap
 	
+	//Array [] words //dynamically allocated array of strings
+	void AddWord(const std::string & word);	
 	
 };
 

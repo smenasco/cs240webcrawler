@@ -6,11 +6,18 @@
 using namespace std;
 
 int main(int argc, char * argv[]){
+	
+/*	if (argc !=2){
+		cout << "USAGE: testdriver <stopwords-file>\n";
+		return -1
+	}
+	string swfilename = argv[1]
+*/	
 	bool success = true;
 	
 	if (!URL::Test(cout)) success = false;
 	if (!URLFilter::Test(cout)) success = false;
-	//if (!Command::Test(cout)) success = false;
+	if (!StopWords::Test(cout)) success = false;
 	//if (!MakeFileParser::Test(cout)) success = false;
 	//if (!DependencyGraph::Test(cout)) success = false;
 	

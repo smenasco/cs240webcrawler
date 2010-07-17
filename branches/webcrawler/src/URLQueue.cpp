@@ -8,7 +8,7 @@
  */
 
 #include "URLQueue.h"
-#include <string>
+
 
 //! Constructor
 //!
