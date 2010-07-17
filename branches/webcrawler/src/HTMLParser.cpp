@@ -321,6 +321,7 @@ void HTMLParser::ParseBody(){
 #ifdef DEBUG
 			std::cout << "Found Heading: " << tokenval<< std::endl;
 #endif
+			
 			description = "";
 			ParseHeading(token);
 		}
@@ -351,7 +352,8 @@ void HTMLParser::ParseHeading(const HTMLToken & t){
 #endif
 			ParseScript();
 		} else if (type == TEXT){
-			SetDescription(token);
+			if (!foundDescription)
+				SetDescription(token);
 			foundDescription = true;
 		} else if (tokenval == "html" && type == TAG_END){
 #ifdef DEBUG			

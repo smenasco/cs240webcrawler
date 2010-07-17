@@ -12,22 +12,6 @@
 #include <string>
 
 
-
-//! Delete URLFilter from memory
-void URLFilter::Free(){
-	
-}
-
-//! Called from constructor, copy constructor, and assignment operator
-void URLFilter::Init(const URLFilter & other){
-	
-}
-
-
-
-
-
-
 //!  Constructor.  Creates a new URLFilter with a scope.
 URLFilter::URLFilter(const std::string & origURL){
 	SetScope(origURL);
@@ -45,23 +29,11 @@ void URLFilter::SetScope(const std::string & origURL){
 #endif
 }
 
-//!  Copy constructor.  Makes a complete copy of its argument
-URLFilter::URLFilter(const URLFilter & other){
-	
-}
-
-
 //!  Destructor
 URLFilter::~URLFilter(){
 	
 }
 
-
-//! Assignment operator.  Makes a complete copy of its argument
-//! @return A reference to oneself
-URLFilter& URLFilter::operator =(const URLFilter & other){
-	
-}
 
 //! Checks to see if the URL is one of the following:
 //!1. The <path> part of the URL is a directory name 
@@ -89,7 +61,7 @@ bool URLFilter::CheckSuffix(const std::string & s){
 	//we are going to get something that looks like "index.html"
 	//so we dont really have a true suffix yet. still need to find the period.
 	int pos = s.find ('.');
-	if (pos == std::string::npos) //if there was no extention then its HTML
+	if (pos == (int)std::string::npos) //if there was no extention then its HTML
 		return true;
 	
 	std::string suffix = s.substr(pos+1,std::string::npos);

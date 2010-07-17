@@ -13,7 +13,7 @@
 #include <string>
 #include <iostream>
 
-#define DEBUG
+//#define DEBUG
 //!  OccurrenceNode implements a binary search tree node
 class OccurrenceNode {
 	friend class OccurrenceSet;   //!< OccurrenceSet can access private members of OccurrenceNode
@@ -21,7 +21,7 @@ class OccurrenceNode {
 public:
 	
 	//!  Constructor
-	OccurrenceNode(const std::string & v) : value(v),count(1), left(NULL), right(NULL) {
+	OccurrenceNode(const std::string & v) : visted(false),value(v),count(1), left(NULL), right(NULL) {
 	}
 	
 	//!  Read-only public methods for use by clients of the OccurrenceSet class
@@ -34,23 +34,22 @@ public:
 		return count;
 	}
 	
-	const OccurrenceNode * GetLeft() const {
-		return left;
-	}
-	
 	OccurrenceNode * GetLeft()	{
 		return left;
-	}
-	
-	const OccurrenceNode * GetRight() const {
-		return right;
 	}
 	
 	OccurrenceNode * GetRight() {
 		return right;
 	}
+	bool IsVisited(){
+		return visted;
+	}
+	void Visit(){
+		visted = true;
+	}
 	
 private:
+	bool visted;
 	std::string value;		  //!< url value stored in the node
 	int count;			      //!< the number of times the word appears on the url
 	OccurrenceNode * left;     //!< pointer to the node's left child

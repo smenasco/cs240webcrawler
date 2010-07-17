@@ -13,11 +13,6 @@
 
 
 
-//! Delete URL from memory
-void URL::Free(){
-		
-}
-
 //! Initialize a new URL
 void URL::Init(const std::string & base, const std::string & rel){
 	//check if needs resolved else just set fullurl to rel;
@@ -42,23 +37,6 @@ URL::URL(const std::string & base, const std::string & rel){
 	StripURL();
 }
 
-//!  Copy constructor.  Makes a complete copy of its argument
-URL::URL(const URL & other){
-	
-}
-
-
-//!  Destructor
-URL::~URL(){
-	Free();
-}
-
-
-//! Assignment operator.  Makes a complete copy of its argument
-//! @return A reference to oneself
-URL& URL::operator =(const URL & other){
-	
-}
 
 //! Return full resolved URL
 const std::string & URL::GetURL() const {

@@ -22,7 +22,7 @@ public:
 	
 	//!  Constructor
 	//!  @param v the value to set the WordNode to at initialization 
-	WordNode(const std::string & v,const std::string & url) : value(v), left(NULL), right(NULL) {
+	WordNode(const std::string & v,const std::string & url) :visted(false), value(v), left(NULL), right(NULL) {
 		set = new OccurrenceSet();
 		set->Insert(url);
 	}
@@ -37,10 +37,6 @@ public:
 		return value;
 	}
 	
-	const WordNode * GetLeft() const {
-		return left;
-	}
-	
 	WordNode * GetLeft()	{
 		return left;
 	}
@@ -49,19 +45,18 @@ public:
 		return set;
 	}
 	
-	const OccurrenceSet * GetSet() const {
-		return set;
-	}
-	
-	const WordNode * GetRight() const {
-		return right;
-	}
-	
 	WordNode * GetRight() {
 		return right;
 	}
+	bool IsVisited(){
+		return visted;
+	}
+	void Visit(){
+		visted = true;
+	}
 	
 private:
+	bool visted;
 	std::string value;		//!< url value stored in the node
 	OccurrenceSet * set;	//!< the set of Occurences that each word maps to.
 	WordNode * left;		//!< pointer to the node's left child
