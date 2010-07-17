@@ -35,6 +35,8 @@ void PageIndex::Free(PageNode * n) {
 	delete n;
 	count = 0;
 }
+
+
 PageIndex::PageIndex() : count(0), root(0){
 	return;
 }

@@ -32,7 +32,7 @@ class PageNode {
 public:
 	
 	//!  Constructor
-	PageNode(const std::string & v, const std::string & d) : 
+	PageNode(const std::string & v, const std::string & d) : visted(false),
 			 url(v),description(d),  left(NULL), right(NULL) {
 	}
 	
@@ -40,24 +40,26 @@ public:
 	const std::string & GetValue() const {
 		return url;
 	}
-	
-	const PageNode * GetLeft() const {
-		return left;
+	const std::string & GetDescription() const {
+		return description;
 	}
 	
 	PageNode * GetLeft()	{
 		return left;
 	}
 	
-	const PageNode * GetRight() const {
-		return right;
-	}
-	
 	PageNode * GetRight() {
 		return right;
 	}
+	bool IsVisited(){
+		return visted;
+	}
+	void Visit(){
+		visted = true;
+	}
 	
 private:
+	bool visted;
 	std::string url;			//!< value stored in the node
 	std::string description;	//!< string containing the description of the Page
 	PageNode * left;			//!< pointer to the node's left child
@@ -79,7 +81,6 @@ public:
 	
 	//!  No-arg constructor.  Initializes an empty PageIndex
 	PageIndex();
-	
 	
 	//!  Copy constructor.  Makes a complete copy of its argument
 	PageIndex(const PageIndex & other);

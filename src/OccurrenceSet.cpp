@@ -78,7 +78,7 @@ void OccurrenceSet::InsertAgain(OccurrenceNode * n, const std::string & v) {
 	
 	if (v == n->value){
 		n->count++;
-		
+		return;
 	}
 	if (v > n->value){
 		if (n->right == NULL) {

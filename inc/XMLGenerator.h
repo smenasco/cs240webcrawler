@@ -9,17 +9,49 @@
  *
  */ 
 
-#include <string>
-#include "URL.h"
 #include "PageIndex.h"
 #include "WordIndex.h"
+#include "OccurrenceSet.h"
+#include "StringUtil.h"
+//!To use this method when writing XML to output
+//!@return A copy of str in which each character in str which are considered
+//!an XML special character (&,<,>,',") will be converted to an XML entity( & -> &amp;amp;).
+//!std::string EncodeToXmlCopy (const std::string & str);
+
+#include <string>
+#include <iostream>
+#include <fstream>
 
 class XMLGenerator{
+	
+public:
+	
+	//!  Constructor.  Initializes an empty XMLGenerator using the filename from the commandline
+	//!  @param outputFile where to write output to on the commandline
+	//!  @param startURL the url to be printed between the <start-url> tags
+	//!  @param PageIndex the index of web pages that needs to be iterated over and printed
+	//!  @param wordIndex the index of words that needs to be iterated over and printed
+	XMLGenerator(const std::string & o,
+				 const std::string & u,
+				 PageIndex * p,
+				 WordIndex * w);
+	
+	
+	//!  Destructor
+	~XMLGenerator();
+	
+	
+	
+	//! The caller function to begin writing all of the XML to an outputFile
+	//!
+	//! @throws FileException when there is an error writing to a file
+	void WriteXML();
 private: 
 	std::string outputFile;
-	URL * startURL;
+	std::string startURL;
 	PageIndex * pageIndex;
 	WordIndex * wordIndex;
+	std::ofstream output;
 	//The following are methods called from WriteXML() 
 	//They are private and as such are not known to the users.  So there.
 	
@@ -57,7 +89,7 @@ private:
 		page,
 		url,
 		index,
-		dessciption,
+		description,
 		occurrence,
 		count,
 		word,
@@ -66,7 +98,7 @@ private:
 	
 	//!  Prints a specified number of tabs to standard out;
 	//!  @param n number of tabs to print
-	void PrintTab(int n);
+	std::string PrintTab(int n);
 	
 	//!  Writes a formatted xml tag of specified type to standard out
 	//!  Example:
@@ -77,7 +109,7 @@ private:
 	//!  <website>
 	//!
 	//!  @param type the XML tag to be printed 
-	void WriteStartTag(XMLTagType type);
+	std::string WriteStartTag(XMLTagType type);
 	
 	
 	//!  Writes a formatted xml tag of specified type to standard out
@@ -89,7 +121,7 @@ private:
 	//!  </website>
 	//!
 	//!  @param type the XML tag to be printed 
-	void WriteEndTag(XMLTagType type);
+	std::string WriteEndTag(XMLTagType type);
 	
 	
 	//!  Prints each page parent and its children tags to standard out
@@ -106,47 +138,21 @@ private:
 	
 	//!  Iterates over the PageIndex, Index of successfully indexed pages
 	//!  and calls WritePage() on each page
-	void IteratePages();
+	void IteratePages(PageNode * n);
 	
 	
 	//!  Iterates over the WordIndex of successfully indexed words
 	//!  and prints each word parent and its children tags to standard out
 	//!  calls IterateOccurrences to print Occurrences
-	void IterateWords();
+	void IterateWords(WordNode * n);
 	
 	//!  Iterates over the Occurences of a particular word
 	//!  and calls WriteOccurence() on each Occurrence prints each 
 	//!  occurrence parent tag and its children tags to standard out
-	void IterateOccurrences();
+	void IterateOccurrences(OccurrenceNode * n);
 	
-public:
+	std::string XMLTagToString(XMLTagType type);
 	
-	//!  Constructor.  Initializes an empty XMLGenerator using the filename from the commandline
-	//!  @param outputFile where to write output to on the commandline
-	//!  @param startURL the url to be printed between the <start-url> tags
-	//!  @param PageIndex the index of web pages that needs to be iterated over and printed
-	//!  @param wordIndex the index of words that needs to be iterated over and printed
-	XMLGenerator(const std::string & outputFile,
-				 const std::string & startURL,
-				 PageIndex * pageIndex,
-				 WordIndex * wordIndex);
-	
-	//!  Copy constructor.  Makes a complete copy of its argument
-	XMLGenerator(const XMLGenerator & other);
-	
-	
-	//!  Destructor
-	~XMLGenerator();
-	
-	//! Assignment operator.  Makes a complete copy of its argument
-	//! @return A reference to oneself
-	XMLGenerator& operator =(const XMLGenerator & other);
-	
-	
-	//! The caller function to begin writing all of the XML to an outputFile
-	//!
-	//! @throws FileException when there is an error writing to a file
-	void WriteXML();
 };
 
 

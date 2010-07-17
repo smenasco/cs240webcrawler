@@ -84,7 +84,7 @@ obj/URLQueue.o : src/URLQueue.cpp inc/URLQueue.h
 obj/StopWords.o : src/StopWords.cpp inc/StopWords.h $(LIB_INC)/CS240Exception.h $(LIB_INC)/UnitTest.h
 	g++ -Wall -g  -c -o obj/StopWords.o -I inc -I $(LIB_INC) src/StopWords.cpp	
 	
-obj/XMLGenerator.o : src/XMLGenerator.cpp inc/XMLGenerator.h $(LIB_INC)/StringUtil.h inc/URL.h inc/PageIndex.h inc/WordIndex.h
+obj/XMLGenerator.o : src/XMLGenerator.cpp inc/XMLGenerator.h $(LIB_INC)/StringUtil.h inc/PageIndex.h inc/WordIndex.h inc/OccurrenceSet.h
 	g++ -Wall -g  -c -o obj/XMLGenerator.o -I inc -I $(LIB_INC) src/XMLGenerator.cpp	
 	
 obj/HTMLParser.o : src/HTMLParser.cpp inc/HTMLParser.h $(LIB_INC)/HTMLTokenizer.h $(LIB_INC)/InputStream.h $(LIB_INC)/URLInputStream.h $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h inc/WordIndex.h inc/URLQueue.h inc/PageIndex.h inc/URLFilter.h inc/URL.h

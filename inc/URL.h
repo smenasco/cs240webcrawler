@@ -28,18 +28,7 @@ public:
 	//!  @param rel the part of the URL to be resolved into the base
 	URL(const std::string & base, const std::string & rel);
 	
-	//!  Copy constructor.  Makes a complete copy of its argument
-	URL(const URL & other);
-	
-	
-	//!  Destructor
-	~URL();
-	
-	
-	//! Assignment operator.  Makes a complete copy of its argument
-	//! @return A reference to oneself
-	URL& operator =(const URL & other);
-	
+
 	//! Return string containing full url
 	const std::string & GetURL() const;
 	

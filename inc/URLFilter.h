@@ -20,12 +20,6 @@ private:
 	std::string url;
 	std::string scope;
 	
-	//! Delete URLFilter from memory
-	void Free();
-	
-	//! Called from constructor, copy constructor, and assignment operator
-	void Init(const URLFilter & other);
-	
 	//! Sets the scope of the current filter
 	//! @param origURL  the url to parse the scope from
 	void SetScope(const std::string & origURL);
@@ -39,16 +33,9 @@ public:
 	//!  Constructor.  Creates a new URLFilter with a scope.
 	URLFilter(const std::string & origURL);
 	
-	//!  Copy constructor.  Makes a complete copy of its argument
-	URLFilter(const URLFilter & other);
-	
 	
 	//!  Destructor
 	~URLFilter();
-	
-	//! Assignment operator.  Makes a complete copy of its argument
-	//! @return A reference to oneself
-	URLFilter& operator =(const URLFilter & other);
 	
 	//! Checks to see if the URL is one of the following:
 	//!1. The <path> part of the URL is a directory name 
