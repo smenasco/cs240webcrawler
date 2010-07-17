@@ -105,6 +105,8 @@ private:
 	void SetDescription(const HTMLToken & t);
 	void SetDescriptionBody(const HTMLToken & t);
 	
+	const std::string GetWord(std::string & phrase);
+	int curPos;
 	//! Called from constructor, copy constructor, and assignment operator
 	void Init();
 	
