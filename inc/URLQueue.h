@@ -10,7 +10,8 @@
  */
 
 
-
+#include "UnitTest.h"
+#include <iostream>
 #include <string>
 
 class URLNode {

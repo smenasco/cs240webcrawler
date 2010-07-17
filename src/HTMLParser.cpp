@@ -449,7 +449,7 @@ void HTMLParser::ParseHREF(const HTMLToken & t ){
 		}
 		delete u;
 		
-		//call FilterURL to see if needs to be added  to URLQueue;
+		
 	}
 	return;
 }
