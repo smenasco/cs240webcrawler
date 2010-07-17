@@ -149,8 +149,8 @@ const std::string & URLFilter::GetScope() const {
 bool URLFilter::Test(std::ostream & os) {
 	bool success = true;
 	
-	//1
-	URLFilter filter("http://www.cnn.com/pages/index.html"); //this sets the current scope
+	//Initialize a filter with the scope: http://www.cnn.com/pages/index.html
+	URLFilter filter("http://www.cnn.com/pages/index.html");
 	//Tests IsHTML Method
 	TEST( filter.IsHTML("http://www.cnn.com/"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.html"));
@@ -164,6 +164,7 @@ bool URLFilter::Test(std::ostream & os) {
 	TEST( filter.IsHTML("http://www.cnn.com/index.pl"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.cfm"));
 	TEST(!filter.IsHTML("http://www.cnn.com/index.mp3"));
+	TEST(!filter.IsHTML("http://www.cnn.com/index.aspf"));
 	//Tests IsInScope Method
 	TEST( filter.IsInScope("http://www.cnn.com/pages/index.mp3"));
 	TEST(!filter.IsInScope("file://www.cnn.com/pages/index.mp3"));
