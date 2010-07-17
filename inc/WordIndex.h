@@ -22,7 +22,8 @@ public:
 	
 	//!  Constructor
 	//!  @param v the value to set the WordNode to at initialization 
-	WordNode(const std::string & v,const std::string & url) :visted(false), value(v), left(NULL), right(NULL) {
+	WordNode(const std::string & v,const std::string & url) 
+	:visted(false), value(v), left(NULL), right(NULL) {
 		set = new OccurrenceSet();
 		set->Insert(url);
 	}
