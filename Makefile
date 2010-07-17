@@ -130,4 +130,4 @@ clean:
 	- rm -f bin/*
 	- rm -f obj/*
 	- rm -f lib/*
-	- @rm -rf build
+	- rm -f output.xml
