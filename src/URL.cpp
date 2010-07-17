@@ -260,6 +260,8 @@ bool URL::Test(std::ostream & os) {
 	//28
 	url.Init( "file:///news;lang=english/financial;lang=english/index.html;lang=english","./images;lang=english/nasdaq.jpg"); 
 	TEST(url.GetURL() == "file:///news;lang=english/financial;lang=english/images;lang=english/nasdaq.jpg");
-	
+	//29
+	url.Init( "http://www.cnn.com",""); 
+	TEST(url.GetURL() == "http://www.cnn.com/");
 	return success;
 }

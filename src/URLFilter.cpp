@@ -12,6 +12,7 @@
 #include <string>
 
 
+
 //! Delete URLFilter from memory
 void URLFilter::Free(){
 	
@@ -75,9 +76,43 @@ URLFilter& URLFilter::operator =(const URLFilter & other){
 //! 
 //! @return TRUE if holds else return FALSE
 bool URLFilter::IsHTML(const std::string & testurl){
-	return true;
+	if (testurl[(testurl.length()-1)]=='/')
+		return true;
+	int pos = testurl.rfind ('/');
+	std::string suffix =testurl.substr(pos+1,std::string::npos);
+
+	return CheckSuffix(suffix);
 }
 
+
+bool URLFilter::CheckSuffix(const std::string & s){
+	//we are going to get something that looks like "index.html"
+	//so we dont really have a true suffix yet. still need to find the period.
+	int pos = s.find ('.');
+	if (pos == std::string::npos) //if there was no extention then its HTML
+		return true;
+	
+	std::string suffix = s.substr(pos+1,std::string::npos);
+	//std::cout << "suffix: " << suffix << std::endl;
+	std::string  testcases[10];
+	testcases[0] = "html";
+	testcases[1] = "htm";
+	testcases[2] = "shtml";
+	testcases[3] = "cgi";
+	testcases[4] = "jsp";
+	testcases[5] = "asp";
+	testcases[6] = "aspx";
+	testcases[7] = "php";
+	testcases[8] = "pl";
+	testcases[9] = "cfm";
+	for (int i = 0; i < 10;i++){
+		if (suffix == testcases[i])
+			return true;
+	}
+	return false;
+
+	
+}
 //! Checks if the URL it is handed is in scope
 //! Ignore any links on pages that move outside the prefix of the scope. 
 //!	The prefix of the scope is everything in the URL before the page name. 
@@ -109,4 +144,32 @@ bool URLFilter::IsInScope(const std::string & testurl){
 
 const std::string & URLFilter::GetScope() const {
 	return scope;
+}
+
+bool URLFilter::Test(std::ostream & os) {
+	bool success = true;
+	
+	//1
+	URLFilter filter("http://www.cnn.com/pages/index.html"); //this sets the current scope
+	//Tests IsHTML Method
+	TEST( filter.IsHTML("http://www.cnn.com/"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.html"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.htm"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.shtml"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.cgi"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.jsp"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.asp"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.aspx"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.php"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.pl"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.cfm"));
+	TEST(!filter.IsHTML("http://www.cnn.com/index.mp3"));
+	//Tests IsInScope Method
+	TEST( filter.IsInScope("http://www.cnn.com/pages/index.mp3"));
+	TEST(!filter.IsInScope("file://www.cnn.com/pages/index.mp3"));
+	TEST(!filter.IsInScope("http://www.cnn.com/index.mp3"));
+	TEST( filter.IsInScope("http://www.cnn.com/pages/music/themesong.mp3"));
+	TEST( filter.IsInScope("http://www.cnn.com/pages/music/themesong.mp3"));
+	
+	return success;
 }
