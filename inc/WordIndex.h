@@ -22,8 +22,9 @@ public:
 	
 	//!  Constructor
 	//!  @param v the value to set the WordNode to at initialization 
-	WordNode(const std::string & v) : value(v), left(NULL), right(NULL) {
+	WordNode(const std::string & v,const std::string & url) : value(v), left(NULL), right(NULL) {
 		set = new OccurrenceSet();
+		set->Insert(url);
 	}
 	
 	//!  Destructor
@@ -77,17 +78,8 @@ public:
 	//!  Constructor.  Initializes an empty WordIndex with a pointer to StopWords
 	WordIndex(StopWords	* sw);
 	
-	//!  Copy constructor.  Makes a complete copy of its argument
-	WordIndex(const WordIndex & other);
-	
-	
 	//!  Destructor
 	~WordIndex();
-	
-	
-	//!  Assignment operator.  Makes a complete copy of its argument
-	//!  @return Reference to oneself
-	WordIndex& operator =(const WordIndex & other);
 	
 	
 	//!  @return a pointer to the root node of the tree, or NULL if the tree is empty.
@@ -106,16 +98,6 @@ public:
 	//!  @return the number of values in the WordIndex
 	int GetSize() const;
 	
-	
-	//!  Inserts value a word after into the WordIndex
-	//!  
-	//!  @param v The new value being inserted
-	//!
-	//!  @return a pointer to the newly inserted node or the node 
-	//!   that currently has its word so you can add an occurence to the wordnode->OccurenceSet
-	WordNode * Insert(const std::string & v);
-	
-	
 	//!  Searches the tree for value v
 	//!  
 	//!  @param v The new value being searched for
@@ -133,12 +115,20 @@ public:
 	//!
 	//!  @return true if v was removed from the tree, or false if v was not in the tree
 	//bool Remove(const std::string & v);
+	
+	//!  Inserts value a word after into the WordIndex
+	//!  
+	//!  @param v The new value being inserted
+	//!
+	//!  @return a pointer to the newly inserted node or the node 
+	//!   that currently has its word so you can add an occurence to the wordnode->OccurenceSet
+	void Insert(const std::string & v,const std::string & url);
+	
 private:
 	int count;
 	WordNode * root;
 	StopWords * stopWords;		//! pointer to the StopWordsFile
-	void InInsert(WordNode * n);
-	WordNode * InsertAgain(WordNode * n, const std::string & v);
+	void InsertAgain(WordNode * n, const std::string & v,const std::string & url);
 	WordNode * FindAgain(WordNode * n,const std::string & v) const;
 	void Free(WordNode * n);	
 	

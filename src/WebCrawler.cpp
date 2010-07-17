@@ -69,7 +69,7 @@ void WebCrawler::Crawl(){
 	StopWords * stopWords = new StopWords(stopwordsFileName);
 	WordIndex * words = new WordIndex(stopWords);
 	PageIndex * pageIndex = new PageIndex();
-	URLFilter * filter = new URLFilter(startURL);
+	URLFilter * filter = new URLFilter(startURL); //sets overall parsing scope to startURL
 
 	HTMLParser * parser = new HTMLParser(words,urlQueue,pageIndex,filter);
 	std::string curURL;

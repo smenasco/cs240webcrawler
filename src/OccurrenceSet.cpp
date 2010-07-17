@@ -8,20 +8,9 @@
  */
 
 #include "OccurrenceSet.h"
-#include <string>
 
 
-//! Initialize a new OccurrenceSet from ref & other
-void OccurrenceSet::InInsert(OccurrenceNode * n){
-	if (n == NULL) {
-		return;
-	} 
-	Insert(n->value);
-	if(n->left != NULL)
-		InInsert(n->left);
-	if(n->right != NULL)
-		InInsert(n->right);
-}
+
 //! call delete on all the elements in the OccurrenceSet
 void OccurrenceSet::Free(OccurrenceNode * n) {
 	if (n == NULL) 
@@ -38,31 +27,9 @@ OccurrenceSet::OccurrenceSet() : count(0), root(0){
 }
 
 
-//!  Copy constructor.  Makes a complete copy of its argument
-OccurrenceSet::OccurrenceSet(const OccurrenceSet & other){
-	root = 0;
-	count = 0;
-	OccurrenceNode * n = other.root;
-	InInsert(n);
-}
-
 //!  Destructor
 OccurrenceSet::~OccurrenceSet() {
 	Free(root);
-}
-
-
-//!  Assignment operator.  Makes a complete copy of its argument
-//!  @return Reference to oneself
-OccurrenceSet& OccurrenceSet::operator =(const OccurrenceSet & other){
-	if (this != &other) {
-		OccurrenceNode * n = other.root;
-		Free(root);
-		root=NULL;
-		count=0;
-		InInsert(n);
-	}
-	return *this;
 }
 
 
@@ -103,39 +70,41 @@ int OccurrenceSet::GetSize() const {
 //!          in the tree (i.e., NULL is used to indicate a duplicate insertion)
 
 
-OccurrenceNode * OccurrenceSet::InsertAgain(OccurrenceNode * n, const std::string & v) {
+void OccurrenceSet::InsertAgain(OccurrenceNode * n, const std::string & v) {
 	if (n == NULL) {
 		n = new OccurrenceNode(v);
-		return n;
+		return;
 	}
 	
-	if (v == n->value)
-		return NULL;
+	if (v == n->value){
+		n->count++;
+		
+	}
 	if (v > n->value){
 		if (n->right == NULL) {
 			n->right = new OccurrenceNode(v);
 			count++;
-			return n->right;
+			return;
 		} else
-			return InsertAgain(n->right,v);
+			InsertAgain(n->right,v);
 		
 	} else {
 		if (n->left == NULL){
 			n->left = new OccurrenceNode(v);
 			count++;
-			return n->left;
+			return;
 		} else
-			return InsertAgain(n->left,v);
+			InsertAgain(n->left,v);
 	}
 }
 
-OccurrenceNode * OccurrenceSet::Insert(const std::string & v) {
+void OccurrenceSet::Insert(const std::string & v) {
 	if (root == NULL) {
 		root = new OccurrenceNode(v);
 		count++;
-		return root;
+		return;
 	}
-	return InsertAgain(root,v);
+	InsertAgain(root,v);
 }
 
 

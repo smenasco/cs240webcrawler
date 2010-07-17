@@ -11,8 +11,9 @@
  */
 
 #include <string>
+#include <iostream>
 
-
+#define DEBUG
 //!  OccurrenceNode implements a binary search tree node
 class OccurrenceNode {
 	friend class OccurrenceSet;   //!< OccurrenceSet can access private members of OccurrenceNode
@@ -20,7 +21,7 @@ class OccurrenceNode {
 public:
 	
 	//!  Constructor
-	OccurrenceNode(const std::string & v) : value(v), left(NULL), right(NULL) {
+	OccurrenceNode(const std::string & v) : value(v),count(1), left(NULL), right(NULL) {
 	}
 	
 	//!  Read-only public methods for use by clients of the OccurrenceSet class
@@ -59,31 +60,14 @@ private:
 
 //!  OccurrenceSet implements a binary search tree
 class OccurrenceSet {
-private:
-	int count;
-	OccurrenceNode * root;
-	
-	void InInsert(OccurrenceNode * n);
-	OccurrenceNode * InsertAgain(OccurrenceNode * n, const std::string & v);
-	OccurrenceNode * FindAgain(OccurrenceNode * n,const std::string & v) const;
-	void Free(OccurrenceNode * n);
+
 public:
 	
 	//!  No-arg constructor.  Initializes an empty OccurrenceSet
 	OccurrenceSet();
 	
-	
-	//!  Copy constructor.  Makes a complete copy of its argument
-	OccurrenceSet(const OccurrenceSet & other);
-	
-	
 	//!  Destructor
 	~OccurrenceSet();
-	
-	
-	//!  Assignment operator.  Makes a complete copy of its argument
-	//!  @return Reference to oneself
-	OccurrenceSet& operator =(const OccurrenceSet & other);
 	
 	
 	//!  @return a pointer to the root node of the tree, or NULL if the tree is empty.
@@ -109,7 +93,7 @@ public:
 	//!
 	//!  @return a pointer to the newly inserted node, or NULL if v was already
 	//!          in the tree (i.e., NULL is used to indicate a duplicate insertion)
-	OccurrenceNode * Insert(const std::string & v);
+	void Insert(const std::string & v);
 	
 	
 	//!  Searches the tree for value v
@@ -130,7 +114,14 @@ public:
 	//!  @return true if v was removed from the tree, or false if v was not in the tree
 	//bool Remove(const std::string & v);
 	
+private:
+	int count;
+	OccurrenceNode * root;
 	
+
+	void InsertAgain(OccurrenceNode * n, const std::string & v);
+	OccurrenceNode * FindAgain(OccurrenceNode * n,const std::string & v) const;
+	void Free(OccurrenceNode * n);	
 };
 
 

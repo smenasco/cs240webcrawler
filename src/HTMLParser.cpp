@@ -485,9 +485,56 @@ void HTMLParser::ParseText(const HTMLToken & t ){
 	//case-insensitive after words have been filtered as "words" then check them against 
 	//stopwords file after they are filtered futher, add the remaining to the wordindex 
 	//using path.
+	
+	/*htmlparse will:
+	 break strings into words
+	 
+	 The following characters are word characters
+	 
+	 alphabetic	characters
+	 numeric characters
+	 underscore (_)
+	 dash (-)
+	 
+	 words must start with alphabetic char
+	 
+	 
+	 */
+
 	if (!tokenval.empty()){
 #ifdef DEBUG
 		std::cout << "Found Text: " << tokenval << std::endl; 
 #endif
+		curPos = 0;
+		while (curPos < (int)tokenval.length()){
+			while(!(isalpha(tokenval[curPos]) || 
+				   isdigit(tokenval[curPos]) || 
+				   tokenval[curPos] == '-' || 
+				   tokenval[curPos] == '_' ) 
+				  && curPos < (int)tokenval.length()){
+				curPos++;
+			}
+			std::string word = GetWord(tokenval);	
+			if (!word.empty() && isalpha(word[0])){
+#ifdef DEBUG
+				std::cout << "Word: " << word << std::endl;
+#endif
+				word = StringUtil::ToLowerCopy(word);
+				words->Insert(word,path);
+			}
+		}
+
+		
+		curPos = 0;
 	}
+
+}
+
+const std::string HTMLParser::GetWord(std::string & phrase){
+	std::string word = "";
+	while (isalpha(phrase[curPos]) || isdigit(phrase[curPos]) || phrase[curPos] == '-' || phrase[curPos] == '_' ){
+		word += phrase[curPos];
+		curPos++;
+	}
+	return word;
 }

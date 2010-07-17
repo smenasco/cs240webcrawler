@@ -11,17 +11,6 @@
 #include <string>
 
 
-//! Initialize a new WordIndex from ref & other
-void WordIndex::InInsert(WordNode * n){
-	if (n == NULL) {
-		return;
-	} 
-	Insert(n->value);
-	if(n->left != NULL)
-		InInsert(n->left);
-	if(n->right != NULL)
-		InInsert(n->right);
-}
 //! call delete on all the elements in the WordIndex
 void WordIndex::Free(WordNode * n) {
 	if (n == NULL) 
@@ -39,33 +28,10 @@ WordIndex::WordIndex(StopWords	* sw) : count(0), root(0), stopWords(sw){
 	
 }
 
-//!  Copy constructor.  Makes a complete copy of its argument
-WordIndex::WordIndex(const WordIndex & other){
-	root = 0;
-	count = 0;
-	WordNode * n = other.root;
-	InInsert(n);
-}
-
 //!  Destructor
 WordIndex::~WordIndex() {
 	Free(root);
 }
-
-
-//!  Assignment operator.  Makes a complete copy of its argument
-//!  @return Reference to oneself
-WordIndex& WordIndex::operator =(const WordIndex & other){
-	if (this != &other) {
-		WordNode * n = other.root;
-		Free(root);
-		root=NULL;
-		count=0;
-		InInsert(n);
-	}
-	return *this;
-}
-
 
 //!  @return a pointer to the root node of the tree, or NULL if the tree is empty.
 //!  @note This is useful for WordIndex clients that need to traverse the tree.)
@@ -104,44 +70,47 @@ int WordIndex::GetSize() const {
 //!          in the tree (i.e., NULL is used to indicate a duplicate insertion)
 
 
-WordNode * WordIndex::InsertAgain(WordNode * n, const std::string & v) {
+void WordIndex::InsertAgain(WordNode * n, const std::string & v,const std::string & url) {
 	if (n == NULL) {
-		n = new WordNode(v);
-		return n;
+		n = new WordNode(v,url);
+		return;
 	}
 	
 	if (v == n->value){
 		//add an Occurence of this word 
+		n->set->Insert(url);
 		
-		
-		return n;
+		return;
 	}
 		
 	if (v > n->value){
 		if (n->right == NULL) {
-			n->right = new WordNode(v);
+			n->right = new WordNode(v,url);
 			count++;
-			return n->right;
+			return;
 		} else
-			return InsertAgain(n->right,v);
+			InsertAgain(n->right,v,url);
 		
 	} else {
 		if (n->left == NULL){
-			n->left = new WordNode(v);
+			n->left = new WordNode(v,url);
 			count++;
-			return n->left;
+			return;
 		} else
-			return InsertAgain(n->left,v);
+			InsertAgain(n->left,v,url);
 	}
 }
 
-WordNode * WordIndex::Insert(const std::string & v) {
-	if (root == NULL) {
-		root = new WordNode(v);
-		count++;
-		return root;
+void WordIndex::Insert(const std::string & v,const std::string & url) {
+	if (stopWords->IsStopWord(v)){
+		return;
 	}
-	return InsertAgain(root,v);
+	if (root == NULL) {
+		root = new WordNode(v,url);
+		count++;
+		return;
+	}
+	InsertAgain(root,v,url);
 }
 
 
