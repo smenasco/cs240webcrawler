@@ -110,7 +110,7 @@ void WebCrawler::Crawl(){
 												 words);
 		output->WriteXML();
 		
-		
+		std::cout << "Created file: \"" << outputFileName << "\"\n";
 		//clean things up
 		delete filter;
 		delete urlQueue;
