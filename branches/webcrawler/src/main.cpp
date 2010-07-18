@@ -8,7 +8,7 @@
 
 
 int main(int argc, char * argv[]){
-	assert(argc ==4);
+	//assert(argc ==4);
 	if (argc != 4) {
 		std::cout << "USAGE: webcrawler <start-url> <output-file> <stopwords-file>\n";
 	}

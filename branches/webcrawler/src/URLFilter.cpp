@@ -20,7 +20,7 @@ URLFilter::URLFilter(const std::string & origURL){
 //! Sets the scope of the current filter
 //! @param origURL  the url to parse the scope from
 void URLFilter::SetScope(const std::string & origURL){
-	assert(!origURL.empty());
+	//assert(!origURL.empty());
 	scope = "";
 	int pos = origURL.rfind ('/');
 	scope += origURL.substr(0,pos+1);
@@ -102,7 +102,7 @@ bool URLFilter::CheckSuffix(const std::string & s){
 //!
 //! @return TRUE if testURL is in scope else @return FALSEbool URLFilter::IsInScope(URL * testurl){
 bool URLFilter::IsInScope(const std::string & testurl){
-	assert(scope.length()> 0);
+	//assert(scope.length()> 0);
 	//std::cout << "Scope length: " << scope.length()<< std::endl;
 	for (unsigned int i = 0; i < scope.length(); i++ ){
 		//std::cout << "scope["<<i<<"]: "<< scope[i] << std::endl;
