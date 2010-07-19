@@ -1,4 +1,4 @@
-####------Webcrawler's Makefile---------####ci
+####------Webcrawler's Makefile---------#######
 
 BIN_FILE = bin/webcrawler
 
@@ -58,7 +58,7 @@ bin/testdriver : lib $(LIB_FILE) obj/testdriver.o $(OBJ_FILES)
 obj/testdriver.o : src/testdriver.cpp inc/testdriver.h $(INC_FILES) 
 	g++ -Wall -g  -c -o obj/testdriver.o -I inc -I $(LIB_INC) src/testdriver.cpp
 	
-##########---------BUILD THE SOURCE FILES############	
+##########---------BUILD THE SOURCE FILES-----------############	
 
 obj/URLFilter.o : src/URLFilter.cpp inc/URLFilter.h inc/URL.h $(LIB_INC)/UnitTest.h
 	g++ -Wall -g  -c -o obj/URLFilter.o -I inc -I $(LIB_INC) src/URLFilter.cpp
