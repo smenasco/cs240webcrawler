@@ -45,9 +45,9 @@ const std::string & URL::GetURL() const {
 
 //! Strips the uselessness of some links we may receive
 void URL::StripURL(){
-	int pos = fullurl.find('?');
-	fullurl = fullurl.substr(0,pos);
-	pos =  fullurl.find('#');
+	//int pos = fullurl.find('?');
+	//fullurl = fullurl.substr(0,pos);
+	int pos =  fullurl.find('#');
 	fullurl = fullurl.substr(0,pos);
 }
 

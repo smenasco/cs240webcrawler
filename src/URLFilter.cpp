@@ -52,7 +52,8 @@ bool URLFilter::IsHTML(const std::string & testurl){
 		return true;
 	int pos = testurl.rfind ('/');
 	std::string suffix =testurl.substr(pos+1,std::string::npos);
-
+	pos = suffix.find('?');
+	suffix = suffix.substr(0,pos);
 	return CheckSuffix(suffix);
 }
 
@@ -104,10 +105,40 @@ bool URLFilter::CheckSuffix(const std::string & s){
 bool URLFilter::IsInScope(const std::string & testurl){
 	//assert(scope.length()> 0);
 	//std::cout << "Scope length: " << scope.length()<< std::endl;
-	for (unsigned int i = 0; i < scope.length(); i++ ){
+	std::string url = testurl;
+	int pos = 0;
+	int slashes = 0;
+	
+	for (int i = 0; i < (int)scope.length(); i++){
+		if (scope[i] == '/'){
+			slashes++;
+		}
+		if (slashes == 3){
+			pos = i;
+			break;
+		}
+			
+	}
+	std::string newscope="";
+	std::string newurl="";
+	for (int i = 0; i < (int) scope.length();i++){
+		if(i<pos)
+			newscope+=tolower(scope[i]);
+		else
+			newscope+=scope[i];
+	}
+	for (int i = 0; i < (int) url.length();i++){
+		if(i<pos)
+			newurl+=tolower(url[i]);
+		else
+			newurl+=url[i];
+	}
+	//std::cout << "Scope: " << scope << std::endl;
+	//std::cout << "newScope: " << newscope << std::endl;
+	for (unsigned int i = 0; i < newscope.length(); i++ ){
 		//std::cout << "scope["<<i<<"]: "<< scope[i] << std::endl;
 		//std::cout << "testurl["<< i << "]: " << testurl[i] << std::endl;
-		if (scope[i] != testurl[i])
+		if (newscope[i] != newurl[i])
 			return false;
 	}
 	return true;
@@ -122,7 +153,7 @@ bool URLFilter::Test(std::ostream & os) {
 	bool success = true;
 	
 	//Initialize a filter with the scope: http://www.cnn.com/pages/index.html
-	URLFilter filter("http://www.cnn.com/pages/index.html");
+	URLFilter filter("http://wWw.cNN.com/pages/index.html");
 	//Tests IsHTML Method
 	TEST( filter.IsHTML("http://www.cnn.com/"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.html"));
@@ -130,17 +161,17 @@ bool URLFilter::Test(std::ostream & os) {
 	TEST( filter.IsHTML("http://www.cnn.com/index.shtml"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.cgi"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.jsp"));
-	TEST( filter.IsHTML("http://www.cnn.com/index.asp"));
+	TEST( filter.IsHTML("http://www.cnn.com/index.asp?query=tortise"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.aspx"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.php"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.pl"));
 	TEST( filter.IsHTML("http://www.cnn.com/index.cfm"));
-	TEST(!filter.IsHTML("http://www.cnn.com/index.mp3"));
+	TEST(!filter.IsHTML("http://www.cnn.com/index.mp3?query=tourtise"));
 	TEST(!filter.IsHTML("http://www.cnn.com/index.aspf"));
 	//Tests IsInScope Method
-	TEST( filter.IsInScope("http://www.cnn.com/pages/index.mp3"));
+	TEST( filter.IsInScope("http://www.cnn.cOm/pages/index.mp3"));
 	TEST(!filter.IsInScope("file://www.cnn.com/pages/index.mp3"));
-	TEST(!filter.IsInScope("http://www.cnn.com/index.mp3"));
+	TEST( filter.IsInScope("http://wWW.cnn.com/pages/index.mp3"));
 	TEST( filter.IsInScope("http://www.cnn.com/pages/music/themesong.mp3"));
 	TEST( filter.IsInScope("http://www.cnn.com/pages/music/themesong.mp3"));
 	
