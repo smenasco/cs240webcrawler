@@ -218,7 +218,7 @@ std::string XMLGenerator::XMLTagToString(XMLTagType type){
 			s+="website";
 			break;
 		case start_url:
-			s+="start_url";
+			s+="start-url";
 			break;
 		case pages:
 			s+="pages";
