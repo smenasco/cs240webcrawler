@@ -354,6 +354,8 @@ void HTMLParser::ParseHeading(const HTMLToken & t){
 		} else if (type == TEXT){
 			if (!foundDescription)
 				SetDescription(token);
+			else 
+				ParseText(token);
 			foundDescription = true;
 		} else if (tokenval == "html" && type == TAG_END){
 #ifdef DEBUG			
@@ -377,7 +379,7 @@ void HTMLParser::SetDescriptionBody(const HTMLToken & t ){
 	string tokenval = token.GetValue();
 	int i =0;
 	
-	while (count != 99 && i < (int)tokenval.length()) {
+	while (count != 100 && i < (int)tokenval.length()) {
 		description = description + tokenval[i];
 		if (isgraph(tokenval[i])){
 			//checks to see if it is a prinitable char that is not whitespace
@@ -414,7 +416,7 @@ void HTMLParser::ParseHREF(const HTMLToken & t ){
 #endif
 		
 		URLFilter * f = new URLFilter(path);
-		if (token.GetAttribute("href")[0] == '#' || token.GetAttribute("href")[0] == '?'){
+		if (token.GetAttribute("href")[0] == '#'){
 #ifdef DEBUG
 			std::cout << "Ignoring HREF: " << token.GetAttribute("href") << std::endl;
 #endif
