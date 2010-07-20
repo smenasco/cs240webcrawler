@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------
-# Generic Variables
+# Generic Variables 
 # -----------------------------------------------------------------------------
 CC = g++
 GTKMM = gtkmm-2.4
@@ -90,7 +90,7 @@ clean:
 # File Construction
 # -----------------------------------------------------------------------------
 $(EXE_NAME): $(EXE_OBJ_FILES)  $(LIBRARY)
-	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES) $(LIBRARY) 
+	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES) -L/usr/X11/lib $(LIBRARY) 
 	
 $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/main.o $(SRC_FOLDER)/main.cpp
