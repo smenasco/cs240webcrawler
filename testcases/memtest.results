@@ -1,0 +1,14 @@
+==9595== Memcheck, a memory error detector.
+==9595== Copyright (C) 2002-2008, and GNU GPL'd, by Julian Seward et al.
+==9595== Using LibVEX rev 1884, a library for dynamic binary translation.
+==9595== Copyright (C) 2004-2008, and GNU GPL'd, by OpenWorks LLP.
+==9595== Using valgrind-3.4.1, a dynamic binary instrumentation framework.
+==9595== Copyright (C) 2000-2008, and GNU GPL'd, by Julian Seward et al.
+==9595== For more details, rerun with: -v
+==9595== 
+==9595== 
+==9595== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 2)
+==9595== malloc/free: in use at exit: 0 bytes in 0 blocks.
+==9595== malloc/free: 41,718 allocs, 41,718 frees, 1,866,048 bytes allocated.
+==9595== For counts of detected errors, rerun with: -v
+==9595== All heap blocks were freed -- no leaks are possible.
