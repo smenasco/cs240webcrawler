@@ -14,12 +14,12 @@ CFLAGS = `pkg-config $(GTKMM) $(SIGC) $(LIBGLADE) --cflags`  -I$(IMAGES_FOLDER)
 
 #LIBS are the paths to the static libraries for GTKMM, SIGC, and LIBGLADE needed
 #for linking
-LIBS = `pkg-config $(GTKMM) $(SIGC) $(LIBGLADE) --libs`
+LIBS = `pkg-config $(GTKMM) $(SIGC) $(LIBGLADE) --libs` -L/usr/X11/lib
 
 #LIB_FLAGS D_LOG_DOMAIN is used by g_log in the ChessGui library to seperate logging messages from the library
 # from logging messages from the students code
 #IMPORTANT: You must add a compiler option here for the library to be dynamic
-LIB_FLAGS = -DG_LOG_DOMAIN=\"ChessGui\" -fPIC
+LIB_FLAGS = -shared -DG_LOG_DOMAIN=\"ChessGui\" -fPIC
 
 # -----------------------------------------------------------------------------
 # Folder Variables
@@ -41,7 +41,7 @@ BIN_FOLDER = bin
 # File Name Variables
 # -----------------------------------------------------------------------------
 #change this to a dynamic library name
-LIBRARY= $(VIEW_FOLDER)/cs240.a
+LIBRARY= $(VIEW_FOLDER)/libcs240.so
 EXE_NAME = $(BIN_FOLDER)/chess
 
 LIB_OBJ_FILES = $(VIEW_OBJ_FOLDER)/Chess.o $(VIEW_OBJ_FOLDER)/ChessGui.o \
@@ -90,7 +90,7 @@ clean:
 # File Construction
 # -----------------------------------------------------------------------------
 $(EXE_NAME): $(EXE_OBJ_FILES)  $(LIBRARY)
-	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES) -L/usr/X11/lib $(LIBRARY) 
+	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES)  $(LIBRARY) 
 	
 $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/main.o $(SRC_FOLDER)/main.cpp
@@ -116,7 +116,7 @@ $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp
 #This is currently a STATIC library, you must change it to a DYNAMIC library
 #You must also add a compiler option to the variable LIB_FLAGS in order for the library to be dynamic
 $(LIBRARY): $(LIB_OBJ_FILES) 
-	ar rcs $(LIBRARY) $(LIB_OBJ_FILES)
+	$(CC) $(FLAGS) $(LIB_FLAGS) $(CFLAGS) $(LIBS) -o $(LIBRARY) $(LIB_OBJ_FILES)
 
 	
 ########DO NOT DELETE###########################################################################################3
