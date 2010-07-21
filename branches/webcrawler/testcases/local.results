@@ -1,0 +1,17 @@
+Duplicate Pages Crawled Test:PASSED
+Internal Pages Test:PASSED
+Invalid Pages Test:PASSED
+Extraneous Pages Test:PASSED
+Duplicate Words Test:PASSED
+Indexed Words Test:PASSED
+Filtered Words Test:PASSED
+Extraneous Words Test:PASSED
+Expected Descriptions Test:PASSED
+Duplicate Count Test:PASSED
+Extra Word Counts Tests:PASSED
+Missing Word Counts Test:PASSED
+
+Warnings:	0
+Failed:		0
+***PASSED****
+
