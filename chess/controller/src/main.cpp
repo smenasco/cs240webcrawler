@@ -8,7 +8,7 @@
 #include <glib.h>
 #include "ChessGuiImages.h"
 #include "Chess.h"
-
+#include "Controller.h"
 #include <iostream>
 using namespace std;
 
@@ -72,14 +72,15 @@ int main(int argc,char ** argv)
 		///Create your instance of the ChessController interface here and connect it to
 		///the game object using the SetView method.  Don't forget to connect the game
 		///object to your ChessController object using the SetController method.
-		
-		
+		ChessController * myController = new Controller();
+		myController->SetView(&game);
+		game.SetController(myController);
 		
 		
 		
 		///run game
 		game.run(myapp);
-
+		delete myController;
 	}
 	catch(std::exception & e)
 	{

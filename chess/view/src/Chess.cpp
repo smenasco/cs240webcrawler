@@ -1,5 +1,5 @@
 // Author: Owen Merkling,,, <omerkling@gmail.com>, (C) 2008
-// Contributor:  Students Name
+// Contributor:  Samuel Menasco
 //
 // Copyright: For use by the students of CS 240 at BYU
 //

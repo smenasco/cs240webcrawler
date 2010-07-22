@@ -6,7 +6,7 @@ GTKMM = gtkmm-2.4
 SIGC = sigc++-2.0
 LIBGLADE = libglademm-2.4
 
-FLAGS = -I$(INC_FOLDER) -I$(VIEW_INC_FOLDER) -Wall -g -fPIC
+FLAGS = -I$(INC_FOLDER) -I$(GAME_INC_FOLDER) -I$(VIEW_INC_FOLDER) -Wall -g -fPIC
 
 #CFLAGS are the -I values needed to compile files using the GTKMM, SIGC, and
 #LIBGLADE libraries
@@ -35,6 +35,12 @@ SRC_FOLDER = $(CONTROLLER_FOLDER)/src
 INC_FOLDER = $(CONTROLLER_FOLDER)/inc
 OBJ_FOLDER = $(CONTROLLER_FOLDER)/obj
 
+GAME_FOLDER = game
+GAME_SRC_FOLDER = $(GAME_FOLDER)/src
+GAME_INC_FOLDER = $(GAME_FOLDER)/inc
+GAME_OBJ_FOLDER = $(GAME_FOLDER)/obj
+
+
 BIN_FOLDER = bin
 
 # -----------------------------------------------------------------------------
@@ -48,8 +54,9 @@ LIB_OBJ_FILES = $(VIEW_OBJ_FOLDER)/Chess.o $(VIEW_OBJ_FOLDER)/ChessGui.o \
 		$(VIEW_OBJ_FOLDER)/ChessGuiBoard.o $(VIEW_OBJ_FOLDER)/ChessGuiBoardCell.o \
 		$(VIEW_OBJ_FOLDER)/ChessGuiImages.o $(VIEW_OBJ_FOLDER)/SelectDialog.o
 		
-EXE_OBJ_FILES = $(OBJ_FOLDER)/main.o
-
+EXE_OBJ_FILES = $(OBJ_FOLDER)/main.o $(OBJ_FOLDER)/Controller.o $(GAME_OBJ_FOLDER)/ChessPiece.o \
+		$(GAME_OBJ_FOLDER)/Bishop.o $(GAME_OBJ_FOLDER)/Rook.o $(GAME_OBJ_FOLDER)/Queen.o \
+		$(GAME_OBJ_FOLDER)/King.o $(GAME_OBJ_FOLDER)/Pawn.o $(GAME_OBJ_FOLDER)/Knight.o
 
 # -----------------------------------------------------------------------------
 # Command Variables
@@ -92,19 +99,36 @@ clean:
 $(EXE_NAME): $(EXE_OBJ_FILES)  $(LIBRARY)
 	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES)  $(LIBRARY) 
 	
-$(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp
+$(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/main.o $(SRC_FOLDER)/main.cpp
 	
 	
 # Students: Place your makefile commands here
 
+$(OBJ_FOLDER)/Controller.o: $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h $(INC_FOLDER)/ChessController.h $(INC_FOLDER)/ChessView.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/Controller.o $(SRC_FOLDER)/Controller.cpp
 
+$(GAME_OBJ_FOLDER)/ChessPiece.o: $(GAME_SRC_FOLDER)/ChessPiece.cpp $(GAME_INC_FOLDER)/ChessPiece.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/ChessPiece.o $(GAME_SRC_FOLDER)/ChessPiece.cpp
 
+$(GAME_OBJ_FOLDER)/Bishop.o: $(GAME_SRC_FOLDER)/Bishop.cpp $(GAME_INC_FOLDER)/Bishop.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Bishop.o $(GAME_SRC_FOLDER)/Bishop.cpp
 
+$(GAME_OBJ_FOLDER)/King.o: $(GAME_SRC_FOLDER)/King.cpp $(GAME_INC_FOLDER)/King.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/King.o $(GAME_SRC_FOLDER)/King.cpp
 
+$(GAME_OBJ_FOLDER)/Knight.o: $(GAME_SRC_FOLDER)/Knight.cpp $(GAME_INC_FOLDER)/Knight.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Knight.o $(GAME_SRC_FOLDER)/Knight.cpp
 
+$(GAME_OBJ_FOLDER)/Pawn.o: $(GAME_SRC_FOLDER)/Pawn.cpp $(GAME_INC_FOLDER)/Pawn.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Pawn.o $(GAME_SRC_FOLDER)/Pawn.cpp
 
+$(GAME_OBJ_FOLDER)/Queen.o: $(GAME_SRC_FOLDER)/Queen.cpp $(GAME_INC_FOLDER)/Queen.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Queen.o $(GAME_SRC_FOLDER)/Queen.cpp
 
+$(GAME_OBJ_FOLDER)/Rook.o: $(GAME_SRC_FOLDER)/Rook.cpp $(GAME_INC_FOLDER)/Rook.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Rook.o $(GAME_SRC_FOLDER)/Rook.cpp
+	
 
 
 # Students: Place your makefile commands here

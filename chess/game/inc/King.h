@@ -1,0 +1,25 @@
+#ifndef KING_H
+#define KING_H/*
+ *  King.h
+ *  project2
+ *
+ *  Created by Sam on 7/22/10.
+ *  Copyright 2010 Samuel Menasco. All rights reserved.
+ *
+ */
+#include <set>
+#include "Square.h"
+#include "GameBoard.h"
+#include "GameInfo.h"
+
+
+
+class King : public ChessPiece {
+public:
+	King(ChessColor color);
+	
+	~King();
+	
+	std::set<Square>  GetCandidateMoves(GameBoard * board, Square * s);
+};
+#endif
