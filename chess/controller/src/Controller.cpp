@@ -13,7 +13,7 @@
 //! No arg Constructor
 Controller::Controller(){
 	view = NULL;
-	board = NULL;
+	//board = new GameBoard();
 	movingPiece = NULL;
 }
 
@@ -28,6 +28,7 @@ void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
 	//init new GameBoard
 	board = new GameBoard();
+	//board->Reset();
 	RefreshDisplay();
 	
 }
