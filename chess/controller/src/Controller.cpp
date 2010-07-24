@@ -32,14 +32,14 @@ void Controller::Init(){
 	}
 	movingPiece = NULL;
 	movingSquare = NULL;
+	validMoves.clear();
 }
 
 void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
 	Init();
 	board->Reset();
-	movingPiece = NULL;
-	movingSquare = NULL;
+
 	RefreshDisplay();
 	
 }
@@ -111,11 +111,12 @@ void Controller::on_CellSelected(int row, int col, int button){
 	 (1 for left, 2 for middle, 3 for right).
 	 You do not need to worry about wich button was used to complete the project.
 	 */
-	if (movingSquare == NULL) {
+	if (movingSquare == NULL && movingPiece == NULL) {
 		validMoves.clear();
 		movingSquare = board->GetSquare(row,col);
 		movingPiece = board->GetSquare(row,col)->GetPiece();
 		if (movingPiece != NULL){
+			//need to check if its your turn and  piece is your team
 			view->HighlightSquare(row, col,GREEN_SQUARE);
 			validMoves = movingPiece->GetCandidateMoves(board,BoardPosition(row,col));
 			HighlightValidMoves(row,col);
@@ -124,9 +125,23 @@ void Controller::on_CellSelected(int row, int col, int button){
 				movingPiece->Move();
 		}
 			
-	}else{
+	} else if (movingSquare != NULL && movingPiece != NULL){
+		Square * s = board->GetSquare(row,col);
+		
+		
+		set<BoardPosition>::iterator it;
+		BoardPosition bp(row,col);			//check to see if the suggested
+		it=validMoves.find(bp);				//move is valid
+		if (it != validMoves.end()){
+			movingPiece = movingSquare->MovePiece();
+			movingPiece->SetBoardPosition(row,col);
+			s->SetPiece(movingPiece);
+			//need to push move to the move history here
+			RefreshDisplay();
+		}  
 		Init();
-	}
+	} else 
+		Init();
 		
 		
 	
