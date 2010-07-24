@@ -19,7 +19,7 @@ Bishop::~Bishop(){
 	
 }
 
-set<BoardPosition> Bishop::GetCandidateMoves(GameBoard * board, BoardPosition pos){
-	set<BoardPosition> validMoves;
+const set<BoardPosition> & Bishop::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	
 	return validMoves;
 }

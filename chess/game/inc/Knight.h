@@ -21,6 +21,6 @@ public:
 	
 	~Knight();
 	
-	std::set<BoardPosition>  GetCandidateMoves(GameBoard * board, BoardPosition pos);
+	const std::set<BoardPosition> &  GetCandidateMoves(GameBoard * board, BoardPosition pos);
 };
 #endif

@@ -14,11 +14,17 @@ public:
 	BoardPosition();
 	BoardPosition(int row, int col);
 	~BoardPosition();
+	BoardPosition(const BoardPosition & other);
+	BoardPosition & operator =(const BoardPosition & other);
+	bool operator ==(const BoardPosition & other) const;
+	bool operator !=(const BoardPosition & other) const;
+	bool operator  <(const BoardPosition & other) const;
 	const int GetRow()const ;
 	const int GetColumn() const;
 	void SetRow(int r);
 	void SetCol(int c);
 private:
+	void Init(int row, int col);
 	int row;
 	int col;
 };

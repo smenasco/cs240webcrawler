@@ -53,9 +53,7 @@ bool Square::Taken(){
 }
 
 void Square::SetPiece(ChessPiece * cp){
-	
 		piece = cp;
-		
 }
 
 ChessPiece * Square::GetPiece(){

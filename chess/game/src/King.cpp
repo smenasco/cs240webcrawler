@@ -19,7 +19,6 @@ King::~King(){
 	
 }
 
-set<BoardPosition> King::GetCandidateMoves(GameBoard * board, BoardPosition pos){
-	set<BoardPosition> validMoves;
+const set<BoardPosition> & King::GetCandidateMoves(GameBoard * board, BoardPosition pos){
 	return validMoves;
 }

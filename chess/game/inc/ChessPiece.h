@@ -18,14 +18,18 @@ class Square;
 class ChessPiece {
 public:
 	ChessPiece(PieceColor color, PieceType type);
+	~ChessPiece();
 	const PieceColor GetColor() const;
 	const PieceType GetType() const;
-	
-	virtual std::set<BoardPosition>  GetCandidateMoves(GameBoard * board, BoardPosition pos) = 0;
+	void SetBoardPosition(int row,int col);
+	const BoardPosition & GetBoardPosition() const;
+	virtual const std::set<BoardPosition> & GetCandidateMoves(GameBoard * board, BoardPosition pos) = 0;
 	
 protected:
+	std::set<BoardPosition> validMoves;
 	PieceColor color;
 	PieceType type;
+	BoardPosition pos;
 };
 
 

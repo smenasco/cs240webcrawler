@@ -19,7 +19,7 @@ Knight::~Knight(){
 	
 }
 
-set<BoardPosition> Knight::GetCandidateMoves(GameBoard * board, BoardPosition pos){
-	set<BoardPosition> validMoves;
+const set<BoardPosition> & Knight::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	
 	return validMoves;
 }

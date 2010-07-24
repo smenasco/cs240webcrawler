@@ -20,7 +20,6 @@ public:
 	Square * GetSquare(int row, int col);
 	void Reset();
 private:
-	bool firstTime;
 	Square * squares[32];
 	std::vector< std::vector<Square*> > board;
 	void Init();

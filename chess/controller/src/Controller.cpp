@@ -13,12 +13,12 @@
 //! No arg Constructor
 Controller::Controller(){
 	view = NULL;
-	//board = new GameBoard();
+	board = new GameBoard();
 	movingPiece = NULL;
 }
 
 //! Destructor
-//!  Maher-shalal-hash-baz 
+//! Maher-shalal-hash-baz 
 Controller::~Controller(){
 	
 }
@@ -26,9 +26,7 @@ Controller::~Controller(){
 
 void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
-	//init new GameBoard
-	board = new GameBoard();
-	//board->Reset();
+	board->Reset();
 	RefreshDisplay();
 	
 }
@@ -139,8 +137,9 @@ bool Controller::on_DragEnd(int row,int col){
 		
 	}
 	RefreshDisplay();
-	//by convention, this should return a boolean value indicating if the drag was accepted or not.
 	movingPiece = NULL;
+	
+	//by convention, this should return a boolean value indicating if the drag was accepted or not.
 	return true;
 }
 

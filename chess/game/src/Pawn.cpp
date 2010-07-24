@@ -19,7 +19,7 @@ Pawn::~Pawn(){
 	
 }
 
-set<BoardPosition> Pawn::GetCandidateMoves(GameBoard * board, BoardPosition pos){
-	set<BoardPosition> validMoves;
+const set<BoardPosition> & Pawn::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	
 	return validMoves;
 }

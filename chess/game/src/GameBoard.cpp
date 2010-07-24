@@ -14,10 +14,8 @@ using namespace std;
 
 GameBoard::GameBoard(){
 	for (int i = 0;i<32;i++){
-		squares[i] = NULL;
+		squares[i] = NULL;  //initialize squares[32] to NULL
 	}
-	firstTime = true;
-	Init();
 }
 
 void GameBoard::Reset(){
@@ -28,18 +26,17 @@ void GameBoard::Reset(){
 void GameBoard::Clear(){
 	for (int i =0; i < 32;i++){
 		if (squares[i] != NULL){
-			delete squares[i];
+			delete squares[i]; //clean up memory of squares
 		}
 		
 	}
-	if (!firstTime){
-		for (int i = 0; i < 8;i++)  {
-			for (int j = 0; j < 8; j++ ){
-				board[i][j] = NULL;
-			}
-		}
+	
+	vector< vector<Square*> >::iterator it;
+	for(it=board.begin(); it!=board.end(); it++)	{
+		(*it).erase((*it).begin(), (*it).end());  //clear columns
 	}
-	firstTime = false;
+	
+	board.erase(board.begin(),board.end()); //clear rows
 }
 
 void GameBoard::Init(){

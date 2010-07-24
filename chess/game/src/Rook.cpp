@@ -19,7 +19,7 @@ Rook::~Rook(){
 	
 }
 
-set<BoardPosition> Rook::GetCandidateMoves(GameBoard * board, BoardPosition pos){
-	set<BoardPosition> validMoves;
+const set<BoardPosition> & Rook::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	
 	return validMoves;
 }

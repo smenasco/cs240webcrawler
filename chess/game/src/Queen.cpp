@@ -19,7 +19,7 @@ Queen::~Queen(){
 	
 }
 
-set<BoardPosition> Queen::GetCandidateMoves(GameBoard * board, BoardPosition pos){
-	set<BoardPosition> validMoves;
+const set<BoardPosition> & Queen::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	
 	return validMoves;
 }
