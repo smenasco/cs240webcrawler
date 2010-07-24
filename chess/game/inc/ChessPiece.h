@@ -17,7 +17,7 @@ class Square;
 
 class ChessPiece {
 public:
-	ChessPiece(PieceColor color, PieceType type);
+	ChessPiece(int row, int col,PieceColor color, PieceType type);
 	~ChessPiece();
 	const PieceColor GetColor() const;
 	const PieceType GetType() const;
@@ -25,12 +25,15 @@ public:
 	const BoardPosition & GetBoardPosition() const;
 	virtual const std::set<BoardPosition> & GetCandidateMoves(GameBoard * board, BoardPosition pos) = 0;
 	void Move();
+	bool IsFirstMove();
 protected:
 	std::set<BoardPosition> validMoves;
+	BoardPosition pos;
 	PieceColor color;
 	PieceType type;
-	BoardPosition pos;
 	bool firstMove;
+	BoardPosition origpos;
+	
 };
 
 

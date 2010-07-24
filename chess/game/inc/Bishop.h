@@ -12,16 +12,22 @@
 #include "BoardPosition.h"
 #include "GameBoard.h"
 #include "GameInfo.h"
-
+class Square;
 
 
 class Bishop : public ChessPiece {
 public:
-	Bishop(PieceColor color);
+	Bishop(int row, int col, PieceColor color);
 	
 	~Bishop();
 	
 	const std::set<BoardPosition> & GetCandidateMoves(GameBoard * board, BoardPosition pos);
+private:
+	void IterateSouthWest(GameBoard * board,BoardPosition  pos);
+	void IterateSouthEast(GameBoard * board,BoardPosition  pos);
+	void IterateNorthWest(GameBoard * board,BoardPosition  pos);
+	void IterateNorthEast(GameBoard * board,BoardPosition  pos);
+	bool CheckForPieces(ChessPiece * p, Square * s, BoardPosition bp);
 };
 
 #endif

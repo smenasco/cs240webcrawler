@@ -11,15 +11,17 @@
 #include "BoardPosition.h"
 #include "GameBoard.h"
 #include "GameInfo.h"
-
+class Square;
 
 
 class King : public ChessPiece {
 public:
-	King(PieceColor color);
+	King(int row, int col, PieceColor color);
 	
 	~King();
 	
 	const std::set<BoardPosition> & GetCandidateMoves(GameBoard * board, BoardPosition pos);
+private:
+	void CheckForPieces(ChessPiece * p, Square * s, BoardPosition bp);
 };
 #endif

@@ -16,7 +16,7 @@ class Square;
 
 class Pawn : public ChessPiece {
 public:
-	Pawn(PieceColor color);
+	Pawn(int row, int col, PieceColor color);
 	~Pawn();
 	const std::set<BoardPosition> &  GetCandidateMoves(GameBoard * board, BoardPosition pos);
 

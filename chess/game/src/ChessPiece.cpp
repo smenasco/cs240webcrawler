@@ -13,15 +13,28 @@
 #include "ChessPiece.h"
 
 using namespace std;
-ChessPiece::ChessPiece(PieceColor color, PieceType type):color(color),type(type),firstMove(true){
-	
+ChessPiece::ChessPiece(int row, int col, PieceColor color, PieceType type)
+: pos(row,color),color(color),type(type),firstMove(true){
+	origpos = pos;
 }
 
 ChessPiece::~ChessPiece(){
 	validMoves.clear();
 }
 void ChessPiece::Move(){
-	firstMove = false;
+	
+}
+bool ChessPiece::IsFirstMove(){
+	if (!firstMove)
+		return false;
+	else {
+		if (origpos != pos){
+			firstMove = false;
+			return false;
+		} else
+			return true;
+	}
+		
 }
 
 void ChessPiece::SetBoardPosition(int row,int col){

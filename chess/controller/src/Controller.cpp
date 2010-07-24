@@ -176,7 +176,7 @@ bool Controller::on_DragEnd(int row,int col){
 	} else {
 		Square * s = board->GetSquare(row,col);
 		//ChessPiece * p = board->GetSquare(row,col)->GetPiece();
-		
+		movingPiece->SetBoardPosition(row,col);
 		s->SetPiece(movingPiece);
 		
 	}

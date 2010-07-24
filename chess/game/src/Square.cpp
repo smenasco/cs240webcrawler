@@ -17,22 +17,22 @@ Square::Square(int row, int col) : piece(NULL),pos(row,col) {
 Square::Square(	int row, int col, PieceColor color, PieceType type ):pos(row,col){
 	switch (type){
 		case PAWN:
-			piece = new Pawn(color);
+			piece = new Pawn(row,col,color);
 			break;
 		case ROOK:
-			piece = new Rook(color);
+			piece = new Rook(row,col,color);
 			break;
 		case KNIGHT:
-			piece = new Knight(color);
+			piece = new Knight(row,col,color);
 			break;
 		case BISHOP:
-			piece = new Bishop(color);
+			piece = new Bishop(row,col,color);
 			break;
 		case KING:
-			piece = new King(color);
+			piece = new King(row,col,color);
 			break;
 		case QUEEN:
-			piece = new Queen(color);
+			piece = new Queen(row,col,color);
 			break;
 	}
 	

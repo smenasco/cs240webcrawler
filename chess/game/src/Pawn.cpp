@@ -11,7 +11,7 @@
 #include "Square.h"
 using namespace std;
 
-Pawn::Pawn( PieceColor color): ChessPiece(color,PAWN){
+Pawn::Pawn( int row, int col, PieceColor color): ChessPiece(row,col,color,PAWN){
 	
 }
 
@@ -55,7 +55,7 @@ const set<BoardPosition> & Pawn::GetCandidateMoves(GameBoard * board, BoardPosit
 		at2 = dne;
 	
 	
-	if (firstMove){
+	if (IsFirstMove()){
 		if (mv1 == empty)
 			validMoves.insert(bpmv1);
 		if (mv1 == empty && mv2 == empty)
