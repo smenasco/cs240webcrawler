@@ -55,10 +55,10 @@ bool BoardPosition::operator<(const BoardPosition & other) const {
 		
 }
 
-const int BoardPosition::GetRow() const {
+int BoardPosition::GetRow() const {
 	return row;
 }
-const int BoardPosition::GetColumn() const {
+int BoardPosition::GetCol() const {
 	return col;
 }
 void BoardPosition::SetRow(int r){

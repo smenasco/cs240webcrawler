@@ -33,10 +33,10 @@ void GameBoard::Clear(){
 	
 	vector< vector<Square*> >::iterator it;
 	for(it=board.begin(); it!=board.end(); it++)	{
-		(*it).erase((*it).begin(), (*it).end());  //clear columns
+		(*it).clear();  //clear columns
 	}
+	board.clear(); //clear rows
 	
-	board.erase(board.begin(),board.end()); //clear rows
 }
 
 void GameBoard::Init(){
@@ -50,49 +50,49 @@ void GameBoard::Init(){
 				case 0:
 					switch(j){
 						case 0:
-							s =  new Square(BLACK,ROOK);
+							s =  new Square(i,j,BLACK,ROOK);
 							squares[count] = s;
 							count++;
 							board[i].push_back ( s );
 							break;
 						case 1:
-							s=  new Square(BLACK,KNIGHT);
+							s=  new Square(i,j,BLACK,KNIGHT);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 2:
-							s=  new Square(BLACK,BISHOP);
+							s=  new Square(i,j,BLACK,BISHOP);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 3:
-							s = new Square(BLACK,KING);
+							s = new Square(i,j,BLACK,KING);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 4:
-							s = new Square(BLACK,QUEEN);
+							s = new Square(i,j,BLACK,QUEEN);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 5:
-							s = new Square(BLACK,BISHOP);
+							s = new Square(i,j,BLACK,BISHOP);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 6:
-							s = new Square(BLACK,KNIGHT);
+							s = new Square(i,j,BLACK,KNIGHT);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 7:
-							s = new Square(BLACK,ROOK);
+							s = new Square(i,j,BLACK,ROOK);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
@@ -100,13 +100,13 @@ void GameBoard::Init(){
 					}
 					break;
 				case 1:
-					s = new Square(BLACK,PAWN);
+					s = new Square(i,j,BLACK,PAWN);
 					squares[count] = s;
 					board[i].push_back ( s );
 					count++;
 					break;
 				case 6:
-					s = new Square(WHITE,PAWN);
+					s = new Square(i,j,WHITE,PAWN);
 					squares[count] = s;
 					board[i].push_back ( s );
 					count++;
@@ -114,49 +114,49 @@ void GameBoard::Init(){
 				case 7:
 					switch(j){
 						case 0:
-							s = new Square(WHITE,ROOK);
+							s = new Square(i,j,WHITE,ROOK);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 1:
-							s = new Square(WHITE,KNIGHT);
+							s = new Square(i,j,WHITE,KNIGHT);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 2:
-							s = new Square(WHITE,BISHOP);
+							s = new Square(i,j,WHITE,BISHOP);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 3:
-							s = new Square(WHITE,KING);
+							s = new Square(i,j,WHITE,KING);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 4:
-							s = new Square(WHITE,QUEEN);
+							s = new Square(i,j,WHITE,QUEEN);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 5:
-							s = new Square(WHITE,BISHOP);
+							s = new Square(i,j,WHITE,BISHOP);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 6:
-							s = new Square(WHITE,KNIGHT);
+							s = new Square(i,j,WHITE,KNIGHT);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
 							break;
 						case 7:
-							s = new Square(WHITE,ROOK);
+							s = new Square(i,j,WHITE,ROOK);
 							squares[count] = s;
 							board[i].push_back ( s );
 							count++;
@@ -164,7 +164,7 @@ void GameBoard::Init(){
 					}
 					break;
 				default:
-					board[i].push_back ( new Square() );
+					board[i].push_back ( new Square(i,j) );
 					break;
 			}
 		}
@@ -173,5 +173,16 @@ void GameBoard::Init(){
 }
 
 Square * GameBoard::GetSquare(int row, int col){
-	return board[row][col];
+	if (row >=0 && row <8 && col >=0 && col <8  )
+		return board[row][col];
+	else
+		return NULL;
+}
+
+Square * GameBoard::GetSquare(BoardPosition pos){
+	if (pos.GetRow() >=0 && pos.GetRow() <8 &&
+		pos.GetCol() >=0 && pos.GetCol() <8  ){
+		return board[pos.GetRow()][pos.GetCol()];
+	} else
+		return NULL;
 }

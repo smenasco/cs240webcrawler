@@ -15,6 +15,8 @@
 #include "GameBoard.h"
 #include "Square.h"
 #include "ChessPiece.h"
+#include "BoardPosition.h"
+#include <set>;
 
 class Controller : public ChessController {
 public:
@@ -85,7 +87,11 @@ protected:
 	GameBoard * board;
 	ChessView * view;
 	ChessPiece * movingPiece;
+	Square * movingSquare;
+	std::set<BoardPosition> validMoves;
+	void HighlightValidMoves(int row, int col);
 	void NewGame();
+	void Init();
 	void ClearGame();
 	void RefreshDisplay();
 };

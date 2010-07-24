@@ -21,15 +21,18 @@
 
 class Square{
 public:
-	Square();
-	Square(PieceColor color, PieceType type);
+	Square(int row, int col);
+	Square(int row, int col,PieceColor color, PieceType type);
 	~Square();
 	bool Taken();
 	void SetPiece(ChessPiece * cp);
 	ChessPiece * GetPiece();
 	ChessPiece * MovePiece();
+	int GetRow();
+	int GetCol();
 private:
 	ChessPiece * piece;
+	BoardPosition pos;
 };
 
 #endif

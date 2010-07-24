@@ -9,8 +9,9 @@
  *
  */
 
-enum PieceColor{WHITE=0,BLACK=1};
+enum PieceColor{WHITE=-1,BLACK=1};
 enum ChessPlayer{PLAYER1=0,PLAYER2=1};
+enum Moves{taken=1,empty=0,dne=-1};
 enum PieceType{
 	PAWN=0,
 	ROOK=1,

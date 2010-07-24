@@ -24,12 +24,13 @@ public:
 	void SetBoardPosition(int row,int col);
 	const BoardPosition & GetBoardPosition() const;
 	virtual const std::set<BoardPosition> & GetCandidateMoves(GameBoard * board, BoardPosition pos) = 0;
-	
+	void Move();
 protected:
 	std::set<BoardPosition> validMoves;
 	PieceColor color;
 	PieceType type;
 	BoardPosition pos;
+	bool firstMove;
 };
 
 

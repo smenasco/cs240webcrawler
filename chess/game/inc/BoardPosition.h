@@ -19,8 +19,8 @@ public:
 	bool operator ==(const BoardPosition & other) const;
 	bool operator !=(const BoardPosition & other) const;
 	bool operator  <(const BoardPosition & other) const;
-	const int GetRow()const ;
-	const int GetColumn() const;
+	int GetRow()const ;
+	int GetCol() const;
 	void SetRow(int r);
 	void SetCol(int c);
 private:

@@ -18,6 +18,7 @@ public:
 	GameBoard();
 	~GameBoard();
 	Square * GetSquare(int row, int col);
+	Square * GetSquare(BoardPosition pos);
 	void Reset();
 private:
 	Square * squares[32];

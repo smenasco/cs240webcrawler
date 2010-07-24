@@ -11,15 +11,14 @@
 #include "BoardPosition.h"
 #include "GameBoard.h"
 #include "GameInfo.h"
-
+class Square;
 
 
 class Pawn : public ChessPiece {
 public:
 	Pawn(PieceColor color);
-	
 	~Pawn();
-	
 	const std::set<BoardPosition> &  GetCandidateMoves(GameBoard * board, BoardPosition pos);
+
 };
 #endif

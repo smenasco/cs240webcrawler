@@ -10,11 +10,12 @@
 #include "Controller.h"
 #include "ChessGuiDefines.h"
 #include "GameInfo.h"
+
+using namespace std;
 //! No arg Constructor
 Controller::Controller(){
 	view = NULL;
 	board = new GameBoard();
-	movingPiece = NULL;
 }
 
 //! Destructor
@@ -22,11 +23,23 @@ Controller::Controller(){
 Controller::~Controller(){
 	
 }
-
+void Controller::Init(){
+	
+	for (int i = 0; i < 8;i++){
+		for (int j=0;j < 8;j++){
+			view->UnHighlightSquare(i,j);
+		}
+	}
+	movingPiece = NULL;
+	movingSquare = NULL;
+}
 
 void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
+	Init();
 	board->Reset();
+	movingPiece = NULL;
+	movingSquare = NULL;
 	RefreshDisplay();
 	
 }
@@ -98,9 +111,39 @@ void Controller::on_CellSelected(int row, int col, int button){
 	 (1 for left, 2 for middle, 3 for right).
 	 You do not need to worry about wich button was used to complete the project.
 	 */
+	if (movingSquare == NULL) {
+		validMoves.clear();
+		movingSquare = board->GetSquare(row,col);
+		movingPiece = board->GetSquare(row,col)->GetPiece();
+		if (movingPiece != NULL){
+			view->HighlightSquare(row, col,GREEN_SQUARE);
+			validMoves = movingPiece->GetCandidateMoves(board,BoardPosition(row,col));
+			HighlightValidMoves(row,col);
+			PieceType type = movingPiece->GetType();
+			if (type == PAWN)
+				movingPiece->Move();
+		}
+			
+	}else{
+		Init();
+	}
+		
+		
+	
 	
 }
-
+void Controller::HighlightValidMoves(int row, int col){
+	view->HighlightSquare(row, col,GREEN_SQUARE); //highlight selected square
+	
+	//now highlight all valid moves
+	set<BoardPosition>::iterator it;
+	
+	for ( it=validMoves.begin() ; it != validMoves.end(); it++ )
+		view->HighlightSquare((*it).GetRow(),(*it).GetCol(),BLUE_SQUARE);
+	
+	
+	
+}
 ///@param row where drag began
 ///@param col where drag began
 void Controller::on_DragStart(int row,int col){
@@ -128,6 +171,7 @@ bool Controller::on_DragEnd(int row,int col){
 	 the initial coordinates of the drag.
 	 */
 	if (movingPiece == NULL){
+		Init();
 		return false;
 	} else {
 		Square * s = board->GetSquare(row,col);
@@ -137,7 +181,7 @@ bool Controller::on_DragEnd(int row,int col){
 		
 	}
 	RefreshDisplay();
-	movingPiece = NULL;
+	Init();
 	
 	//by convention, this should return a boolean value indicating if the drag was accepted or not.
 	return true;
