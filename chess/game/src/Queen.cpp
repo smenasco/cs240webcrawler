@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Queen::Queen( ChessColor color): ChessPiece(color,QUEEN){
+Queen::Queen( PieceColor color): ChessPiece(color,QUEEN){
 	
 }
 
@@ -19,7 +19,7 @@ Queen::~Queen(){
 	
 }
 
-set<Square> Queen::GetCandidateMoves(GameBoard * board, Square * s){
-	set<Square> validMoves;
+set<BoardPosition> Queen::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	set<BoardPosition> validMoves;
 	return validMoves;
 }

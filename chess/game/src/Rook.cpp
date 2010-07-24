@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Rook::Rook( ChessColor color): ChessPiece(color,ROOK){
+Rook::Rook( PieceColor color): ChessPiece(color,ROOK){
 	
 }
 
@@ -19,7 +19,7 @@ Rook::~Rook(){
 	
 }
 
-set<Square> Rook::GetCandidateMoves(GameBoard * board, Square * s){
-	set<Square> validMoves;
+set<BoardPosition> Rook::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	set<BoardPosition> validMoves;
 	return validMoves;
 }

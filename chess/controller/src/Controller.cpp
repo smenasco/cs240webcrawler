@@ -9,10 +9,12 @@
 
 #include "Controller.h"
 #include "ChessGuiDefines.h"
-
+#include "GameInfo.h"
 //! No arg Constructor
 Controller::Controller(){
 	view = NULL;
+	board = NULL;
+	movingPiece = NULL;
 }
 
 //! Destructor
@@ -25,23 +27,62 @@ Controller::~Controller(){
 void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
 	//init new GameBoard
-	view->PlacePiece(0,0, W_ROOK);
-	view->PlacePiece(0,1, W_ROOK);
-	view->PlacePiece(0,2, W_ROOK);
-	view->PlacePiece(0,3, W_ROOK);
-	view->PlacePiece(0,4, W_ROOK);
-	view->PlacePiece(0,5, W_ROOK);
-	view->PlacePiece(0,6, W_ROOK);
-	view->PlacePiece(0,7, W_ROOK);
-	view->HighlightSquare(0,0,WHITE_SQUARE);
-	view->HighlightSquare(0,1,BROWN_SQUARE);
-	view->HighlightSquare(0,2,BLACK_SQUARE);
-	view->HighlightSquare(0,3,RED_SQUARE);
-	view->HighlightSquare(0,4,GREEN_SQUARE);
-	view->HighlightSquare(0,5,BLUE_SQUARE);
-	view->HighlightSquare(0,6,YELLOW_SQUARE);
+	board = new GameBoard();
+	RefreshDisplay();
+	
 }
-
+void Controller::RefreshDisplay(){
+	for (int i = 0; i < 8;i++){
+		for (int j = 0; j< 8;j++){
+			ChessPiece * p = board->GetSquare(i,j)->GetPiece();
+			if (p!= NULL){
+				PieceColor color = p->GetColor();
+				PieceType type = p->GetType();
+				switch (type){
+					case ROOK:
+						if (color == WHITE){
+							view->PlacePiece(i,j, W_ROOK);
+						}else
+							view->PlacePiece(i,j, B_ROOK);
+						break;
+					case QUEEN:
+						if (color == WHITE){
+							view->PlacePiece(i,j, W_QUEEN);
+						}else
+							view->PlacePiece(i,j, B_QUEEN);
+						break;
+					case PAWN:
+						if (color == WHITE){
+							view->PlacePiece(i,j, W_PAWN);
+						}else
+							view->PlacePiece(i,j, B_PAWN);
+						break;
+					case KING:
+						if (color == WHITE){
+							view->PlacePiece(i,j, W_KING);
+						}else
+							view->PlacePiece(i,j, B_KING);
+						break;
+					case KNIGHT:
+						if (color == WHITE){
+							view->PlacePiece(i,j, W_KNIGHT);
+						}else
+							view->PlacePiece(i,j, B_KNIGHT);
+						break;
+					case BISHOP:
+						if (color == WHITE){
+							view->PlacePiece(i,j, W_BISHOP);
+						}else
+							view->PlacePiece(i,j, B_BISHOP);
+						break;
+						
+				}
+			} else
+				view->ClearPiece(i,j);
+			
+		}
+	}
+}
 void Controller::ClearGame(){
 	//delete errythang
 }
@@ -70,6 +111,12 @@ void Controller::on_DragStart(int row,int col){
 	 All three buttons may initiate the drag, but for our purposes can be treated
 	 the same and so	that paramater is not included.
 	 */
+	if (board != NULL){
+		movingPiece = board->GetSquare(row,col)->MovePiece();
+		//board->GetSquare(row,col)->SetPiece(NULL);
+	}
+		
+	
 }
 
 ///@param row where drag ended
@@ -81,9 +128,19 @@ bool Controller::on_DragEnd(int row,int col){
 	 the drag. If the drag terminates off the playing board, this will be called with
 	 the initial coordinates of the drag.
 	 */
-	
+	if (movingPiece == NULL){
+		return false;
+	} else {
+		Square * s = board->GetSquare(row,col);
+		//ChessPiece * p = board->GetSquare(row,col)->GetPiece();
+		
+		s->SetPiece(movingPiece);
+		
+	}
+	RefreshDisplay();
 	//by convention, this should return a boolean value indicating if the drag was accepted or not.
-	return false;
+	movingPiece = NULL;
+	return true;
 }
 
 /**

@@ -3,6 +3,7 @@
 
 #include "ChessView.h"
 
+
 class ChessController
 {
 public:

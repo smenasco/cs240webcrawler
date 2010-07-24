@@ -8,7 +8,7 @@
  *
  */
 #include <set>
-#include "Square.h"
+#include "BoardPosition.h"
 #include "GameBoard.h"
 #include "GameInfo.h"
 
@@ -16,10 +16,10 @@
 
 class King : public ChessPiece {
 public:
-	King(ChessColor color);
+	King(PieceColor color);
 	
 	~King();
 	
-	std::set<Square>  GetCandidateMoves(GameBoard * board, Square * s);
+	std::set<BoardPosition>  GetCandidateMoves(GameBoard * board, BoardPosition pos);
 };
 #endif

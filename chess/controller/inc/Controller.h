@@ -12,6 +12,9 @@
 
 #include "ChessView.h"
 #include "ChessController.h"
+#include "GameBoard.h"
+#include "Square.h"
+#include "ChessPiece.h"
 
 class Controller : public ChessController {
 public:
@@ -79,9 +82,12 @@ public:
 	 */
 	void SetView(ChessView* v);
 protected:
+	GameBoard * board;
 	ChessView * view;
+	ChessPiece * movingPiece;
 	void NewGame();
 	void ClearGame();
+	void RefreshDisplay();
 };
 
 #endif

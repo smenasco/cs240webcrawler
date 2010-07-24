@@ -10,21 +10,21 @@
  *
  */
 #include <set>
-
-#include "Square.h"
 #include "GameInfo.h"
+#include "BoardPosition.h"
 class GameBoard;
+class Square;
 
 class ChessPiece {
 public:
-	ChessPiece(ChessColor color, PieceType type);
-	const ChessColor GetColor() const;
+	ChessPiece(PieceColor color, PieceType type);
+	const PieceColor GetColor() const;
 	const PieceType GetType() const;
 	
-	virtual std::set<Square>  GetCandidateMoves(GameBoard * board, Square * s) = 0;
+	virtual std::set<BoardPosition>  GetCandidateMoves(GameBoard * board, BoardPosition pos) = 0;
 	
 protected:
-	ChessColor color;
+	PieceColor color;
 	PieceType type;
 };
 

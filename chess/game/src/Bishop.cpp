@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Bishop::Bishop( ChessColor color): ChessPiece(color,BISHOP){
+Bishop::Bishop( PieceColor color): ChessPiece(color,BISHOP){
 	 
 }
 
@@ -19,7 +19,7 @@ Bishop::~Bishop(){
 	
 }
 
-set<Square> Bishop::GetCandidateMoves(GameBoard * board, Square * s){
-	set<Square> validMoves;
+set<BoardPosition> Bishop::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	set<BoardPosition> validMoves;
 	return validMoves;
 }

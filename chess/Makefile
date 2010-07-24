@@ -56,7 +56,15 @@ LIB_OBJ_FILES = $(VIEW_OBJ_FOLDER)/Chess.o $(VIEW_OBJ_FOLDER)/ChessGui.o \
 		
 EXE_OBJ_FILES = $(OBJ_FOLDER)/main.o $(OBJ_FOLDER)/Controller.o $(GAME_OBJ_FOLDER)/ChessPiece.o \
 		$(GAME_OBJ_FOLDER)/Bishop.o $(GAME_OBJ_FOLDER)/Rook.o $(GAME_OBJ_FOLDER)/Queen.o \
-		$(GAME_OBJ_FOLDER)/King.o $(GAME_OBJ_FOLDER)/Pawn.o $(GAME_OBJ_FOLDER)/Knight.o
+		$(GAME_OBJ_FOLDER)/King.o $(GAME_OBJ_FOLDER)/Pawn.o $(GAME_OBJ_FOLDER)/Knight.o \
+		$(GAME_OBJ_FOLDER)/Square.o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_OBJ_FOLDER)/BoardPosition.o
+		
+CHESSPIECE_FILES = $(GAME_SRC_FOLDER)/Pawn.cpp $(GAME_INC_FOLDER)/Pawn.h \
+	$(GAME_SRC_FOLDER)/Queen.cpp $(GAME_INC_FOLDER)/Queen.h $(GAME_SRC_FOLDER)/Rook.cpp  \
+	$(GAME_INC_FOLDER)/Rook.h $(GAME_SRC_FOLDER)/Knight.cpp $(GAME_INC_FOLDER)/Knight.h \
+	$(GAME_SRC_FOLDER)/King.cpp $(GAME_INC_FOLDER)/King.h $(GAME_SRC_FOLDER)/Bishop.cpp \
+	$(GAME_INC_FOLDER)/Bishop.h 
+
 
 # -----------------------------------------------------------------------------
 # Command Variables
@@ -105,11 +113,14 @@ $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp $(SRC_FOLDER)/Controller.cpp $(INC_
 	
 # Students: Place your makefile commands here
 
-$(OBJ_FOLDER)/Controller.o: $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h $(INC_FOLDER)/ChessController.h $(INC_FOLDER)/ChessView.h
+$(OBJ_FOLDER)/Controller.o: $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h $(INC_FOLDER)/ChessController.h $(INC_FOLDER)/ChessView.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/Controller.o $(SRC_FOLDER)/Controller.cpp
 
 $(GAME_OBJ_FOLDER)/ChessPiece.o: $(GAME_SRC_FOLDER)/ChessPiece.cpp $(GAME_INC_FOLDER)/ChessPiece.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/ChessPiece.o $(GAME_SRC_FOLDER)/ChessPiece.cpp
+
+$(GAME_OBJ_FOLDER)/BoardPosition.o: $(GAME_SRC_FOLDER)/BoardPosition.cpp $(GAME_INC_FOLDER)/BoardPosition.h 
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/BoardPosition.o $(GAME_SRC_FOLDER)/BoardPosition.cpp
 
 $(GAME_OBJ_FOLDER)/Bishop.o: $(GAME_SRC_FOLDER)/Bishop.cpp $(GAME_INC_FOLDER)/Bishop.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Bishop.o $(GAME_SRC_FOLDER)/Bishop.cpp
@@ -129,7 +140,11 @@ $(GAME_OBJ_FOLDER)/Queen.o: $(GAME_SRC_FOLDER)/Queen.cpp $(GAME_INC_FOLDER)/Quee
 $(GAME_OBJ_FOLDER)/Rook.o: $(GAME_SRC_FOLDER)/Rook.cpp $(GAME_INC_FOLDER)/Rook.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Rook.o $(GAME_SRC_FOLDER)/Rook.cpp
 	
+$(GAME_OBJ_FOLDER)/Square.o: $(GAME_SRC_FOLDER)/Square.cpp $(GAME_INC_FOLDER)/Square.h $(GAME_INC_FOLDER)/ChessPiece.h $(CHESSPIECE_FILES)
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Square.o $(GAME_SRC_FOLDER)/Square.cpp
 
+$(GAME_OBJ_FOLDER)/GameBoard.o: $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h $(GAME_SRC_FOLDER)/ChessPiece.cpp $(GAME_INC_FOLDER)/ChessPiece.h $(GAME_SRC_FOLDER)/Square.cpp $(GAME_INC_FOLDER)/Square.h 
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_SRC_FOLDER)/GameBoard.cpp	
 
 # Students: Place your makefile commands here
 	

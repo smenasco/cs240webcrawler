@@ -11,7 +11,7 @@
 
 using namespace std;
 
-King::King( ChessColor color): ChessPiece(color,KING){
+King::King( PieceColor color): ChessPiece(color,KING){
 	
 }
 
@@ -19,7 +19,7 @@ King::~King(){
 	
 }
 
-set<Square> King::GetCandidateMoves(GameBoard * board, Square * s){
-	set<Square> validMoves;
+set<BoardPosition> King::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	set<BoardPosition> validMoves;
 	return validMoves;
 }

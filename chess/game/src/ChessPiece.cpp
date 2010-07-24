@@ -9,9 +9,11 @@
 
 
 #include "GameBoard.h"
+#include "BoardPosition.h"
 #include "ChessPiece.h"
 
-ChessPiece::ChessPiece(ChessColor color, PieceType type):color(color),type(type){
+
+ChessPiece::ChessPiece(PieceColor color, PieceType type):color(color),type(type){
 	
 }
 
@@ -19,6 +21,6 @@ const PieceType ChessPiece::GetType() const{
 	return type;
 }
 
-const ChessColor ChessPiece::GetColor() const { 
+const PieceColor ChessPiece::GetColor() const { 
 	return color;
 }

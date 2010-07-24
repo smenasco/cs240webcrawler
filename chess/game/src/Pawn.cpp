@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Pawn::Pawn( ChessColor color): ChessPiece(color,PAWN){
+Pawn::Pawn( PieceColor color): ChessPiece(color,PAWN){
 	
 }
 
@@ -19,7 +19,7 @@ Pawn::~Pawn(){
 	
 }
 
-set<Square> Pawn::GetCandidateMoves(GameBoard * board, Square * s){
-	set<Square> validMoves;
+set<BoardPosition> Pawn::GetCandidateMoves(GameBoard * board, BoardPosition pos){
+	set<BoardPosition> validMoves;
 	return validMoves;
 }

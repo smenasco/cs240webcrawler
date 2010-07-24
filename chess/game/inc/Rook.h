@@ -9,7 +9,7 @@
  *
  */
 #include <set>
-#include "Square.h"
+#include "BoardPosition.h"
 #include "GameBoard.h"
 #include "GameInfo.h"
 
@@ -17,10 +17,10 @@
 
 class Rook : public ChessPiece {
 public:
-	Rook(ChessColor color);
+	Rook(PieceColor color);
 	
 	~Rook();
 	
-	std::set<Square>  GetCandidateMoves(GameBoard * board, Square * s);
+	std::set<BoardPosition>  GetCandidateMoves(GameBoard * board, BoardPosition pos);
 };
 #endif
