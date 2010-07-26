@@ -20,6 +20,7 @@ public:
 	Square * GetSquare(int row, int col);
 	Square * GetSquare(BoardPosition pos);
 	void Reset();
+	const BoardPosition FindMyKing(PieceColor color);
 private:
 	Square * squares[32];
 	std::vector< std::vector<Square*> > board;

@@ -21,9 +21,7 @@ ChessPiece::ChessPiece(int row, int col, PieceColor color, PieceType type)
 ChessPiece::~ChessPiece(){
 	validMoves.clear();
 }
-void ChessPiece::Move(){
-	
-}
+
 bool ChessPiece::IsFirstMove(){
 	if (!firstMove)
 		return false;

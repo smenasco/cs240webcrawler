@@ -186,3 +186,22 @@ Square * GameBoard::GetSquare(BoardPosition pos){
 	} else
 		return NULL;
 }
+
+const BoardPosition GameBoard::FindMyKing(PieceColor color){
+	Square * s;
+	BoardPosition bp;
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			s = GetSquare(i,j);
+			ChessPiece *p=s->GetPiece();
+			if (p != NULL){
+				if (p->GetType()==KING && p->GetColor() == color){
+					bp.SetRow(i);
+					bp.SetCol(j);
+				}
+					 
+			}
+		}
+	}
+	return bp;
+}

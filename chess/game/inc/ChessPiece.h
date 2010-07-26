@@ -24,7 +24,6 @@ public:
 	void SetBoardPosition(int row,int col);
 	const BoardPosition & GetBoardPosition() const;
 	virtual const std::set<BoardPosition> & GetCandidateMoves(GameBoard * board, BoardPosition pos) = 0;
-	void Move();
 	bool IsFirstMove();
 protected:
 	std::set<BoardPosition> validMoves;

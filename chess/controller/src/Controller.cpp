@@ -9,11 +9,11 @@
 
 #include "Controller.h"
 #include "ChessGuiDefines.h"
-#include "GameInfo.h"
+
 
 using namespace std;
 //! No arg Constructor
-Controller::Controller(){
+Controller::Controller(PieceColor c): color(c){
 	view = NULL;
 	board = new GameBoard();
 }
@@ -39,7 +39,10 @@ void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
 	Init();
 	board->Reset();
-
+	view->SetStatusBar("This is the status bar");
+	view->WriteMessageArea("This is a message.\n");
+	view->SetTopLabel("Human");
+	view->SetBottomLabel("Human");
 	RefreshDisplay();
 	
 }
@@ -109,20 +112,21 @@ void Controller::on_CellSelected(int row, int col, int button){
 	 a cell without initiating a drag. Row and Column coordinates begin in the top left corner.
 	 The button paramter tells which mouse button was clicked
 	 (1 for left, 2 for middle, 3 for right).
-	 You do not need to worry about wich button was used to complete the project.
+	 You do not need to worry about which button was used to complete the project.
 	 */
 	if (movingSquare == NULL && movingPiece == NULL) {
 		validMoves.clear();
 		movingSquare = board->GetSquare(row,col);
 		movingPiece = board->GetSquare(row,col)->GetPiece();
 		if (movingPiece != NULL){
-			//need to check if its your turn and  piece is your team
-			view->HighlightSquare(row, col,GREEN_SQUARE);
-			validMoves = movingPiece->GetCandidateMoves(board,BoardPosition(row,col));
-			HighlightValidMoves(row,col);
-			PieceType type = movingPiece->GetType();
-			if (type == PAWN)
-				movingPiece->Move();
+			//check to see if piece is your team
+			if (movingPiece->GetColor() == color){
+				view->HighlightSquare(row, col,GREEN_SQUARE);  //highlight currently selected piece
+				validMoves = movingPiece->GetCandidateMoves(board,BoardPosition(row,col)); //getvaild moves
+				HighlightValidMoves(row,col);  //highlight valid moves
+			}else
+				Init();
+			
 		}
 			
 	} else if (movingSquare != NULL && movingPiece != NULL){
@@ -132,10 +136,11 @@ void Controller::on_CellSelected(int row, int col, int button){
 		set<BoardPosition>::iterator it;
 		BoardPosition bp(row,col);			//check to see if the suggested
 		it=validMoves.find(bp);				//move is valid
-		if (it != validMoves.end()){
+		if (it != validMoves.end()){  //currently selected move is valid
 			movingPiece = movingSquare->MovePiece();
-			movingPiece->SetBoardPosition(row,col);
+			movingPiece->SetBoardPosition(row,col);  //move the piece
 			s->SetPiece(movingPiece);
+			//need to check for check/checkmate/stalemate
 			//need to push move to the move history here
 			RefreshDisplay();
 		}  
@@ -209,7 +214,8 @@ void Controller::on_NewGame(){
 	//Possibly ask to save the game
 	//ClearGame();
 	NewGame();
-		
+	king = board->FindMyKing(color);
+	view->HighlightSquare(king.GetRow(),king.GetCol(),RED_SQUARE);
 }
 
 /**

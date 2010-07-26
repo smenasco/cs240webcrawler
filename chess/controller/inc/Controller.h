@@ -16,10 +16,15 @@
 #include "Square.h"
 #include "ChessPiece.h"
 #include "BoardPosition.h"
-#include <set>;
+#include "GameInfo.h"
+#include <set>
 
 class Controller : public ChessController {
 public:
+	
+	//! No arg Constructor
+	Controller(PieceColor c);
+
 	
 	//! No arg Constructor
 	Controller();
@@ -83,9 +88,19 @@ public:
 	 * Set the view that this Controller will tell to update and make changes.
 	 */
 	void SetView(ChessView* v);
+	
+
+	
+	
 protected:
+	//Need to be initialized and set in main.
 	GameBoard * board;
 	ChessView * view;
+	ChessController * otherPlayer;
+	PieceColor color;
+	
+	
+	BoardPosition king;
 	ChessPiece * movingPiece;
 	Square * movingSquare;
 	std::set<BoardPosition> validMoves;
