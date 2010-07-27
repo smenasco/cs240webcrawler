@@ -15,7 +15,6 @@ HumanPlayer::HumanPlayer(GameBoard * board,PieceColor color): ChessPlayer(board,
 }
 bool HumanPlayer::on_CellSelected(int row, int col){
 	bool changePlayer = false;
-	//IsInCheck();
 	if (movingSquare == NULL && movingPiece == NULL) {
 		validMoves.clear();
 		movingSquare = board->GetSquare(row,col);

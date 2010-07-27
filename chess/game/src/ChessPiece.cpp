@@ -63,10 +63,10 @@ set<BoardPosition> & ChessPiece::SimulateMoves(GameBoard * board,set<BoardPositi
 	for ( it=checkMoves.begin() ; it != checkMoves.end(); it++ ){
 		
 		temp = board->GetPiece(*it);
-		board->GetSquare(*it)->SetPiece(p);//move the piece
+		board->GetSquare(*it)->SetPiece(p);
+		//move the piece
 		if (IsInCheck(board)){
 			checkMoves.erase(it);
-			//cout << "found invalid move\n";
 		}
 		board->GetSquare(*it)->SetPiece(temp);
 	}
@@ -75,10 +75,10 @@ set<BoardPosition> & ChessPiece::SimulateMoves(GameBoard * board,set<BoardPositi
 }
 
 bool ChessPiece::IsInCheck(GameBoard * board){
-	BoardPosition king = board->FindMyKing(color);
+	BoardPosition king;
+	king =board->FindMyKing(color);
 	set<BoardPosition> pieceMoves;
 	set<BoardPosition>::iterator it;
-	
 	
 	
 	ChessPiece * p;

@@ -13,9 +13,7 @@
 using namespace std;
 
 GameBoard::GameBoard(){
-	for (int i = 0;i<32;i++){
-		squares[i] = NULL;  //initialize squares[32] to NULL
-	}
+	
 }
 
 void GameBoard::Reset(){
@@ -24,12 +22,7 @@ void GameBoard::Reset(){
 }
 
 void GameBoard::Clear(){
-	for (int i =0; i < 32;i++){
-		if (squares[i] != NULL){
-			delete squares[i]; //clean up memory of squares
-		}
-		
-	}
+	
 	
 	vector< vector<Square*> >::iterator it;
 	for(it=board.begin(); it!=board.end(); it++)	{
@@ -41,7 +34,6 @@ void GameBoard::Clear(){
 
 void GameBoard::Init(){
 	Square *s;
-	int count = 0;
 	for ( int i = 0; i < 8; i++ ) {
 		board.push_back ( vector<Square*>() );
 
@@ -51,115 +43,79 @@ void GameBoard::Init(){
 					switch(j){
 						case 0:
 							s =  new Square(i,j,BLACK,ROOK);
-							squares[count] = s;
-							count++;
 							board[i].push_back ( s );
 							break;
 						case 1:
 							s=  new Square(i,j,BLACK,KNIGHT);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 2:
 							s=  new Square(i,j,BLACK,BISHOP);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 3:
 							s = new Square(i,j,BLACK,KING);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 4:
 							s = new Square(i,j,BLACK,QUEEN);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 5:
 							s = new Square(i,j,BLACK,BISHOP);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 6:
 							s = new Square(i,j,BLACK,KNIGHT);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 7:
 							s = new Square(i,j,BLACK,ROOK);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 					}
 					break;
 				case 1:
 					s = new Square(i,j,BLACK,PAWN);
-					squares[count] = s;
 					board[i].push_back ( s );
-					count++;
 					break;
 				case 6:
 					s = new Square(i,j,WHITE,PAWN);
-					squares[count] = s;
 					board[i].push_back ( s );
-					count++;
 					break;
 				case 7:
 					switch(j){
 						case 0:
 							s = new Square(i,j,WHITE,ROOK);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 1:
 							s = new Square(i,j,WHITE,KNIGHT);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 2:
 							s = new Square(i,j,WHITE,BISHOP);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 3:
 							s = new Square(i,j,WHITE,KING);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 4:
 							s = new Square(i,j,WHITE,QUEEN);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 5:
 							s = new Square(i,j,WHITE,BISHOP);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 6:
 							s = new Square(i,j,WHITE,KNIGHT);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 						case 7:
 							s = new Square(i,j,WHITE,ROOK);
-							squares[count] = s;
 							board[i].push_back ( s );
-							count++;
 							break;
 					}
 					break;

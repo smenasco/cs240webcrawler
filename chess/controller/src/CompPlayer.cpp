@@ -49,21 +49,24 @@ bool CompPlayer::on_TimerEvent(){
 					validMoves = movingPiece->GetCandidateMoves(board,BoardPosition(i,j)); //getvaild moves
 					validMoves = movingPiece->SimulateMoves(board,validMoves);
 					size = validMoves.size();
-					if (movingPieceColor == color && size >0){
+					if (movingPieceColor == color && size > 0){
 						pieces[count] = movingPiece;
 						count ++;
 					}
 				}
 			}
 		}
-		if (count == 1 )
-			count = 2;
-		random= rand() % (count -1);
+		
+		if (count == 1 ){
+			random = 0;
+		}else
+			random= rand() % (count -1);
 		//cout << random << " " << count<< endl;
 		movingPiece = pieces[random];
 		
 		bp = movingPiece->GetBoardPosition();	
 		movingPiece = board->GetSquare(bp)->GetPiece();
+		movingSquare = board->GetSquare(bp);
 		row = bp.GetRow();
 		col = bp.GetCol();
 		validMoves = movingPiece->GetCandidateMoves(board,BoardPosition(row,col)); //getvaild moves
@@ -72,11 +75,22 @@ bool CompPlayer::on_TimerEvent(){
 		//cout << "Row: " << row << " col: " << col << endl; 
 		
 		HighlightValidMoves(row,col);  //highlight valid moves
-		movingPiece = board->GetSquare(bp)->MovePiece();
+
 	} else {
+		set<BoardPosition>::iterator it;
+		Square * s;
+		for ( it=validMoves.begin() ; it != validMoves.end(); it++ ){
+			s = board->GetSquare(*it);
+			if (s->GetPiece() != NULL){
+				bp = *it;
+				break;
+			}else
+				bp = *it;
+		}
 		
-		bp = *validMoves.begin();
-		Square * s = board->GetSquare(bp);
+		movingPiece = movingSquare->MovePiece();
+
+		s = board->GetSquare(bp);
 		
 		if (s->GetPiece() != NULL)
 			delete board->GetSquare(bp)->GetPiece();
