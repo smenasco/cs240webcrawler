@@ -25,6 +25,7 @@ public: //methods
 	void SetView(ChessView * view);
 	void HighlightValidMoves(int row, int col);
 	bool IsInCheck();
+	bool IsCheckMate();
 	/**
 	 * Indicate to the player that the user clicked on the given
 	 * row and column with the mouse.

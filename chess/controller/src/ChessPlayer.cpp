@@ -44,7 +44,27 @@ void ChessPlayer::Init(){
 	movingSquare = NULL;
 	validMoves.clear();
 }
+bool ChessPlayer::IsCheckMate(){
+	set<BoardPosition> pieceMoves;
+	set<BoardPosition>::iterator it;
 
+	ChessPiece * p;
+	for (int i = 0; i < 8;i++){
+		for (int j = 0; j < 8;j++){
+			p = board->GetPiece(i,j);
+			if (p != NULL && p->GetColor() == color){
+				BoardPosition bp(i,j);
+				pieceMoves = p->GetCandidateMoves(board,bp);
+				pieceMoves = p->SimulateMoves(board,pieceMoves);
+				
+				for ( it=pieceMoves.begin() ; it != pieceMoves.end(); it++ ){
+					return false;
+				}
+			}
+		} 
+	}
+	return true;
+}
 bool ChessPlayer::IsInCheck(){
 	king = board->FindMyKing(color);
 	set<BoardPosition> pieceMoves;

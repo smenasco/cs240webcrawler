@@ -147,7 +147,9 @@ void Controller::on_CellSelected(int row, int col, int button){
 	 (1 for left, 2 for middle, 3 for right).
 	 You do not need to worry about which button was used to complete the project.
 	 */
-	if (currentPlayer->on_CellSelected(row,col)){
+	if (currentPlayer->IsCheckMate()){
+		//dont do anything
+	} else if (currentPlayer->on_CellSelected(row,col)){
 		ChangePlayer();
 	}
 	RefreshDisplay();
@@ -158,15 +160,20 @@ void Controller::ChangePlayer(){
 	if (currentPlayer == white){
 		currentPlayer = black;
 		view->ClearMessageArea();
-		view->WriteMessageArea("Black's turn!.\n");
+		view->WriteMessageArea("Black's turn\n");
 	}
 	else {
 		currentPlayer = white;
 		view->ClearMessageArea();
-		view->WriteMessageArea("White's turn!.\n");
+		view->WriteMessageArea("White's turn\n");
 	}
-	if (currentPlayer->IsInCheck())
-		view->WriteMessageArea("CHECK!.\n");
+	if (currentPlayer->IsCheckMate() && currentPlayer->IsInCheck()){
+		view->WriteMessageArea("CHECKMATE!\n");
+	}
+	else if (currentPlayer->IsCheckMate() && !currentPlayer->IsInCheck()){
+		view->WriteMessageArea("STALEMATE!\n");
+	} else if (currentPlayer->IsInCheck())
+		view->WriteMessageArea("CHECK!\n");
 		
 }
 
@@ -274,7 +281,9 @@ void Controller::on_QuitGame(){
  */
 void Controller::on_TimerEvent(){
 	
-	if (currentPlayer->on_TimerEvent()){
+	if (currentPlayer->IsCheckMate()){
+		//dont do anything
+	} else if (currentPlayer->on_TimerEvent()){
 		ChangePlayer();
 	}
 	RefreshDisplay();
