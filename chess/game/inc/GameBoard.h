@@ -19,6 +19,8 @@ public:
 	~GameBoard();
 	Square * GetSquare(int row, int col);
 	Square * GetSquare(BoardPosition pos);
+	ChessPiece * GetPiece(int row, int col);
+	ChessPiece * GetPiece(BoardPosition pos);
 	void Reset();
 	const BoardPosition FindMyKing(PieceColor color);
 private:

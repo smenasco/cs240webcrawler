@@ -37,10 +37,7 @@ BoardPosition & BoardPosition::operator =(const BoardPosition & other){
 }
 
 bool BoardPosition::operator ==(const BoardPosition & other) const {
-	if (row == other.row && col == other.col){
-		return true;
-	}else 
-		return false;
+	return (row == other.row && col == other.col);
 }
 
 bool BoardPosition::operator!=(const BoardPosition & other) const {

@@ -54,10 +54,12 @@ LIB_OBJ_FILES = $(VIEW_OBJ_FOLDER)/Chess.o $(VIEW_OBJ_FOLDER)/ChessGui.o \
 		$(VIEW_OBJ_FOLDER)/ChessGuiBoard.o $(VIEW_OBJ_FOLDER)/ChessGuiBoardCell.o \
 		$(VIEW_OBJ_FOLDER)/ChessGuiImages.o $(VIEW_OBJ_FOLDER)/SelectDialog.o
 		
-EXE_OBJ_FILES = $(OBJ_FOLDER)/main.o $(OBJ_FOLDER)/Controller.o $(GAME_OBJ_FOLDER)/ChessPiece.o \
+EXE_OBJ_FILES = $(OBJ_FOLDER)/main.o $(GAME_OBJ_FOLDER)/ChessPiece.o \
 		$(GAME_OBJ_FOLDER)/Bishop.o $(GAME_OBJ_FOLDER)/Rook.o $(GAME_OBJ_FOLDER)/Queen.o \
 		$(GAME_OBJ_FOLDER)/King.o $(GAME_OBJ_FOLDER)/Pawn.o $(GAME_OBJ_FOLDER)/Knight.o \
-		$(GAME_OBJ_FOLDER)/Square.o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_OBJ_FOLDER)/BoardPosition.o
+		$(GAME_OBJ_FOLDER)/Square.o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_OBJ_FOLDER)/BoardPosition.o \
+		$(OBJ_FOLDER)/ChessPlayer.o $(OBJ_FOLDER)/HumanPlayer.o $(OBJ_FOLDER)/CompPlayer.o \
+		$(OBJ_FOLDER)/Controller.o
 		
 CHESSPIECE_FILES = $(GAME_SRC_FOLDER)/Pawn.cpp $(GAME_INC_FOLDER)/Pawn.h \
 	$(GAME_SRC_FOLDER)/Queen.cpp $(GAME_INC_FOLDER)/Queen.h $(GAME_SRC_FOLDER)/Rook.cpp  \
@@ -75,16 +77,16 @@ run : $(EXE_NAME)
 	./$(EXE_NAME)
 	
 runhh : $(EXE_NAME)
-	./$(EXE_NAME)
+	./$(EXE_NAME) 1
 	
 runhc : $(EXE_NAME)
-	./$(EXE_NAME)
+	./$(EXE_NAME) 2
 	
 runch : $(EXE_NAME)
-	./$(EXE_NAME)
-	
+	./$(EXE_NAME) 3
+  	
 runcc : $(EXE_NAME)
-	./$(EXE_NAME)
+	./$(EXE_NAME) 4
 	
 memtest: $(EXE_NAME)
 	valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --suppressions=chess.supp $(EXE_NAME)
@@ -113,8 +115,17 @@ $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp $(SRC_FOLDER)/Controller.cpp $(INC_
 	
 # Students: Place your makefile commands here
 
-$(OBJ_FOLDER)/Controller.o: $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h $(INC_FOLDER)/ChessController.h $(VIEW_INC_FOLDER)/ChessView.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
+$(OBJ_FOLDER)/Controller.o: $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h $(INC_FOLDER)/ChessController.h $(INC_FOLDER)/ChessPlayer.h $(SRC_FOLDER)/HumanPlayer.cpp $(INC_FOLDER)/HumanPlayer.h $(SRC_FOLDER)/CompPlayer.cpp $(INC_FOLDER)/CompPlayer.h $(VIEW_INC_FOLDER)/ChessView.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/Controller.o $(SRC_FOLDER)/Controller.cpp
+
+$(OBJ_FOLDER)/ChessPlayer.o: $(SRC_FOLDER)/ChessPlayer.cpp $(INC_FOLDER)/ChessPlayer.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/ChessPlayer.o $(SRC_FOLDER)/ChessPlayer.cpp
+
+$(OBJ_FOLDER)/HumanPlayer.o: $(SRC_FOLDER)/HumanPlayer.cpp $(INC_FOLDER)/HumanPlayer.h $(INC_FOLDER)/ChessPlayer.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/HumanPlayer.o $(SRC_FOLDER)/HumanPlayer.cpp	
+
+$(OBJ_FOLDER)/CompPlayer.o: $(SRC_FOLDER)/CompPlayer.cpp $(INC_FOLDER)/CompPlayer.h $(INC_FOLDER)/ChessPlayer.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/CompPlayer.o $(SRC_FOLDER)/CompPlayer.cpp	
 
 $(GAME_OBJ_FOLDER)/ChessPiece.o: $(GAME_SRC_FOLDER)/ChessPiece.cpp $(GAME_INC_FOLDER)/ChessPiece.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/ChessPiece.o $(GAME_SRC_FOLDER)/ChessPiece.cpp
@@ -145,6 +156,8 @@ $(GAME_OBJ_FOLDER)/Square.o: $(GAME_SRC_FOLDER)/Square.cpp $(GAME_INC_FOLDER)/Sq
 
 $(GAME_OBJ_FOLDER)/GameBoard.o: $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h $(GAME_SRC_FOLDER)/ChessPiece.cpp $(GAME_INC_FOLDER)/ChessPiece.h $(GAME_SRC_FOLDER)/Square.cpp $(GAME_INC_FOLDER)/Square.h 
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_SRC_FOLDER)/GameBoard.cpp	
+
+
 
 # Students: Place your makefile commands here
 	

@@ -46,6 +46,10 @@ void ChessGui_log_handler(const gchar *log_domain,
 
 int main(int argc,char ** argv)
 {
+	GameType mode = hh;
+	if (argc ==2)
+		mode = (GameType)atoi(argv[1]);
+	
 	///Parses path to executable for loading default images and gladeFile
 	std::string path(argv[0]);
 	int dirFinder = path.find_last_of('/');
@@ -73,7 +77,7 @@ int main(int argc,char ** argv)
 		///Create your instance of the ChessController interface here and connect it to
 		///the game object using the SetView method.  Don't forget to connect the game
 		///object to your ChessController object using the SetController method.
-		ChessController * myController = new Controller(WHITE);
+		ChessController * myController = new Controller(mode);
 		myController->SetView(&game);
 		game.SetController(myController);
 		

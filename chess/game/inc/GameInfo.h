@@ -8,9 +8,16 @@
  *  Copyright 2010 Samuel Menasco. All rights reserved.
  *
  */
-
+enum GameType{hh=1,	//Run the chess program in Human vs. Human mode.
+		hc=2,			//Run the chess program in Human vs. Computer mode, 
+					//where the Human player is the white team.
+		ch=3,			//Run the chess program in Computer vs. Human mode,
+					//where the Computer player is the white team.
+		cc=4			//Run the chess program in Computer vs. Computer mode.
+	
+};
 enum PieceColor{WHITE=-1,BLACK=1};
-enum ChessPlayer{PLAYER1=0,PLAYER2=1};
+
 enum Moves{taken=1,empty=0,dne=-1};
 enum PieceType{
 	PAWN=0,

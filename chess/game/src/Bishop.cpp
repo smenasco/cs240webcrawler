@@ -110,5 +110,6 @@ const set<BoardPosition> & Bishop::GetCandidateMoves(GameBoard * board, BoardPos
 	IterateNorthWest(board,pos);
 	IterateNorthEast(board,pos);
 	
+	
 	return validMoves;
 }

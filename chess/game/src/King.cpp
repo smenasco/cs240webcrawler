@@ -113,8 +113,7 @@ const set<BoardPosition> & King::GetCandidateMoves(GameBoard * board, BoardPosit
 		}
 	}
 	
-	
-	
+
 	return validMoves;
 }
 

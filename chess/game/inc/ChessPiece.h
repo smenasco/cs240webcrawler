@@ -25,6 +25,8 @@ public:
 	const BoardPosition & GetBoardPosition() const;
 	virtual const std::set<BoardPosition> & GetCandidateMoves(GameBoard * board, BoardPosition pos) = 0;
 	bool IsFirstMove();
+
+	std::set<BoardPosition> & SimulateMoves(GameBoard * board,std::set<BoardPosition> & checkMoves);
 protected:
 	std::set<BoardPosition> validMoves;
 	BoardPosition pos;
@@ -32,7 +34,7 @@ protected:
 	PieceType type;
 	bool firstMove;
 	BoardPosition origpos;
-	
+	bool IsInCheck(GameBoard * board);
 };
 
 

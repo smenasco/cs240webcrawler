@@ -180,5 +180,7 @@ const set<BoardPosition> & Queen::GetCandidateMoves(GameBoard * board, BoardPosi
 	IterateNorthWest(board,pos);
 	IterateNorthEast(board,pos);
 	
+	
+	
 	return validMoves;
 }

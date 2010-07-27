@@ -180,13 +180,20 @@ Square * GameBoard::GetSquare(int row, int col){
 }
 
 Square * GameBoard::GetSquare(BoardPosition pos){
-	if (pos.GetRow() >=0 && pos.GetRow() <8 &&
-		pos.GetCol() >=0 && pos.GetCol() <8  ){
-		return board[pos.GetRow()][pos.GetCol()];
-	} else
-		return NULL;
+	return GetSquare(pos.GetRow(), pos.GetCol());
 }
+ChessPiece * GameBoard::GetPiece(int row, int col){
+	Square * s;
+	s = GetSquare(row,col);
+	if (s != NULL)
+		return s->GetPiece();
+	else 
+		return NULL;
 
+}
+ChessPiece * GameBoard::GetPiece(BoardPosition pos){
+	return GetPiece(pos.GetRow(), pos.GetCol());
+}
 const BoardPosition GameBoard::FindMyKing(PieceColor color){
 	Square * s;
 	BoardPosition bp;

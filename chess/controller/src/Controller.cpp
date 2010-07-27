@@ -13,36 +13,69 @@
 
 using namespace std;
 //! No arg Constructor
-Controller::Controller(PieceColor c): color(c){
+Controller::Controller(GameType mode):mode(mode){
+	
 	view = NULL;
 	board = new GameBoard();
+	
+	switch (mode){
+		case hh:
+			white = new HumanPlayer(board, WHITE);
+			black = new HumanPlayer(board,BLACK);
+			break;
+		case hc:
+			white = new HumanPlayer(board,WHITE);
+			black = new CompPlayer(board,BLACK);
+			break;
+		case ch:
+			white = new CompPlayer(board,WHITE);
+			black = new HumanPlayer(board,BLACK);
+			break;
+		case cc:
+			white = new CompPlayer(board,WHITE);
+			black = new CompPlayer(board,BLACK);
+			break;
+	}
+	
+	currentPlayer = white;
 }
 
 //! Destructor
 //! Maher-shalal-hash-baz 
 Controller::~Controller(){
-	
-}
-void Controller::Init(){
-	
-	for (int i = 0; i < 8;i++){
-		for (int j=0;j < 8;j++){
-			view->UnHighlightSquare(i,j);
-		}
-	}
-	movingPiece = NULL;
-	movingSquare = NULL;
-	validMoves.clear();
+	delete white;
+	delete black;
 }
 
 void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
-	Init();
+	white->Init();
+	black->Init();
 	board->Reset();
-	view->SetStatusBar("This is the status bar");
-	view->WriteMessageArea("This is a message.\n");
-	view->SetTopLabel("Human");
-	view->SetBottomLabel("Human");
+	
+	//view->SetStatusBar("This is the status bar");
+	view->ClearMessageArea();
+	view->WriteMessageArea("New Game!.\n");
+	view->WriteMessageArea("White's turn!.\n");
+	switch (mode){
+		case hh:
+			view->SetTopLabel("Human");
+			view->SetBottomLabel("Human");
+			break;
+		case hc:
+			view->SetTopLabel("Computer");
+			view->SetBottomLabel("Human");
+			break;
+		case ch:
+			view->SetTopLabel("Human");
+			view->SetBottomLabel("Computer");
+			break;
+		case cc:
+			view->SetTopLabel("Computer");
+			view->SetBottomLabel("Computer");
+			break;
+	}
+	currentPlayer = white;
 	RefreshDisplay();
 	
 }
@@ -114,59 +147,29 @@ void Controller::on_CellSelected(int row, int col, int button){
 	 (1 for left, 2 for middle, 3 for right).
 	 You do not need to worry about which button was used to complete the project.
 	 */
-	if (movingSquare == NULL && movingPiece == NULL) {
-		validMoves.clear();
-		movingSquare = board->GetSquare(row,col);
-		movingPiece = board->GetSquare(row,col)->GetPiece();
-		if (movingPiece != NULL){
-			//check to see if piece is your team
-			if (movingPiece->GetColor() == color){
-				view->HighlightSquare(row, col,GREEN_SQUARE);  //highlight currently selected piece
-				validMoves = movingPiece->GetCandidateMoves(board,BoardPosition(row,col)); //getvaild moves
-				HighlightValidMoves(row,col);  //highlight valid moves
-			}else
-				Init();
-			
-		}
-			
-	} else if (movingSquare != NULL && movingPiece != NULL){
-		Square * s = board->GetSquare(row,col);
-		
-		
-		set<BoardPosition>::iterator it;
-		BoardPosition bp(row,col);			//check to see if the suggested
-		it=validMoves.find(bp);				//move is valid
-		if (it != validMoves.end()){  //currently selected move is valid
-			movingPiece = movingSquare->MovePiece();
-			
-			if (board->GetSquare(bp)->GetPiece() != NULL)
-				delete board->GetSquare(bp)->GetPiece();
-			movingPiece->SetBoardPosition(row,col);  //move the piece
-			s->SetPiece(movingPiece);
-			//need to check for check/checkmate/stalemate
-			//need to push move to the move history here
-			RefreshDisplay();
-		}  
-		Init();
-	} else 
-		Init();
-		
-		
-	
+	if (currentPlayer->on_CellSelected(row,col)){
+		ChangePlayer();
+	}
+	RefreshDisplay();
 	
 }
-void Controller::HighlightValidMoves(int row, int col){
-	view->HighlightSquare(row, col,GREEN_SQUARE); //highlight selected square
-	
-	//now highlight all valid moves
-	set<BoardPosition>::iterator it;
-	
-	for ( it=validMoves.begin() ; it != validMoves.end(); it++ )
-		view->HighlightSquare((*it).GetRow(),(*it).GetCol(),BLUE_SQUARE);
-	
-	
-	
+
+void Controller::ChangePlayer(){
+	if (currentPlayer == white){
+		currentPlayer = black;
+		view->ClearMessageArea();
+		view->WriteMessageArea("Black's turn!.\n");
+	}
+	else {
+		currentPlayer = white;
+		view->ClearMessageArea();
+		view->WriteMessageArea("White's turn!.\n");
+	}
+	if (currentPlayer->IsInCheck())
+		view->WriteMessageArea("CHECK!.\n");
+		
 }
+
 ///@param row where drag began
 ///@param col where drag began
 void Controller::on_DragStart(int row,int col){
@@ -175,12 +178,12 @@ void Controller::on_DragStart(int row,int col){
 	 The paramaters row and col are the coordinates of the cell where the drag was initiated.
 	 All three buttons may initiate the drag, but for our purposes can be treated
 	 the same and so	that paramater is not included.
-	 */
+	 
 	if (board != NULL){
 		movingPiece = board->GetSquare(row,col)->MovePiece();
 		//board->GetSquare(row,col)->SetPiece(NULL);
 	}
-		
+		*/
 	
 }
 
@@ -192,7 +195,7 @@ bool Controller::on_DragEnd(int row,int col){
 	 Same as on_DragStart() except the coordinates represent the ending cell of
 	 the drag. If the drag terminates off the playing board, this will be called with
 	 the initial coordinates of the drag.
-	 */
+	 
 	if (movingPiece == NULL){
 		Init();
 		return false;
@@ -205,7 +208,7 @@ bool Controller::on_DragEnd(int row,int col){
 	}
 	RefreshDisplay();
 	Init();
-	
+	*/
 	//by convention, this should return a boolean value indicating if the drag was accepted or not.
 	return true;
 }
@@ -217,8 +220,7 @@ void Controller::on_NewGame(){
 	//Possibly ask to save the game
 	//ClearGame();
 	NewGame();
-	king = board->FindMyKing(color);
-	view->HighlightSquare(king.GetRow(),king.GetCol(),RED_SQUARE);
+	
 }
 
 /**
@@ -272,6 +274,10 @@ void Controller::on_QuitGame(){
  */
 void Controller::on_TimerEvent(){
 	
+	if (currentPlayer->on_TimerEvent()){
+		ChangePlayer();
+	}
+	RefreshDisplay();
 }
 
 /**
@@ -279,4 +285,6 @@ void Controller::on_TimerEvent(){
  */
 void Controller::SetView(ChessView* v){
 	view = v;
+	white->SetView(v);
+	black->SetView(v);
 }

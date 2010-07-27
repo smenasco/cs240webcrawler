@@ -12,6 +12,9 @@
 
 #include "ChessView.h"
 #include "ChessController.h"
+#include "ChessPlayer.h"
+#include "HumanPlayer.h"
+#include "CompPlayer.h"
 #include "GameBoard.h"
 #include "Square.h"
 #include "ChessPiece.h"
@@ -23,7 +26,7 @@ class Controller : public ChessController {
 public:
 	
 	//! No arg Constructor
-	Controller(PieceColor c);
+	Controller(GameType mode);
 
 	
 	//! No arg Constructor
@@ -93,20 +96,15 @@ public:
 	
 	
 protected:
-	//Need to be initialized	
+	GameType mode;
 	GameBoard * board;
 	ChessView * view;
-	ChessController * otherPlayer;
-	PieceColor color;
+	ChessPlayer * white;
+	ChessPlayer * black;
+	ChessPlayer * currentPlayer;
 	
-	
-	BoardPosition king;
-	ChessPiece * movingPiece;
-	Square * movingSquare;
-	std::set<BoardPosition> validMoves;
-	void HighlightValidMoves(int row, int col);
+	void ChangePlayer();
 	void NewGame();
-	void Init();
 	void ClearGame();
 	void RefreshDisplay();
 };

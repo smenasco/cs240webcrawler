@@ -77,5 +77,6 @@ const set<BoardPosition> & Pawn::GetCandidateMoves(GameBoard * board, BoardPosit
 		if (p->GetColor() != color)
 			validMoves.insert(bpat2);
 	}	
+	
 	return validMoves;
 }

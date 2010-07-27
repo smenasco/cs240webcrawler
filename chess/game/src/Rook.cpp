@@ -105,5 +105,7 @@ const set<BoardPosition> & Rook::GetCandidateMoves(GameBoard * board, BoardPosit
 	IterateEast(board,pos);
 	IterateWest(board,pos);
 	
+
+	
 	return validMoves;
 }
