@@ -59,14 +59,14 @@ set<BoardPosition> & ChessPiece::SimulateMoves(GameBoard * board,set<BoardPositi
 	ChessPiece * p;
 	ChessPiece * temp;
 	p = board->GetSquare(pos)->MovePiece();
- 	cout << "Currently checking square: [" << pos.GetRow() << "," << pos.GetCol() << "]\n";
+ 	//cout << "Currently checking square: [" << pos.GetRow() << "," << pos.GetCol() << "]\n";
 	for ( it=checkMoves.begin() ; it != checkMoves.end(); it++ ){
 		
 		temp = board->GetPiece(*it);
 		board->GetSquare(*it)->SetPiece(p);//move the piece
 		if (IsInCheck(board)){
 			checkMoves.erase(it);
-			cout << "found invalid move\n";
+			//cout << "found invalid move\n";
 		}
 		board->GetSquare(*it)->SetPiece(temp);
 	}

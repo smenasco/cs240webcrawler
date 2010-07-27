@@ -30,7 +30,8 @@ public:
 	bool on_TimerEvent();
 	
 private:
-	
+	int row;
+	int col;
 };
 
 

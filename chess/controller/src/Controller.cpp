@@ -17,27 +17,9 @@ Controller::Controller(GameType mode):mode(mode){
 	
 	view = NULL;
 	board = new GameBoard();
-	
-	switch (mode){
-		case hh:
-			white = new HumanPlayer(board, WHITE);
-			black = new HumanPlayer(board,BLACK);
-			break;
-		case hc:
-			white = new HumanPlayer(board,WHITE);
-			black = new CompPlayer(board,BLACK);
-			break;
-		case ch:
-			white = new CompPlayer(board,WHITE);
-			black = new HumanPlayer(board,BLACK);
-			break;
-		case cc:
-			white = new CompPlayer(board,WHITE);
-			black = new CompPlayer(board,BLACK);
-			break;
-	}
-	
-	currentPlayer = white;
+	white = NULL;
+	black = NULL;
+
 }
 
 //! Destructor
@@ -49,32 +31,49 @@ Controller::~Controller(){
 
 void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
-	white->Init();
-	black->Init();
+	for (int i = 0; i < 8;i++){
+		for (int j=0;j < 8;j++){
+			view->UnHighlightSquare(i,j);
+		}
+	}
 	board->Reset();
-	
+	if (white != NULL)
+		delete white;
+	if (black != NULL)
+		delete black;
 	//view->SetStatusBar("This is the status bar");
 	view->ClearMessageArea();
-	view->WriteMessageArea("New Game!.\n");
-	view->WriteMessageArea("White's turn!.\n");
+	view->WriteMessageArea("New Game!\n");
+	view->WriteMessageArea("White's turn!\n");
+	mode = cc;
 	switch (mode){
 		case hh:
 			view->SetTopLabel("Human");
 			view->SetBottomLabel("Human");
+			white = new HumanPlayer(board, WHITE);
+			black = new HumanPlayer(board,BLACK);
 			break;
 		case hc:
 			view->SetTopLabel("Computer");
 			view->SetBottomLabel("Human");
+			white = new HumanPlayer(board,WHITE);
+			black = new CompPlayer(board,BLACK);
 			break;
 		case ch:
 			view->SetTopLabel("Human");
 			view->SetBottomLabel("Computer");
+			white = new CompPlayer(board,WHITE);
+			black = new HumanPlayer(board,BLACK);
 			break;
 		case cc:
 			view->SetTopLabel("Computer");
 			view->SetBottomLabel("Computer");
+			white = new CompPlayer(board,WHITE);
+			black = new CompPlayer(board,BLACK);
 			break;
 	}
+	white->SetView(view);
+	black->SetView(view);
 	currentPlayer = white;
 	RefreshDisplay();
 	
@@ -151,8 +150,9 @@ void Controller::on_CellSelected(int row, int col, int button){
 		//dont do anything
 	} else if (currentPlayer->on_CellSelected(row,col)){
 		ChangePlayer();
+		RefreshDisplay();
 	}
-	RefreshDisplay();
+	
 	
 }
 
@@ -285,8 +285,9 @@ void Controller::on_TimerEvent(){
 		//dont do anything
 	} else if (currentPlayer->on_TimerEvent()){
 		ChangePlayer();
+		RefreshDisplay();
 	}
-	RefreshDisplay();
+	
 }
 
 /**
@@ -294,6 +295,5 @@ void Controller::on_TimerEvent(){
  */
 void Controller::SetView(ChessView* v){
 	view = v;
-	white->SetView(v);
-	black->SetView(v);
+
 }

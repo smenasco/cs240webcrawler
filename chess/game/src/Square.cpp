@@ -11,7 +11,6 @@
 
 Square::Square(int row, int col) : piece(NULL),pos(row,col) {
 	//creates an empty square
-	std::cout << "Created a new empty square\n";
 }
 
 Square::Square(	int row, int col, PieceColor color, PieceType type ):pos(row,col){
