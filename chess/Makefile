@@ -113,7 +113,7 @@ $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp $(SRC_FOLDER)/Controller.cpp $(INC_
 	
 # Students: Place your makefile commands here
 
-$(OBJ_FOLDER)/Controller.o: $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h $(INC_FOLDER)/ChessController.h $(INC_FOLDER)/ChessView.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
+$(OBJ_FOLDER)/Controller.o: $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h $(INC_FOLDER)/ChessController.h $(VIEW_INC_FOLDER)/ChessView.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/Controller.o $(SRC_FOLDER)/Controller.cpp
 
 $(GAME_OBJ_FOLDER)/ChessPiece.o: $(GAME_SRC_FOLDER)/ChessPiece.cpp $(GAME_INC_FOLDER)/ChessPiece.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h

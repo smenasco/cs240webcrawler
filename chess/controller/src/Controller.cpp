@@ -138,6 +138,9 @@ void Controller::on_CellSelected(int row, int col, int button){
 		it=validMoves.find(bp);				//move is valid
 		if (it != validMoves.end()){  //currently selected move is valid
 			movingPiece = movingSquare->MovePiece();
+			
+			if (board->GetSquare(bp)->GetPiece() != NULL)
+				delete board->GetSquare(bp)->GetPiece();
 			movingPiece->SetBoardPosition(row,col);  //move the piece
 			s->SetPiece(movingPiece);
 			//need to check for check/checkmate/stalemate

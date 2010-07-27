@@ -19,6 +19,7 @@ ChessPiece::ChessPiece(int row, int col, PieceColor color, PieceType type)
 }
 
 ChessPiece::~ChessPiece(){
+	//std::cout << "Delete piece: type:" << type << "color: " << color << std::endl;
 	validMoves.clear();
 }
 

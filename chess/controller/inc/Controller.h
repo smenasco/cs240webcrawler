@@ -93,7 +93,7 @@ public:
 	
 	
 protected:
-	//Need to be initialized and set in main.
+	//Need to be initialized	
 	GameBoard * board;
 	ChessView * view;
 	ChessController * otherPlayer;
