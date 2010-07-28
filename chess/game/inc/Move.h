@@ -8,13 +8,18 @@
  *  Copyright 2010 Samuel Menasco. All rights reserved.
  *
  */
+#include <string>
 
 class Move{
 public:
 	Move();
-	~Move();
+	void SetMoveFrom();
+	void SetMoveTo();
+	void SetKill();
 private:
-	
+	std::string movefrom;
+	std::string moveto;
+	std::string kill;
 };
 
 

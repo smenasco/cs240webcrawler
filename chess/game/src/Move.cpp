@@ -8,4 +8,8 @@
  */
 
 #include "Move.h"
+using namespace std;
 
+Move::Move(): movefrom(""),moveto(""),kill(""){
+	
+}

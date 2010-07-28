@@ -25,7 +25,11 @@ void GameBoard::Clear(){
 	
 	
 	vector< vector<Square*> >::iterator it;
+	vector<Square*>::iterator sit;
 	for(it=board.begin(); it!=board.end(); it++)	{
+		for(sit=(*it).begin(); sit!=(*it).end(); sit++)	{
+			delete *sit;
+		}
 		(*it).clear();  //clear columns
 	}
 	board.clear(); //clear rows

@@ -59,7 +59,7 @@ EXE_OBJ_FILES = $(OBJ_FOLDER)/main.o $(GAME_OBJ_FOLDER)/ChessPiece.o \
 		$(GAME_OBJ_FOLDER)/King.o $(GAME_OBJ_FOLDER)/Pawn.o $(GAME_OBJ_FOLDER)/Knight.o \
 		$(GAME_OBJ_FOLDER)/Square.o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_OBJ_FOLDER)/BoardPosition.o \
 		$(OBJ_FOLDER)/ChessPlayer.o $(OBJ_FOLDER)/HumanPlayer.o $(OBJ_FOLDER)/CompPlayer.o \
-		$(OBJ_FOLDER)/Controller.o
+		$(OBJ_FOLDER)/Controller.o $(GAME_OBJ_FOLDER)/Move.o $(GAME_OBJ_FOLDER)/MoveHistory.o \
 		
 CHESSPIECE_FILES = $(GAME_SRC_FOLDER)/Pawn.cpp $(GAME_INC_FOLDER)/Pawn.h \
 	$(GAME_SRC_FOLDER)/Queen.cpp $(GAME_INC_FOLDER)/Queen.h $(GAME_SRC_FOLDER)/Rook.cpp  \
@@ -132,6 +132,12 @@ $(GAME_OBJ_FOLDER)/ChessPiece.o: $(GAME_SRC_FOLDER)/ChessPiece.cpp $(GAME_INC_FO
 
 $(GAME_OBJ_FOLDER)/BoardPosition.o: $(GAME_SRC_FOLDER)/BoardPosition.cpp $(GAME_INC_FOLDER)/BoardPosition.h 
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/BoardPosition.o $(GAME_SRC_FOLDER)/BoardPosition.cpp
+
+$(GAME_OBJ_FOLDER)/Move.o: $(GAME_SRC_FOLDER)/Move.cpp $(GAME_INC_FOLDER)/Move.h 
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Move.o $(GAME_SRC_FOLDER)/Move.cpp
+
+$(GAME_OBJ_FOLDER)/MoveHistory.o: $(GAME_SRC_FOLDER)/MoveHistory.cpp $(GAME_INC_FOLDER)/MoveHistory.h $(GAME_SRC_FOLDER)/Move.cpp $(GAME_INC_FOLDER)/Move.h 
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/MoveHistory.o $(GAME_SRC_FOLDER)/MoveHistory.cpp
 
 $(GAME_OBJ_FOLDER)/Bishop.o: $(GAME_SRC_FOLDER)/Bishop.cpp $(GAME_INC_FOLDER)/Bishop.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h $(GAME_INC_FOLDER)/Square.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/Bishop.o $(GAME_SRC_FOLDER)/Bishop.cpp
