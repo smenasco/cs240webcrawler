@@ -9,4 +9,19 @@
  *
  */
 
+
+#include <stack>
+#include "Move.h"
+
+class MoveHistory {
+public:
+	MoveHistory();
+	~MoveHistory();
+private:
+	std::stack<Move> moveStack;
+};
+
+
+
+
 #endif
