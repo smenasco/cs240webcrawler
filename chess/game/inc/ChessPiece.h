@@ -32,8 +32,6 @@ protected:
 	BoardPosition pos;
 	PieceColor color;
 	PieceType type;
-	bool firstMove;
-	BoardPosition origpos;
 	bool IsInCheck(GameBoard * board);
 };
 

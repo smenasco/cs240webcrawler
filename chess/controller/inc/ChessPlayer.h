@@ -12,6 +12,7 @@
 #include "ChessPiece.h"
 #include "BoardPosition.h"
 #include "ChessView.h"
+#include "Move.h"
 #include <set>
 
 

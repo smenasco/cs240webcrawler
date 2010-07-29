@@ -91,15 +91,22 @@ bool CompPlayer::on_TimerEvent(){
 		movingPiece = movingSquare->MovePiece();
 
 		s = board->GetSquare(bp);
-		
-		if (s->GetPiece() != NULL)
+		Move m;
+		m.SetMoveFrom(movingPiece);
+		if (s->GetPiece() != NULL) {
+			m.SetKill(board->GetSquare(bp)->GetPiece());
 			delete board->GetSquare(bp)->GetPiece();
+		}
+			
 		if (movingPiece != NULL) {
 			movingPiece->SetBoardPosition(bp.GetRow(),bp.GetCol());  //move the piece
 			s->SetPiece(movingPiece);
+			m.SetMoveTo(movingPiece);
 			changePlayer = true;
 		}
-			
+		cout << m.GetMoveFrom()<< endl;
+		cout << m.GetMoveTo()<< endl;
+		cout << m.GetKill()<< endl << endl;
 		row = -1;
 		col = -1;
 		Init();

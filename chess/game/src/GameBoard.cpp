@@ -16,6 +16,10 @@ GameBoard::GameBoard(){
 	
 }
 
+GameBoard::~GameBoard(){
+	Clear();	
+}
+
 void GameBoard::Reset(){
 	Clear();
 	Init();
@@ -25,6 +29,7 @@ void GameBoard::Clear(){
 	
 	
 	vector< vector<Square*> >::iterator it;
+	
 	vector<Square*>::iterator sit;
 	for(it=board.begin(); it!=board.end(); it++)	{
 		for(sit=(*it).begin(); sit!=(*it).end(); sit++)	{

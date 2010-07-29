@@ -17,7 +17,7 @@ enum GameType{hh=1,	//Run the chess program in Human vs. Human mode.
 	
 };
 enum PieceColor{WHITE=-1,BLACK=1};
-
+enum MovePieceType{MOVEFROM=1,MOVETO=2,KILL=3};
 enum Moves{taken=1,empty=0,dne=-1};
 enum PieceType{
 	PAWN=0,

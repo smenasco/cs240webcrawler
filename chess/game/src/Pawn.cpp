@@ -55,7 +55,8 @@ const set<BoardPosition> & Pawn::GetCandidateMoves(GameBoard * board, BoardPosit
 		at2 = dne;
 	
 	
-	if (IsFirstMove()){
+	if ((pos.GetRow() == 1 && color == BLACK) || 
+		(pos.GetRow() == 6 && color == WHITE)){
 		if (mv1 == empty)
 			validMoves.insert(bpmv1);
 		if (mv1 == empty && mv2 == empty)

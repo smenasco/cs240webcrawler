@@ -41,14 +41,22 @@ bool HumanPlayer::on_CellSelected(int row, int col){
 		it=validMoves.find(bp);				//move is valid
 		if (it != validMoves.end()){  //currently selected move is valid
 			movingPiece = movingSquare->MovePiece();
-			
-			if (board->GetSquare(bp)->GetPiece() != NULL)
+			Move m;
+			m.SetMoveFrom(movingPiece);
+			if (board->GetSquare(bp)->GetPiece() != NULL){
+				m.SetKill(board->GetSquare(bp)->GetPiece());
 				delete board->GetSquare(bp)->GetPiece();
+			}
+				
 			movingPiece->SetBoardPosition(row,col);  //move the piece
 			s->SetPiece(movingPiece);
-			changePlayer = true;
-			//need to check for check/checkmate/stalemate
+			m.SetMoveTo(movingPiece);
+			
+			cout << m.GetMoveFrom()<< endl;
+			cout << m.GetMoveTo()<< endl;
+			cout << m.GetKill()<< endl << endl;
 			//need to push move to the move history here
+			changePlayer = true;
 		}  
 		Init();
 	} else 

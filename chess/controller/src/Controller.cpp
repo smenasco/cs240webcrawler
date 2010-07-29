@@ -27,6 +27,7 @@ Controller::Controller(GameType mode):mode(mode){
 Controller::~Controller(){
 	delete white;
 	delete black;
+	delete board;
 }
 
 void Controller::NewGame(){
@@ -45,7 +46,7 @@ void Controller::NewGame(){
 	view->ClearMessageArea();
 	view->WriteMessageArea("New Game!\n");
 	view->WriteMessageArea("White's turn!\n");
-	mode = cc;
+	mode = hc;
 	switch (mode){
 		case hh:
 			view->SetTopLabel("Human");
