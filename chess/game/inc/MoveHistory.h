@@ -17,6 +17,10 @@ class MoveHistory {
 public:
 	MoveHistory();
 	~MoveHistory();
+	void Push( const Move & move);
+	void Pop();
+	const Move& Top () const;
+	bool IsEmpty()const;
 private:
 	std::stack<Move> moveStack;
 };

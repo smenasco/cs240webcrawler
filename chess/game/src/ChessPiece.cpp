@@ -47,19 +47,34 @@ set<BoardPosition> & ChessPiece::SimulateMoves(GameBoard * board,set<BoardPositi
 	set<BoardPosition>::iterator it;
 	ChessPiece * p;
 	ChessPiece * temp;
+	Square * s;
 	p = board->GetSquare(pos)->MovePiece();
- 	//cout << "Currently checking square: [" << pos.GetRow() << "," << pos.GetCol() << "]\n";
+ 	cout << "Currently checking square: [" << pos.GetRow() << "," << pos.GetCol() << "]\n";
 	for ( it=checkMoves.begin() ; it != checkMoves.end(); it++ ){
+		s = board->GetSquare(*it);
+		temp = s->MovePiece();
+		s->SetPiece(p);
 		
-		temp = board->GetPiece(*it);
-		board->GetSquare(*it)->SetPiece(p);
+		//move the piece
+		if (IsInCheck(board)){
+			checkMoves.erase(it);
+
+		}
+		s->SetPiece(temp);
+	}
+	for ( it=checkMoves.begin() ; it != checkMoves.end(); it++ ){
+		s = board->GetSquare(*it);
+		temp = s->MovePiece();
+		s->SetPiece(p);
+		
 		//move the piece
 		if (IsInCheck(board)){
 			checkMoves.erase(it);
 		}
-		board->GetSquare(*it)->SetPiece(temp);
+		s->SetPiece(temp);
 	}
 	board->GetSquare(pos)->SetPiece(p);
+	cout << "Currently checking square: [" << pos.GetRow() << "," << pos.GetCol() << "]\n";
 	return checkMoves;
 }
 
@@ -78,6 +93,7 @@ bool ChessPiece::IsInCheck(GameBoard * board){
 				BoardPosition bp(i,j);
 				pieceMoves = p->GetCandidateMoves(board,bp);
 				for ( it=pieceMoves.begin() ; it != pieceMoves.end(); it++ ){
+					//cout << (*it).GetRow() <<" "<< (*it).GetCol()<< endl;
 					if (*it == king){
 						return true;
 					}

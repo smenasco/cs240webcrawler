@@ -14,10 +14,70 @@ using namespace std;
 Move::Move():kill(""){
 	
 }
+Move::~Move(){
+	
+}
+void Move::Copy(const Move & other){
+	movefrom=other.movefrom;
+	moveto=other.moveto;
+	kill=other.kill;
+	type=other.type;
+	color==other.color;
+	row=other.row;
+	col=other.col;
+	
+	//<piece type="bishop" color="white" column="6" row="3"/>
+	fromtype=other.fromtype;
+	fromcolor=other.fromcolor;
+	fromcol=other.fromcol;
+	fromrow=other.fromrow;
+	
+	
+	totype=other.totype;
+	tocolor=other.tocolor;
+	tocol=other.tocol;
+	torow=other.torow;
+	
+	killtype=other.killtype;
+	killcolor=other.killcolor;
+	killcol=other.killcol;
+	killrow=other.killrow;
+}
+Move::Move(const Move & other){
+	Copy(other);
+}
+Move & Move::operator =(const Move & other){	
+	if (this != &other) {
+		Copy(other);
+	}
+	return *this;
+	
+}
 
 
-void Move::SetParams(ChessPiece * piece){
-
+void Move::SetParams(ChessPiece * piece, MovePieceType move){
+	switch (move){
+		case MOVEFROM: 
+			fromtype= piece->GetType();
+			fromcolor= piece->GetColor();
+			fromcol= (piece->GetBoardPosition()).GetCol();
+			fromrow= (piece->GetBoardPosition()).GetRow();
+			break;
+		case MOVETO: 
+			
+			totype= piece->GetType();
+			tocolor= piece->GetColor();
+			tocol= (piece->GetBoardPosition()).GetCol();
+			torow= (piece->GetBoardPosition()).GetRow();
+			break;
+		case KILL: 
+			killtype= piece->GetType();
+			killcolor= piece->GetColor();
+			killcol= (piece->GetBoardPosition()).GetCol();
+			killrow= (piece->GetBoardPosition()).GetRow();
+			break;
+			
+	}
 	switch (piece->GetType()) {
 		case PAWN:
 			type = "pawn";
@@ -118,19 +178,19 @@ bool Move::operator ==(const Move & other) const{
 			(kill == other.GetKill()) );
 }
 void Move::SetMoveFrom(ChessPiece * piece){
-	SetParams(piece);
+	SetParams(piece,MOVEFROM);
 	WriteString(1);
 	
 	
 }
 void Move::SetMoveTo(ChessPiece * piece){
-	SetParams(piece);
+	SetParams(piece,MOVETO);
 	WriteString(2);
 	
 }
 
 void Move::SetKill(ChessPiece * piece){
-	SetParams(piece);
+	SetParams(piece,KILL);
 	WriteString(3);
 	
 }
@@ -146,4 +206,63 @@ const std::string & Move::GetKill() const {
 	return kill;
 }
 
+PieceType Move::GetType(MovePieceType move){
+	switch (move) {
+		case MOVEFROM:
+			return fromtype;
+			break;
+		case MOVETO:
+			return totype;
+			break;
+		case KILL:
+			return killtype;
+			break;
+	}
+	return (PieceType)-8; //means invalid
+}
+
+PieceColor Move::GetColor(MovePieceType move){
+	switch (move) {
+		case MOVEFROM:
+			return fromcolor;
+			break;
+		case MOVETO:
+			return tocolor;
+			break;
+		case KILL:
+			return killcolor;
+			break;
+	}
+		return (PieceColor)-8; //means invalid
+}
+
+int Move::GetRow(MovePieceType move){
+	switch (move) {
+		case MOVEFROM:
+			return fromrow;
+			break;
+		case MOVETO:
+			return torow;
+			break;
+		case KILL:
+			return killrow;
+			break;
+	}
+		return -8; //means invalid
+}
+
+int Move::GetCol(MovePieceType move){
+	switch (move) {
+		case MOVEFROM:
+			return fromcol;
+			break;
+		case MOVETO:
+			return tocol;
+			break;
+		case KILL:
+			return killcol;
+			break;
+	}
+		return -8; //means invalid
+}
 

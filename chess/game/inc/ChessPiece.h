@@ -33,6 +33,7 @@ protected:
 	PieceColor color;
 	PieceType type;
 	bool IsInCheck(GameBoard * board);
+	
 };
 
 

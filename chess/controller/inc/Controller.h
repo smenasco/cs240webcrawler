@@ -20,6 +20,8 @@
 #include "ChessPiece.h"
 #include "BoardPosition.h"
 #include "GameInfo.h"
+#include "MoveHistory.h"
+#include "Move.h"
 #include <set>
 
 class Controller : public ChessController {
@@ -102,6 +104,7 @@ protected:
 	ChessPlayer * white;
 	ChessPlayer * black;
 	ChessPlayer * currentPlayer;
+	MoveHistory * moves;
 	
 	void ChangePlayer();
 	void NewGame();

@@ -14,7 +14,8 @@
 
 using namespace std;
 
-CompPlayer::CompPlayer(GameBoard * board,PieceColor color): ChessPlayer(board,color){
+CompPlayer::CompPlayer(GameBoard * board,PieceColor color, MoveHistory * moves): 
+												ChessPlayer(board,color,moves){
 	row = -1;
 	col = -1;
 }
@@ -95,6 +96,7 @@ bool CompPlayer::on_TimerEvent(){
 		m.SetMoveFrom(movingPiece);
 		if (s->GetPiece() != NULL) {
 			m.SetKill(board->GetSquare(bp)->GetPiece());
+			cout << "Kill color: " << m.GetColor(KILL) << "Kill type" << m.GetType(KILL) << endl;
 			delete board->GetSquare(bp)->GetPiece();
 		}
 			
@@ -104,9 +106,7 @@ bool CompPlayer::on_TimerEvent(){
 			m.SetMoveTo(movingPiece);
 			changePlayer = true;
 		}
-		cout << m.GetMoveFrom()<< endl;
-		cout << m.GetMoveTo()<< endl;
-		cout << m.GetKill()<< endl << endl;
+		moves->Push(m);
 		row = -1;
 		col = -1;
 		Init();

@@ -14,6 +14,10 @@ Square::Square(int row, int col) : piece(NULL),pos(row,col) {
 }
 
 Square::Square(	int row, int col, PieceColor color, PieceType type ):pos(row,col){
+	CreatePiece(row,col,color,type);
+}
+
+void Square::CreatePiece(int row, int col, PieceColor color, PieceType type){
 	switch (type){
 		case PAWN:
 			piece = new Pawn(row,col,color);
@@ -34,8 +38,9 @@ Square::Square(	int row, int col, PieceColor color, PieceType type ):pos(row,col
 			piece = new Queen(row,col,color);
 			break;
 	}
-	
 }
+
+
 
 Square::~Square(){
 	if (piece != NULL)
@@ -50,7 +55,9 @@ bool Square::Taken(){
 	else 
 		return true;
 }
-
+void Square::SetPiece(int row, int col, PieceColor color, PieceType type){
+	CreatePiece(row,col,color,type);	
+}
 void Square::SetPiece(ChessPiece * cp){
 		piece = cp;
 }

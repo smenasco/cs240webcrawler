@@ -15,7 +15,7 @@
 
 class HumanPlayer : public ChessPlayer {
 public:
-	HumanPlayer(GameBoard * board, PieceColor color);
+	HumanPlayer(GameBoard * board, PieceColor color, MoveHistory * moves);
 	~HumanPlayer();
 	/**
 	 * Indicate to the player that the user clicked on the given

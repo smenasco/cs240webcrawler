@@ -13,6 +13,7 @@
 #include "BoardPosition.h"
 #include "ChessView.h"
 #include "Move.h"
+#include "MoveHistory.h"
 #include <set>
 
 
@@ -21,7 +22,7 @@ public: //methods
 	
 	void Init();
 	
-	ChessPlayer(GameBoard * board, PieceColor color);
+	ChessPlayer(GameBoard * board, PieceColor color, MoveHistory * moves);
 	
 	void SetView(ChessView * view);
 	void HighlightValidMoves(int row, int col);
@@ -41,11 +42,13 @@ protected:
 	ChessView * view;
 	GameBoard * board;
 	PieceColor color;
+	MoveHistory * moves;
 	
 	BoardPosition king;
 	ChessPiece * movingPiece;
 	Square * movingSquare;
 	std::set<BoardPosition> validMoves;
+	
 };
 
 #endif

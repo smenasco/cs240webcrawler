@@ -26,6 +26,8 @@ public:
 	~Square();
 	bool Taken();
 	void SetPiece(ChessPiece * cp);
+	void SetPiece(int row, int col, PieceColor color, PieceType);
+	
 	ChessPiece * GetPiece();
 	ChessPiece * MovePiece();
 	int GetRow();
@@ -33,6 +35,8 @@ public:
 private:
 	ChessPiece * piece;
 	BoardPosition pos;
+	
+	void CreatePiece(int row, int col, PieceColor color, PieceType type);
 };
 
 #endif

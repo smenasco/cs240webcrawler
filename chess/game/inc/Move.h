@@ -17,14 +17,18 @@
 class Move{
 public:
 	Move();
+	~Move();
 	void SetMoveFrom(ChessPiece * piece);
 	void SetMoveTo(ChessPiece * piece);
 	void SetKill(ChessPiece * piece);
 	const std::string & GetMoveFrom()const ;
 	const std::string & GetMoveTo()const ;
 	const std::string & GetKill()const ;
+	Move(const Move & other);
+	Move & operator =(const Move & other);
 	bool operator ==(const Move & other) const;
-	std::string IntToString(int i);
+
+	
 	PieceType GetType(MovePieceType move);
 	PieceColor GetColor(MovePieceType move);
 	int GetRow(MovePieceType move);
@@ -41,22 +45,24 @@ private:
 	
 	//<piece type="bishop" color="white" column="6" row="3"/>
 	PieceType fromtype;
-	PieceColor frommcolor;
+	PieceColor fromcolor;
 	int fromcol;
 	int fromrow;
 	
 	PieceType totype;
-	PieceColor tomcolor;
+	PieceColor tocolor;
 	int tocol;
 	int torow;
 	
 	PieceType killtype;
-	PieceColor killmcolor;
+	PieceColor killcolor;
 	int killcol;
 	int killrow;
-	
-	void SetParams(ChessPiece * piece);
+
+	void Copy(const Move & other);
+	void SetParams(ChessPiece * piece, MovePieceType move);
 	void WriteString(int which);
+	std::string IntToString(int i);
 };
 
 

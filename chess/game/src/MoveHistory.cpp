@@ -9,3 +9,23 @@
 
 #include "MoveHistory.h"
 
+using namespace std;
+
+MoveHistory::MoveHistory(){
+	
+}
+MoveHistory::~MoveHistory(){
+	
+}
+void MoveHistory::Push( const Move & move){
+	moveStack.push(move);
+}
+void MoveHistory::Pop(){
+	moveStack.pop();
+}
+const Move& MoveHistory::Top () const{
+	return moveStack.top();
+}
+bool MoveHistory::IsEmpty()const{
+	return moveStack.empty();
+}

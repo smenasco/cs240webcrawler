@@ -19,7 +19,7 @@ Controller::Controller(GameType mode):mode(mode){
 	board = new GameBoard();
 	white = NULL;
 	black = NULL;
-
+	moves = NULL;
 }
 
 //! Destructor
@@ -28,6 +28,7 @@ Controller::~Controller(){
 	delete white;
 	delete black;
 	delete board;
+	delete moves;
 }
 
 void Controller::NewGame(){
@@ -42,35 +43,41 @@ void Controller::NewGame(){
 		delete white;
 	if (black != NULL)
 		delete black;
+	if (moves != NULL)
+		delete moves;
+	moves = new MoveHistory();
+	
+	
+
 	//view->SetStatusBar("This is the status bar");
 	view->ClearMessageArea();
 	view->WriteMessageArea("New Game!\n");
 	view->WriteMessageArea("White's turn!\n");
-	mode = hc;
+	mode = hh;
 	switch (mode){
 		case hh:
 			view->SetTopLabel("Human");
 			view->SetBottomLabel("Human");
-			white = new HumanPlayer(board, WHITE);
-			black = new HumanPlayer(board,BLACK);
+			white = new HumanPlayer(board, WHITE,moves);
+			black = new HumanPlayer(board,BLACK,moves);
 			break;
 		case hc:
 			view->SetTopLabel("Computer");
 			view->SetBottomLabel("Human");
-			white = new HumanPlayer(board,WHITE);
-			black = new CompPlayer(board,BLACK);
+			white = new HumanPlayer(board,WHITE,moves);
+			black = new CompPlayer(board,BLACK,moves);
 			break;
 		case ch:
 			view->SetTopLabel("Human");
 			view->SetBottomLabel("Computer");
-			white = new CompPlayer(board,WHITE);
-			black = new HumanPlayer(board,BLACK);
+			white = new CompPlayer(board,WHITE,moves);
+			black = new HumanPlayer(board,BLACK,moves);
 			break;
 		case cc:
 			view->SetTopLabel("Computer");
 			view->SetBottomLabel("Computer");
-			white = new CompPlayer(board,WHITE);
-			black = new CompPlayer(board,BLACK);
+			white = new CompPlayer(board,WHITE,moves);
+			black = new CompPlayer(board,BLACK,moves);
 			break;
 	}
 	white->SetView(view);
@@ -256,7 +263,36 @@ void Controller::on_LoadGame(){
  * Handle when the user selected the undo move button.
  */
 void Controller::on_UndoMove(){
-	
+	Move m;
+	if (!moves->IsEmpty()){
+		int frow, fcol, trow, tcol;
+		
+		ChessPiece * p;
+		Square * from;
+		Square * to;
+
+		m = moves->Top();
+		
+		
+		frow = m.GetRow(MOVEFROM);
+		fcol = m.GetCol(MOVEFROM);
+		trow = m.GetRow(MOVETO);
+		tcol = m.GetCol(MOVETO);
+		from = board->GetSquare(frow,fcol);
+		to = board->GetSquare(trow,tcol);
+		p = to->MovePiece();
+		p->SetBoardPosition(frow,fcol);
+		from->SetPiece(p);
+		if (m.GetKill() != ""){
+			cout << m.GetKill() << endl;
+			cout << "Kill color: " << m.GetColor(KILL) << "Kill type" << m.GetType(KILL) << endl;
+			to->SetPiece(trow, tcol,m.GetColor(KILL), m.GetType(KILL));
+		}
+		moves->Pop();
+		ChangePlayer();
+	}
+
+	RefreshDisplay();
 }
 
 /**
@@ -281,13 +317,13 @@ void Controller::on_QuitGame(){
  * Handle when a timer event has been signaled.
  */
 void Controller::on_TimerEvent(){
-	
+	/*
 	if (currentPlayer->IsCheckMate()){
 		//dont do anything
 	} else if (currentPlayer->on_TimerEvent()){
 		ChangePlayer();
 		RefreshDisplay();
-	}
+	}*/
 	
 }
 

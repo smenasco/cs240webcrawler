@@ -11,7 +11,8 @@
 
 using namespace std;
 
-ChessPlayer::ChessPlayer(GameBoard * board, PieceColor color) : board(board), color(color){
+ChessPlayer::ChessPlayer(GameBoard * board, PieceColor color,MoveHistory * moves) : board(board), color(color),
+	moves(moves){
 	movingPiece = NULL;
 	movingSquare = NULL;
 }

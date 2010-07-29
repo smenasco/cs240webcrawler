@@ -9,7 +9,7 @@
 
 #include "BoardPosition.h"
 
-BoardPosition::BoardPosition(){
+BoardPosition::BoardPosition():row(0),col(0){
 	
 }
 BoardPosition::BoardPosition(int row, int col):row(row), col(col){
