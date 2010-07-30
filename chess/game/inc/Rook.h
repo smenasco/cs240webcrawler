@@ -14,15 +14,18 @@
 #include "GameInfo.h"
 class Square;
 
-
+//chess piece subclass implements rook
 class Rook : public ChessPiece {
 public:
+	//creates a new rook and sets its board position and color
 	Rook(int row, int col, PieceColor color);
 	
 	~Rook();
 	
+	//implemnts checkcandidate moves from superclass
 	const std::set<BoardPosition> &  GetCandidateMoves(GameBoard * board, BoardPosition pos);
 private:
+	//helper functions for GetCandidateMoves
 	void IterateSouth(GameBoard * board, BoardPosition pos);
 	void IterateNorth(GameBoard * board, BoardPosition pos);
 	void IterateEast(GameBoard * board, BoardPosition pos);

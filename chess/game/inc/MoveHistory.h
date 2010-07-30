@@ -13,10 +13,16 @@
 #include <deque>
 #include "Move.h"
 
+//Stores a stack of moves
+//write when a move is created 
+//by chessplayers and load 
+//read for undo and save
 class MoveHistory {
 public:
 	MoveHistory();
 	~MoveHistory();
+	
+	//standard stack procedures
 	void Push( const Move & move);
 	void Pop();
 	const Move& Top () const;

@@ -26,6 +26,16 @@
 
 #include <set>
 
+
+//implements the facade between the GUI and the game
+//also changes players and handles the following
+// undo - > talks with move history and game board
+// newgame-> initializes new GameBoard. tells game board to do the work
+// savegame->calls saveloadGame which does the work
+// load-> calls saveloadgame which does the actual work
+// also keeps track of whether the board is in check, checkmate, stalemate
+// by calling the chessplayer functions
+
 class Controller : public ChessController {
 public:
 	
@@ -112,6 +122,8 @@ protected:
 	void ChangePlayer();
 	void NewGame();
 	void ClearGame();
+	
+	//tells the gui to redraw the board
 	void RefreshDisplay();
 };
 

@@ -14,15 +14,17 @@
 #include "GameInfo.h"
 class Square;
 
-
+//chess piece subclass implements knight
 class Knight : public ChessPiece {
-public:
+	
+	//creates a new knight and sets its board position and color
 	Knight(int row, int col, PieceColor color);
 	
 	~Knight();
-	
+	//implemnts checkcandidate moves from superclass
 	const std::set<BoardPosition> &  GetCandidateMoves(GameBoard * board, BoardPosition pos);
 private:
+	//helper class for get candidate moves	
 	void CheckForPieces(ChessPiece * p, Square * s, BoardPosition bp);
 };
 #endif

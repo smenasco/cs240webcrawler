@@ -20,9 +20,10 @@ public:
 	Bishop(int row, int col, PieceColor color);
 	
 	~Bishop();
-	
+	//finds valid moves for currently selected bishop
 	const std::set<BoardPosition> & GetCandidateMoves(GameBoard * board, BoardPosition pos);
 private:
+	//the following methods are used by GetCandidateMoves to find valid moves
 	void IterateSouthWest(GameBoard * board,BoardPosition  pos);
 	void IterateSouthEast(GameBoard * board,BoardPosition  pos);
 	void IterateNorthWest(GameBoard * board,BoardPosition  pos);

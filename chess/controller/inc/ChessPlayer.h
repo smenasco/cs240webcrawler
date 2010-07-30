@@ -20,14 +20,32 @@
 class ChessPlayer {
 public: //methods
 	
+	//Clears the highlights from the board
+	//And starts the turn over
 	void Init();
 	
+	//Constructs a new Chess Player whether it be 
+	//Human or Computer
 	ChessPlayer(GameBoard * board, PieceColor color);
+	
+	//Tell ChessPlayer where to put moves 
 	void SetMoveHistory(MoveHistory * m);
+	
+	//Just so we can highlight moves on the chess
+	//board
 	void SetView(ChessView * view);
+	
+	//Highlight valid moves of the selected piece
 	void HighlightValidMoves(int row, int col);
+	
+	//for the controller to know whether or not 
+	//the current player is in check
 	bool IsInCheck();
+	
+	//for the controller to know whether or not
+	//the current player is in check
 	bool IsCheckMate();
+	
 	/**
 	 * Indicate to the player that the user clicked on the given
 	 * row and column with the mouse.

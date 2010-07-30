@@ -8,6 +8,10 @@
  *  Copyright 2010 Samuel Menasco. All rights reserved.
  *
  */
+
+//contains some enums to be used throughout the game
+
+
 enum GameType{hh=1,	//Run the chess program in Human vs. Human mode.
 		hc=2,			//Run the chess program in Human vs. Computer mode, 
 					//where the Human player is the white team.

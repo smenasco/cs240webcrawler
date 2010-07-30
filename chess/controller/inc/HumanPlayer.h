@@ -12,19 +12,21 @@
 #include "ChessPlayer.h"
 #include "GameBoard.h"
 
-
+//inhereits from chessplayer 
+//implements human player moves
 class HumanPlayer : public ChessPlayer {
 public:
 	HumanPlayer(GameBoard * board, PieceColor color);
 	~HumanPlayer();
 	/**
 	 * Indicate to the player that the user clicked on the given
-	 * row and column with the mouse.
+	 * row and column with the mouse. Implements the move piece
 	 */
 	bool on_CellSelected(int row, int col);
 	
 	/**
 	 * Handle when the timeout duration has passed.
+	*  To be ignored for human player
 	 */
 	bool on_TimerEvent();
 	

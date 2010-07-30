@@ -13,11 +13,14 @@
 #include "GameInfo.h"
 class Square;
 
-
+//chess piece subclass implements pawn
 class Pawn : public ChessPiece {
 public:
+	//creates a new pawn and sets its board position and color
 	Pawn(int row, int col, PieceColor color);
 	~Pawn();
+	
+	//implemnts checkcandidate moves from superclass
 	const std::set<BoardPosition> &  GetCandidateMoves(GameBoard * board, BoardPosition pos);
 
 };

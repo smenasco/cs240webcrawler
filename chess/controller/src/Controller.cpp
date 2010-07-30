@@ -249,7 +249,7 @@ void Controller::on_NewGame(){
 void Controller::on_SaveGame(){
 	if (savefile == "")
 		savefile = view->SelectSaveFile();
-	
+	saveload->save(savefile);
 }
 
 /**
@@ -257,14 +257,15 @@ void Controller::on_SaveGame(){
  */
 void Controller::on_SaveGameAs(){
 	savefile = view->SelectSaveFile();
-	
+	saveload->Save(savefile);
 }
 
 /**
  * Handle when the user selected the load game button.
  */
 void Controller::on_LoadGame(){
-	
+	string loadfile = view->SelectLoadFile();
+	saveload->Load(loadfile);
 }
 
 /**

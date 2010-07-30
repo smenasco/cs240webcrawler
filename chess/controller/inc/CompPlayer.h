@@ -13,6 +13,8 @@
 #include "ChessPlayer.h"
 #include "GameBoard.h"
 
+//inherits from Chessplayer 
+//implements computer player moves
 class CompPlayer : public ChessPlayer {
 public:
 	
@@ -20,12 +22,13 @@ public:
 	~CompPlayer();
 	/**
 	 * Indicate to the player that the user clicked on the given
-	 * row and column with the mouse.
+	 * row and column with the mouse.  To be ignored for computer player
 	 */
 	bool on_CellSelected(int row, int col);
 	
 	/**
 	 * Handle when the timeout duration has passed.
+	 * implements the move piece for computer player
 	 */
 	bool on_TimerEvent();
 	
