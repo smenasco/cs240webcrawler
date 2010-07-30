@@ -18,13 +18,13 @@ MoveHistory::~MoveHistory(){
 	
 }
 void MoveHistory::Push( const Move & move){
-	moveStack.push(move);
+	moveStack.push_back(move);
 }
 void MoveHistory::Pop(){
-	moveStack.pop();
+	moveStack.pop_back();
 }
 const Move& MoveHistory::Top () const{
-	return moveStack.top();
+	return moveStack.back();
 }
 bool MoveHistory::IsEmpty()const{
 	return moveStack.empty();

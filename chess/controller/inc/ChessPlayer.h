@@ -22,8 +22,8 @@ public: //methods
 	
 	void Init();
 	
-	ChessPlayer(GameBoard * board, PieceColor color, MoveHistory * moves);
-	
+	ChessPlayer(GameBoard * board, PieceColor color);
+	void SetMoveHistory(MoveHistory * m);
 	void SetView(ChessView * view);
 	void HighlightValidMoves(int row, int col);
 	bool IsInCheck();

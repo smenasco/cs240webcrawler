@@ -22,6 +22,8 @@
 #include "GameInfo.h"
 #include "MoveHistory.h"
 #include "Move.h"
+#include "SaveLoadGame.h"
+
 #include <set>
 
 class Controller : public ChessController {
@@ -105,7 +107,8 @@ protected:
 	ChessPlayer * black;
 	ChessPlayer * currentPlayer;
 	MoveHistory * moves;
-	
+	SaveLoadGame * saveload;
+	std::string savefile;
 	void ChangePlayer();
 	void NewGame();
 	void ClearGame();

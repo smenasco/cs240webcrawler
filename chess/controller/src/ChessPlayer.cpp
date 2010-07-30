@@ -11,8 +11,7 @@
 
 using namespace std;
 
-ChessPlayer::ChessPlayer(GameBoard * board, PieceColor color,MoveHistory * moves) : board(board), color(color),
-	moves(moves){
+ChessPlayer::ChessPlayer(GameBoard * board, PieceColor color) : board(board), color(color){
 	movingPiece = NULL;
 	movingSquare = NULL;
 }
@@ -88,5 +87,9 @@ bool ChessPlayer::IsInCheck(){
 	}
 	return false;
 	
+}
+
+void ChessPlayer::SetMoveHistory(MoveHistory * m){
+	moves = m;
 }
 

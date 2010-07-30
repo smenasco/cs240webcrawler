@@ -49,7 +49,7 @@ set<BoardPosition> & ChessPiece::SimulateMoves(GameBoard * board,set<BoardPositi
 	ChessPiece * temp;
 	Square * s;
 	p = board->GetSquare(pos)->MovePiece();
- 	cout << "Currently checking square: [" << pos.GetRow() << "," << pos.GetCol() << "]\n";
+
 	for ( it=checkMoves.begin() ; it != checkMoves.end(); it++ ){
 		s = board->GetSquare(*it);
 		temp = s->MovePiece();
@@ -74,7 +74,7 @@ set<BoardPosition> & ChessPiece::SimulateMoves(GameBoard * board,set<BoardPositi
 		s->SetPiece(temp);
 	}
 	board->GetSquare(pos)->SetPiece(p);
-	cout << "Currently checking square: [" << pos.GetRow() << "," << pos.GetCol() << "]\n";
+
 	return checkMoves;
 }
 

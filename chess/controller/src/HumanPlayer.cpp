@@ -10,8 +10,8 @@
 #include "HumanPlayer.h"
 using namespace std;
 
-HumanPlayer::HumanPlayer(GameBoard * board,PieceColor color, MoveHistory * moves):
-														ChessPlayer(board,color,moves){
+HumanPlayer::HumanPlayer(GameBoard * board,PieceColor color):
+									ChessPlayer(board,color){
 	
 }
 bool HumanPlayer::on_CellSelected(int row, int col){
@@ -46,7 +46,6 @@ bool HumanPlayer::on_CellSelected(int row, int col){
 			m.SetMoveFrom(movingPiece);
 			if (board->GetSquare(bp)->GetPiece() != NULL){
 				m.SetKill(board->GetSquare(bp)->GetPiece());
-				cout << "Kill color: " << m.GetColor(KILL) << "Kill type" << m.GetType(KILL) << endl;
 				delete board->GetSquare(bp)->GetPiece();
 			}
 				

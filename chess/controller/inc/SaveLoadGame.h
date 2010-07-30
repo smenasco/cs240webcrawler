@@ -9,4 +9,23 @@
  *
  */
 
+
+#include "Square.h"
+#include "GameBoard.h"
+#include "BoardPosition.h"
+#include "ChessPiece.h"
+#include "MoveHistory.h"
+#include <string>
+
+
+class SaveLoadGame {
+public:
+	SaveLoadGame(GameBoard * board, MoveHistory * moves);
+	~SaveLoadGame();
+	void Save(std::string filename);
+	void Load(std::string filename);
+private:
+	GameBoard * board;
+	MoveHistory * moves;
+};
 #endif

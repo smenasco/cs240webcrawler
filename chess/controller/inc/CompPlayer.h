@@ -16,7 +16,7 @@
 class CompPlayer : public ChessPlayer {
 public:
 	
-	CompPlayer(GameBoard * board, PieceColor color, MoveHistory * moves);
+	CompPlayer(GameBoard * board, PieceColor color);
 	~CompPlayer();
 	/**
 	 * Indicate to the player that the user clicked on the given

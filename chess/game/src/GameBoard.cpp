@@ -40,7 +40,16 @@ void GameBoard::Clear(){
 	board.clear(); //clear rows
 	
 }
+void GameBoard::NewBoard(){
 
+	for ( int i = 0; i < 8; i++ ) {
+		board.push_back ( vector<Square*>() );
+		for ( int j = 0; j < 8; j++ ){
+			board[i].push_back ( new Square(i,j) );
+		}
+	}
+			
+}
 void GameBoard::Init(){
 	Square *s;
 	for ( int i = 0; i < 8; i++ ) {

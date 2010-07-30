@@ -10,7 +10,7 @@
  */
 
 
-#include <stack>
+#include <deque>
 #include "Move.h"
 
 class MoveHistory {
@@ -22,7 +22,7 @@ public:
 	const Move& Top () const;
 	bool IsEmpty()const;
 private:
-	std::stack<Move> moveStack;
+	std::deque<Move> moveStack;
 };
 
 

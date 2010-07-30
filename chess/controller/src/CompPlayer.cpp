@@ -14,8 +14,8 @@
 
 using namespace std;
 
-CompPlayer::CompPlayer(GameBoard * board,PieceColor color, MoveHistory * moves): 
-												ChessPlayer(board,color,moves){
+CompPlayer::CompPlayer(GameBoard * board,PieceColor color): 
+								ChessPlayer(board,color){
 	row = -1;
 	col = -1;
 }
@@ -90,23 +90,25 @@ bool CompPlayer::on_TimerEvent(){
 		}
 		
 		movingPiece = movingSquare->MovePiece();
-
-		s = board->GetSquare(bp);
-		Move m;
-		m.SetMoveFrom(movingPiece);
-		if (s->GetPiece() != NULL) {
-			m.SetKill(board->GetSquare(bp)->GetPiece());
-			cout << "Kill color: " << m.GetColor(KILL) << "Kill type" << m.GetType(KILL) << endl;
-			delete board->GetSquare(bp)->GetPiece();
-		}
+		if (movingPiece != NULL){
+			s = board->GetSquare(bp);
+			Move m;
+			m.SetMoveFrom(movingPiece);
+			if (s->GetPiece() != NULL) {
+				m.SetKill(board->GetSquare(bp)->GetPiece());
+				
+				delete board->GetSquare(bp)->GetPiece();
+			}
 			
-		if (movingPiece != NULL) {
-			movingPiece->SetBoardPosition(bp.GetRow(),bp.GetCol());  //move the piece
-			s->SetPiece(movingPiece);
-			m.SetMoveTo(movingPiece);
-			changePlayer = true;
+			if (movingPiece != NULL) {
+				movingPiece->SetBoardPosition(bp.GetRow(),bp.GetCol());  //move the piece
+				s->SetPiece(movingPiece);
+				m.SetMoveTo(movingPiece);
+				changePlayer = true;
+			}
+			moves->Push(m);
 		}
-		moves->Push(m);
+		
 		row = -1;
 		col = -1;
 		Init();

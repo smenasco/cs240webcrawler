@@ -8,3 +8,25 @@
  */
 
 #include "SaveLoadGame.h"
+
+using namespace std;
+
+SaveLoadGame::SaveLoadGame(GameBoard * board, MoveHistory * moves):
+							board(board),moves(moves){
+	
+}
+
+SaveLoadGame::~SaveLoadGame(){
+	
+}
+
+void SaveLoadGame::Save(std::string filename){
+	
+}
+
+void SaveLoadGame::Load(std::string filename){
+	board->Clear();
+	board->NewBoard();
+	//set new pieces on squares
+	//construct move history using HTMLparser with xml
+}

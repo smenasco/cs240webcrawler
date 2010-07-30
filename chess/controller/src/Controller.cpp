@@ -14,12 +14,13 @@
 using namespace std;
 //! No arg Constructor
 Controller::Controller(GameType mode):mode(mode){
-	
+	savefile = "";
 	view = NULL;
 	board = new GameBoard();
 	white = NULL;
 	black = NULL;
 	moves = NULL;
+	saveload = new SaveLoadGame(board, moves);
 }
 
 //! Destructor
@@ -39,49 +40,47 @@ void Controller::NewGame(){
 		}
 	}
 	board->Reset();
-	if (white != NULL)
-		delete white;
-	if (black != NULL)
-		delete black;
-	if (moves != NULL)
-		delete moves;
-	moves = new MoveHistory();
 	
 	
+	ClearGame();
 
 	//view->SetStatusBar("This is the status bar");
 	view->ClearMessageArea();
 	view->WriteMessageArea("New Game!\n");
 	view->WriteMessageArea("White's turn!\n");
-	mode = hh;
+	mode = cc;
 	switch (mode){
 		case hh:
 			view->SetTopLabel("Human");
 			view->SetBottomLabel("Human");
-			white = new HumanPlayer(board, WHITE,moves);
-			black = new HumanPlayer(board,BLACK,moves);
+			white = new HumanPlayer(board, WHITE);
+			black = new HumanPlayer(board,BLACK);
 			break;
 		case hc:
 			view->SetTopLabel("Computer");
 			view->SetBottomLabel("Human");
-			white = new HumanPlayer(board,WHITE,moves);
-			black = new CompPlayer(board,BLACK,moves);
+			white = new HumanPlayer(board,WHITE);
+			black = new CompPlayer(board,BLACK);
 			break;
 		case ch:
 			view->SetTopLabel("Human");
 			view->SetBottomLabel("Computer");
-			white = new CompPlayer(board,WHITE,moves);
-			black = new HumanPlayer(board,BLACK,moves);
+			white = new CompPlayer(board,WHITE);
+			black = new HumanPlayer(board,BLACK);
 			break;
 		case cc:
 			view->SetTopLabel("Computer");
 			view->SetBottomLabel("Computer");
-			white = new CompPlayer(board,WHITE,moves);
-			black = new CompPlayer(board,BLACK,moves);
+			white = new CompPlayer(board,WHITE);
+			black = new CompPlayer(board,BLACK);
 			break;
 	}
+	
 	white->SetView(view);
+	white->SetMoveHistory(moves);
 	black->SetView(view);
+	black->SetMoveHistory(moves);	
+	
 	currentPlayer = white;
 	RefreshDisplay();
 	
@@ -139,7 +138,13 @@ void Controller::RefreshDisplay(){
 	}
 }
 void Controller::ClearGame(){
-	//delete errythang
+	if (white != NULL)
+		delete white;
+	if (black != NULL)
+		delete black;
+	if (moves != NULL)
+		delete moves;
+	moves = new MoveHistory();
 }
 /**
  * Indicate to the player that the user clicked on the given
@@ -242,6 +247,8 @@ void Controller::on_NewGame(){
  * Handle when the user selected the save game button.
  */
 void Controller::on_SaveGame(){
+	if (savefile == "")
+		savefile = view->SelectSaveFile();
 	
 }
 
@@ -249,6 +256,7 @@ void Controller::on_SaveGame(){
  * Handle when the user selected the save game as button.
  */
 void Controller::on_SaveGameAs(){
+	savefile = view->SelectSaveFile();
 	
 }
 
@@ -284,8 +292,6 @@ void Controller::on_UndoMove(){
 		p->SetBoardPosition(frow,fcol);
 		from->SetPiece(p);
 		if (m.GetKill() != ""){
-			cout << m.GetKill() << endl;
-			cout << "Kill color: " << m.GetColor(KILL) << "Kill type" << m.GetType(KILL) << endl;
 			to->SetPiece(trow, tcol,m.GetColor(KILL), m.GetType(KILL));
 		}
 		moves->Pop();
@@ -317,13 +323,13 @@ void Controller::on_QuitGame(){
  * Handle when a timer event has been signaled.
  */
 void Controller::on_TimerEvent(){
-	/*
+	
 	if (currentPlayer->IsCheckMate()){
 		//dont do anything
 	} else if (currentPlayer->on_TimerEvent()){
 		ChangePlayer();
 		RefreshDisplay();
-	}*/
+	}
 	
 }
 

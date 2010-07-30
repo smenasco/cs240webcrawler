@@ -60,6 +60,7 @@ EXE_OBJ_FILES = $(OBJ_FOLDER)/main.o $(GAME_OBJ_FOLDER)/ChessPiece.o \
 		$(GAME_OBJ_FOLDER)/Square.o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_OBJ_FOLDER)/BoardPosition.o \
 		$(OBJ_FOLDER)/ChessPlayer.o $(OBJ_FOLDER)/HumanPlayer.o $(OBJ_FOLDER)/CompPlayer.o \
 		$(OBJ_FOLDER)/Controller.o $(GAME_OBJ_FOLDER)/Move.o $(GAME_OBJ_FOLDER)/MoveHistory.o \
+		$(OBJ_FOLDER)/SaveLoadGame.o
 		
 CHESSPIECE_FILES = $(GAME_SRC_FOLDER)/Pawn.cpp $(GAME_INC_FOLDER)/Pawn.h \
 	$(GAME_SRC_FOLDER)/Queen.cpp $(GAME_INC_FOLDER)/Queen.h $(GAME_SRC_FOLDER)/Rook.cpp  \
@@ -126,6 +127,9 @@ $(OBJ_FOLDER)/HumanPlayer.o: $(SRC_FOLDER)/HumanPlayer.cpp $(INC_FOLDER)/HumanPl
 
 $(OBJ_FOLDER)/CompPlayer.o: $(SRC_FOLDER)/CompPlayer.cpp $(INC_FOLDER)/CompPlayer.h $(INC_FOLDER)/ChessPlayer.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/CompPlayer.o $(SRC_FOLDER)/CompPlayer.cpp	
+
+$(OBJ_FOLDER)/SaveLoadGame.o: $(SRC_FOLDER)/SaveLoadGame.cpp $(INC_FOLDER)/SaveLoadGame.h 
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/SaveLoadGame.o $(SRC_FOLDER)/SaveLoadGame.cpp
 
 $(GAME_OBJ_FOLDER)/ChessPiece.o: $(GAME_SRC_FOLDER)/ChessPiece.cpp $(GAME_INC_FOLDER)/ChessPiece.h $(GAME_INC_FOLDER)/GameBoard.h $(GAME_INC_FOLDER)/GameInfo.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/ChessPiece.o $(GAME_SRC_FOLDER)/ChessPiece.cpp

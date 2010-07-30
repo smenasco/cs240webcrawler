@@ -22,11 +22,13 @@ public:
 	ChessPiece * GetPiece(int row, int col);
 	ChessPiece * GetPiece(BoardPosition pos);
 	void Reset();
+	void Clear();
+	void NewBoard();
 	const BoardPosition FindMyKing(PieceColor color);
 private:
 	std::vector< std::vector<Square*> > board;
 	void Init();
-	void Clear();
+	
 };
 
 #endif
