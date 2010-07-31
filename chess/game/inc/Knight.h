@@ -16,7 +16,7 @@ class Square;
 
 //chess piece subclass implements knight
 class Knight : public ChessPiece {
-	
+public:
 	//creates a new knight and sets its board position and color
 	Knight(int row, int col, PieceColor color);
 	

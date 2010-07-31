@@ -14,33 +14,33 @@
 #include <string>
 #include <iostream>
 
-//class to be used by movehistory to store 
-//moves
-//it is set up to write strings straight to
-//xml
+
+//class for use with move history
 class Move{
 public:
 	Move();
 	~Move();
 	
-	//getters and setters 
+	//Getters and setters
 	void SetMoveFrom(ChessPiece * piece);
 	void SetMoveTo(ChessPiece * piece);
 	void SetKill(ChessPiece * piece);
 	const std::string & GetMoveFrom()const ;
 	const std::string & GetMoveTo()const ;
 	const std::string & GetKill()const ;
+	
 	PieceType GetType(MovePieceType move);
 	PieceColor GetColor(MovePieceType move);
 	int GetRow(MovePieceType move);
 	int GetCol(MovePieceType move);
-	//---------------------------------
 	
-	//overloaders and constuctors to use with STL
+	
+	//Operator overloads for use with STL
 	Move(const Move & other);
 	Move & operator =(const Move & other);
 	bool operator ==(const Move & other) const;
-
+	bool operator  <(const Move & other) const;
+	
 private:
 	std::string movefrom;
 	std::string moveto;
@@ -65,8 +65,7 @@ private:
 	PieceColor killcolor;
 	int killcol;
 	int killrow;
-
-	//helper methods for setters and operator overloads
+	
 	void Copy(const Move & other);
 	void SetParams(ChessPiece * piece, MovePieceType move);
 	void WriteString(int which);

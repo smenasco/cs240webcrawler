@@ -23,9 +23,15 @@ void MoveHistory::Push( const Move & move){
 void MoveHistory::Pop(){
 	moveStack.pop_back();
 }
+const Move& MoveHistory::Bottom () const{
+	return moveStack.front();
+}
 const Move& MoveHistory::Top () const{
 	return moveStack.back();
 }
 bool MoveHistory::IsEmpty()const{
 	return moveStack.empty();
+}
+const std::deque<Move> & MoveHistory::GetMoveStack(){
+	return moveStack;
 }

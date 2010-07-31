@@ -17,19 +17,25 @@
 //write when a move is created 
 //by chessplayers and load 
 //read for undo and save
+
 class MoveHistory {
+	friend class SaveLoadGame;
 public:
 	MoveHistory();
 	~MoveHistory();
-	
-	//standard stack procedures
 	void Push( const Move & move);
 	void Pop();
 	const Move& Top () const;
+	const Move& Bottom () const;
 	bool IsEmpty()const;
+	
 private:
 	std::deque<Move> moveStack;
+	
+	//private function available only to SaveLoadGame friend class
+	const std::deque<Move> & GetMoveStack();
 };
+
 
 
 

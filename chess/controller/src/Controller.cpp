@@ -20,7 +20,7 @@ Controller::Controller(GameType mode):mode(mode){
 	white = NULL;
 	black = NULL;
 	moves = NULL;
-	saveload = new SaveLoadGame(board, moves);
+	saveload = new SaveLoadGame(board);
 }
 
 //! Destructor
@@ -43,7 +43,7 @@ void Controller::NewGame(){
 	
 	
 	ClearGame();
-
+	
 	//view->SetStatusBar("This is the status bar");
 	view->ClearMessageArea();
 	view->WriteMessageArea("New Game!\n");
@@ -80,7 +80,7 @@ void Controller::NewGame(){
 	white->SetMoveHistory(moves);
 	black->SetView(view);
 	black->SetMoveHistory(moves);	
-	
+	saveload->SetMoveHistory(moves);
 	currentPlayer = white;
 	RefreshDisplay();
 	
@@ -187,7 +187,7 @@ void Controller::ChangePlayer(){
 		view->WriteMessageArea("STALEMATE!\n");
 	} else if (currentPlayer->IsInCheck())
 		view->WriteMessageArea("CHECK!\n");
-		
+	
 }
 
 ///@param row where drag began
@@ -199,11 +199,11 @@ void Controller::on_DragStart(int row,int col){
 	 All three buttons may initiate the drag, but for our purposes can be treated
 	 the same and so	that paramater is not included.
 	 
-	if (board != NULL){
-		movingPiece = board->GetSquare(row,col)->MovePiece();
-		//board->GetSquare(row,col)->SetPiece(NULL);
-	}
-		*/
+	 if (board != NULL){
+	 movingPiece = board->GetSquare(row,col)->MovePiece();
+	 //board->GetSquare(row,col)->SetPiece(NULL);
+	 }
+	 */
 	
 }
 
@@ -216,19 +216,19 @@ bool Controller::on_DragEnd(int row,int col){
 	 the drag. If the drag terminates off the playing board, this will be called with
 	 the initial coordinates of the drag.
 	 
-	if (movingPiece == NULL){
-		Init();
-		return false;
-	} else {
-		Square * s = board->GetSquare(row,col);
-		//ChessPiece * p = board->GetSquare(row,col)->GetPiece();
-		movingPiece->SetBoardPosition(row,col);
-		s->SetPiece(movingPiece);
-		
-	}
-	RefreshDisplay();
-	Init();
-	*/
+	 if (movingPiece == NULL){
+	 Init();
+	 return false;
+	 } else {
+	 Square * s = board->GetSquare(row,col);
+	 //ChessPiece * p = board->GetSquare(row,col)->GetPiece();
+	 movingPiece->SetBoardPosition(row,col);
+	 s->SetPiece(movingPiece);
+	 
+	 }
+	 RefreshDisplay();
+	 Init();
+	 */
 	//by convention, this should return a boolean value indicating if the drag was accepted or not.
 	return true;
 }
@@ -249,7 +249,7 @@ void Controller::on_NewGame(){
 void Controller::on_SaveGame(){
 	if (savefile == "")
 		savefile = view->SelectSaveFile();
-	saveload->save(savefile);
+	saveload->Save(savefile);
 }
 
 /**
@@ -279,7 +279,7 @@ void Controller::on_UndoMove(){
 		ChessPiece * p;
 		Square * from;
 		Square * to;
-
+		
 		m = moves->Top();
 		
 		
@@ -298,7 +298,7 @@ void Controller::on_UndoMove(){
 		moves->Pop();
 		ChangePlayer();
 	}
-
+	
 	RefreshDisplay();
 }
 
@@ -339,5 +339,5 @@ void Controller::on_TimerEvent(){
  */
 void Controller::SetView(ChessView* v){
 	view = v;
-
+	
 }

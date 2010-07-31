@@ -177,6 +177,11 @@ bool Move::operator ==(const Move & other) const{
 			(moveto == other.GetMoveTo()) && 
 			(kill == other.GetKill()) );
 }
+
+bool Move::operator<(const Move & other) const {
+	return (movefrom < other.movefrom);
+}
+
 void Move::SetMoveFrom(ChessPiece * piece){
 	SetParams(piece,MOVEFROM);
 	WriteString(1);
@@ -233,7 +238,7 @@ PieceColor Move::GetColor(MovePieceType move){
 			return killcolor;
 			break;
 	}
-		return (PieceColor)-8; //means invalid
+	return (PieceColor)-8; //means invalid
 }
 
 int Move::GetRow(MovePieceType move){
@@ -248,7 +253,7 @@ int Move::GetRow(MovePieceType move){
 			return killrow;
 			break;
 	}
-		return -8; //means invalid
+	return -8; //means invalid
 }
 
 int Move::GetCol(MovePieceType move){
@@ -263,6 +268,6 @@ int Move::GetCol(MovePieceType move){
 			return killcol;
 			break;
 	}
-		return -8; //means invalid
+	return -8; //means invalid
 }
 

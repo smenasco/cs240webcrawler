@@ -11,8 +11,8 @@
 
 using namespace std;
 
-SaveLoadGame::SaveLoadGame(GameBoard * board, MoveHistory * moves):
-							board(board),moves(moves){
+SaveLoadGame::SaveLoadGame(GameBoard * board):
+board(board){
 	
 }
 
@@ -20,23 +20,138 @@ SaveLoadGame::~SaveLoadGame(){
 	
 }
 
+void SaveLoadGame::SetMoveHistory(MoveHistory * moves){
+	this->moves = moves;
+}
+
+string SaveLoadGame::PieceToString(ChessPiece * p){
+	string type;
+	string color;
+	string row;
+	string col;
+	switch (p->GetType()) {
+		case PAWN:
+			type = "pawn";
+			break;
+		case ROOK:
+			type = "rook";
+			break;
+		case BISHOP:
+			type = "bishop";
+			break;
+		case KNIGHT:
+			type = "knight";
+			break;
+		case QUEEN:
+			type = "queen";
+			break;
+		case KING:
+			type = "king";
+			break;
+	}
+	
+	switch (p->GetColor()){
+		case WHITE:
+			color= "white";
+			break;
+		case BLACK:
+			color= "black";
+			break;
+	}
+	
+	row = IntToString((p->GetBoardPosition()).GetRow());
+	col = IntToString((p->GetBoardPosition()).GetCol());
+	string s = "<piece type=\""+ type + "\" color=\"" + color+ "\" column=\""+ col+"\" row=\""+row+"\"/>";
+	return s;
+}
+
+string SaveLoadGame::IntToString(int i){
+	string s = "";
+	switch (i) {
+		case 0:
+			s = "0";
+			break;
+		case 1:
+			s = "1";
+			break;
+		case 2:
+			s = "2";
+			break;
+		case 3:
+			s = "3";
+			break;
+		case 4:
+			s = "4";
+			break;
+		case 5:
+			s = "5";
+			break;
+		case 6:
+			s = "6";
+			break;
+		case 7:
+			s = "7";
+			break;
+		default:
+			s="invalid row/col";
+			break;
+			
+	} 
+	return s;
+}
+
 void SaveLoadGame::Save(std::string filename){
-	//HANDLE ALL READ WRITE EXCEPTIONS
-	/* iterate throug the current gameboard
-	  save location of all the pieces to xml
-	 iterate through the move history
-	 write all the moves in xml
-	 */
+	deque<Move> moveStack = moves->GetMoveStack();
+	ChessPiece * p;
+	Square * s;
+	ofstream output;
+	try {
+		
+		output.open(filename.c_str());
+		
+		output << "<chessgame>" << endl;
+		output << "\t<board>" << endl;
+		for (int i = 0; i < 8; i++){
+			for (int j = 0; j < 8; j++){
+				s= board->GetSquare(i,j);
+				p = s->GetPiece();
+				if (p != NULL){
+					string piece = PieceToString(p);
+					output << "\t\t" <<piece << endl;
+				}
+			}
+		}
+		output << "\t</board>" << endl;		
+		output << "\t<history>" << endl;
+		deque<Move>::iterator it;
+		for (it = moveStack.begin(); it != moveStack.end();it++){
+			output << "\t\t<move>" << endl;
+			output << "\t\t\t" <<(*it).GetMoveFrom() << endl;
+			output << "\t\t\t" <<(*it).GetMoveTo() << endl;
+			if ((*it).GetKill() != "")
+				output << "\t\t\t" <<(*it).GetKill() << endl;
+			output << "\t\t</move>" << endl;
+		}
+		output << "\t</history>" << endl;
+		output << "</chessgame>" << endl;
+		
+		
+		output.close();
+	}
+	catch (std::exception &e) {
+		std::cout << "Save: Exception Occurred:" << e.what() << std::endl;		
+	}
+	catch (CS240Exception &e) {
+		std::cout << "Save: Exception Occurred:" << e.GetMessage() << std::endl;
+	}
+	catch (...) {
+	}
+	
 }
 
 void SaveLoadGame::Load(std::string filename){
-	//HANDLE ALL READ WRITE EXCEPTIONS
-	//USE HTMLParser to read in piece loaction 
-	//and move history
 	board->Clear();
 	board->NewBoard();
-	//set new pieces on squares as parsed from xml
+	//set new pieces on squares
 	//construct move history using HTMLparser with xml
-	//check who should be the current player based on who
-	//the last move is in move history
 }
