@@ -265,6 +265,10 @@ void Controller::on_SaveGameAs(){
  */
 void Controller::on_LoadGame(){
 	string loadfile = view->SelectLoadFile();
+	if (moves != NULL)
+		delete moves;
+	moves = new MoveHistory();
+	saveload->SetMoveHistory(moves);
 	saveload->Load(loadfile);
 }
 

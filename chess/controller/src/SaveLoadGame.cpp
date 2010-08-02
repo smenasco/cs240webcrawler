@@ -12,12 +12,12 @@
 using namespace std;
 
 SaveLoadGame::SaveLoadGame(GameBoard * board):
-board(board){
+board(board),stream(NULL),tokenizer(NULL){
 	
 }
 
 SaveLoadGame::~SaveLoadGame(){
-	
+	CleanLoad();
 }
 
 void SaveLoadGame::SetMoveHistory(MoveHistory * moves){
@@ -148,10 +148,54 @@ void SaveLoadGame::Save(std::string filename){
 	}
 	
 }
-
+void SaveLoadGame::CleanLoad(){
+	if (stream != NULL)
+		delete stream;
+	if (tokenizer != NULL)
+		delete tokenizer;
+	stream = NULL;
+	tokenizer = NULL;
+}
 void SaveLoadGame::Load(std::string filename){
 	board->Clear();
 	board->NewBoard();
+	
+	//need to initialize HTML parser and begin tokenizing state-machine
+	
+	
+	try{
+		
+		stream = new URLInputStream(filename);
+		tokenizer = new HTMLTokenizer(stream);
+		//Handle redirections (Find out where we redirected to)
+		//std::cout << "=======================================" << std::endl;
+		//std::cout << "Actual Location: " << path << std::endl;
+		//This is where the actual parsing beings
+
+		CleanLoad();
+	}
+	catch (std::exception &e) {
+		std::cout << "Load: Exception Occurred:" << e.what() << std::endl;
+		CleanLoad();
+	}
+	catch (CS240Exception &e) {
+		std::cout << "Load: CS240Exception Occurred:" << e.GetMessage() << std::endl;
+		CleanLoad();
+	}
+	catch (...) {
+		std::cout << "Load: Unknown Exception Occurred" << std::endl;
+		CleanLoad();
+	}
+	
 	//set new pieces on squares
 	//construct move history using HTMLparser with xml
+}
+
+void SaveLoadGame::ParseBoard(){
+}
+void SaveLoadGame::ParsePiece(){
+	
+}
+void SaveLoadGame::ParseMoveHistory(){
+	
 }

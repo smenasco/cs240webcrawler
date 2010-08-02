@@ -17,6 +17,9 @@
 #include "MoveHistory.h"
 #include "Move.h"
 #include "CS240Exception.h"
+#include "HTMLTokenizer.h"
+#include "InputStream.h"
+#include "URLInputStream.h"
 #include <string>
 #include <deque>
 #include <iostream>
@@ -40,8 +43,15 @@ public:
 private:
 	GameBoard * board;
 	MoveHistory * moves;
+	URLInputStream * stream;	//!< the stream to load the url from
+	HTMLTokenizer *tokenizer;	
 	
 	std::string PieceToString(ChessPiece * p);
 	std::string IntToString(int i);
+	
+	void CleanLoad();
+	void ParseBoard();
+	void ParsePiece();
+	void ParseMoveHistory();
 };
 #endif

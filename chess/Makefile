@@ -6,7 +6,7 @@ GTKMM = gtkmm-2.4
 SIGC = sigc++-2.0
 LIBGLADE = libglademm-2.4
 
-FLAGS = -I$(INC_FOLDER) -I$(GAME_INC_FOLDER) -I$(VIEW_INC_FOLDER) -Wall -g -fPIC
+FLAGS = -I$(INC_FOLDER) -I$(LIB_INC) -I$(GAME_INC_FOLDER) -I$(VIEW_INC_FOLDER) -Wall -g -fPIC
 
 #CFLAGS are the -I values needed to compile files using the GTKMM, SIGC, and
 #LIBGLADE libraries
@@ -20,6 +20,15 @@ LIBS = `pkg-config $(GTKMM) $(SIGC) $(LIBGLADE) --libs` -L/usr/X11/lib
 # from logging messages from the students code
 #IMPORTANT: You must add a compiler option here for the library to be dynamic
 LIB_FLAGS = -DG_LOG_DOMAIN=\"ChessGui\" -fPIC
+
+LIB_SRC = utils/src
+LIB_OBJ = utils/obj
+LIB_INC = utils/inc
+UTIL_OBJ_FILES = $(LIB_OBJ)/CommandRunner.o \
+	$(LIB_OBJ)/FileInputStream.o $(LIB_OBJ)/FileSystem.o $(LIB_OBJ)/HTMLToken.o $(LIB_OBJ)/HTMLTokenizer.o \
+	$(LIB_OBJ)/HTTPInputStream.o $(LIB_OBJ)/StringUtil.o $(LIB_OBJ)/URLInputStream.o 
+LIB_FILE = lib/libcs240utils.a
+
 
 # -----------------------------------------------------------------------------
 # Folder Variables
@@ -95,20 +104,22 @@ memtest: $(EXE_NAME)
 debug : $(EXE_NAME)
 	gdb $(EXE_NAME)
 	
-lib : $(LIBRARY)
+lib : $(LIBRARY) $(LIB_FILE)
 
 clean: 
 	-rm -f $(EXE_NAME)
 	-rm -f $(EXE_OBJ_FILES)
 	-rm -f $(SRC_FOLDER)/*~ $(INC_FOLDER)/*~
+	-rm -f lib/*
+	-rm -f $(LIB_OBJ)/*
 	-rm -f $(LIBRARY) $(LIB_OBJ_FILES)
 	-rm -f $(VIEW_SRC_FOLDER)/*~ $(VIEW_INC_FOLDER)/*~
 
 # -----------------------------------------------------------------------------
 # File Construction
 # -----------------------------------------------------------------------------
-$(EXE_NAME): $(EXE_OBJ_FILES)  $(LIBRARY)
-	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES)  $(LIBRARY) 
+$(EXE_NAME): $(EXE_OBJ_FILES)  $(LIBRARY)  $(LIB_FILE)
+	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES)  $(LIBRARY) $(LIB_FILE)
 	
 $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/main.o $(SRC_FOLDER)/main.cpp
@@ -175,6 +186,42 @@ $(GAME_OBJ_FOLDER)/GameBoard.o: $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLD
 # -----------------------------------------------------------------------------
 # Library Construction
 # -----------------------------------------------------------------------------
+
+
+
+# CS 240 UTILS 
+# -----------------------------------------------------------------------------
+
+	
+$(LIB_FILE) : $(UTIL_OBJ_FILES)
+	ar r lib/libcs240utils.a $(LIB_OBJ)/*.o
+
+$(LIB_OBJ)/CommandRunner.o : $(LIB_SRC)/CommandRunner.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h $(LIB_INC)/CommandRunner.h
+	g++ -Wall -g  -c -o $(LIB_OBJ)/CommandRunner.o -I $(LIB_INC) $(LIB_SRC)/CommandRunner.cpp
+
+$(LIB_OBJ)/FileInputStream.o : $(LIB_SRC)/FileInputStream.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/FileInputStream.h
+	g++ -Wall -g  -c -o $(LIB_OBJ)/FileInputStream.o -I $(LIB_INC) $(LIB_SRC)/FileInputStream.cpp
+	 
+$(LIB_OBJ)/FileSystem.o : $(LIB_SRC)/FileSystem.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/FileSystem.h $(LIB_INC)/UnitTest.h
+	g++ -Wall -g  -c -o $(LIB_OBJ)/FileSystem.o -I $(LIB_INC) $(LIB_SRC)/FileSystem.cpp
+  
+$(LIB_OBJ)/HTMLToken.o : $(LIB_SRC)/HTMLToken.cpp $(LIB_INC)/HTMLToken.h
+	g++ -Wall -g  -c -o $(LIB_OBJ)/HTMLToken.o -I $(LIB_INC) $(LIB_SRC)/HTMLToken.cpp
+
+$(LIB_OBJ)/HTMLTokenizer.o : $(LIB_SRC)/HTMLTokenizer.cpp $(LIB_INC)/HTMLTokenizer.h
+	g++ -Wall -g  -c -o $(LIB_OBJ)/HTMLTokenizer.o -I $(LIB_INC) $(LIB_SRC)/HTMLTokenizer.cpp	 
+
+$(LIB_OBJ)/HTTPInputStream.o : $(LIB_SRC)/HTTPInputStream.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h $(LIB_INC)/HTTPInputStream.h
+	g++ -Wall -g  -c -o $(LIB_OBJ)/HTTPInputStream.o -I $(LIB_INC) $(LIB_SRC)/HTTPInputStream.cpp
+
+$(LIB_OBJ)/StringUtil.o : $(LIB_SRC)/StringUtil.cpp $(LIB_INC)/StringUtil.h
+	g++ -Wall -g  -c -o $(LIB_OBJ)/StringUtil.o -I $(LIB_INC) $(LIB_SRC)/StringUtil.cpp	 
+	
+$(LIB_OBJ)/URLInputStream.o : $(LIB_SRC)/URLInputStream.cpp $(LIB_INC)/URLInputStream.h $(LIB_INC)/StringUtil.h $(LIB_INC)/CS240Exception.h $(LIB_INC)/HTTPInputStream.h $(LIB_INC)/FileInputStream.h
+	g++ -Wall -g  -c -o $(LIB_OBJ)/URLInputStream.o -I $(LIB_INC) $(LIB_SRC)/URLInputStream.cpp	
+	
+
+
 #This is currently a STATIC library, you must change it to a DYNAMIC library
 #You must also add a compiler option to the variable LIB_FLAGS in order for the library to be dynamic
 $(LIBRARY): $(LIB_OBJ_FILES) 
