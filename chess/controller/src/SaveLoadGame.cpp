@@ -156,21 +156,29 @@ void SaveLoadGame::CleanLoad(){
 	stream = NULL;
 	tokenizer = NULL;
 }
+bool SaveLoadGame::IsValidChessFile(){
+	return true;
+}
+
 void SaveLoadGame::Load(std::string filename){
 	board->Clear();
-	board->NewBoard();
+	
 	
 	//need to initialize HTML parser and begin tokenizing state-machine
-	
-	
+	if (filename.substr(0,7) != "file://"){
+		filename = "file://" + filename;
+	}
+	cout <<  filename << endl;
+
 	try{
 		
 		stream = new URLInputStream(filename);
 		tokenizer = new HTMLTokenizer(stream);
-		//Handle redirections (Find out where we redirected to)
-		//std::cout << "=======================================" << std::endl;
-		//std::cout << "Actual Location: " << path << std::endl;
-		//This is where the actual parsing beings
+		stream->Close();
+		if (IsValidChessFile()){
+			board->NewBoard();
+			moves->Reset();
+		}
 
 		CleanLoad();
 	}

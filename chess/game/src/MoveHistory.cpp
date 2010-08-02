@@ -35,3 +35,6 @@ bool MoveHistory::IsEmpty()const{
 const std::deque<Move> & MoveHistory::GetMoveStack(){
 	return moveStack;
 }
+void MoveHistory::Reset(){
+	moveStack.clear();
+}

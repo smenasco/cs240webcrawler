@@ -48,7 +48,7 @@ private:
 	
 	std::string PieceToString(ChessPiece * p);
 	std::string IntToString(int i);
-	
+	bool IsValidChessFile();
 	void CleanLoad();
 	void ParseBoard();
 	void ParsePiece();

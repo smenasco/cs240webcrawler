@@ -28,7 +28,7 @@ public:
 	const Move& Top () const;
 	const Move& Bottom () const;
 	bool IsEmpty()const;
-	
+	void Reset();
 private:
 	std::deque<Move> moveStack;
 	
