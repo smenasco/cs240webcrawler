@@ -266,8 +266,19 @@ void Controller::on_SaveGameAs(){
 void Controller::on_LoadGame(){
 	string loadfile = view->SelectLoadFile();
 	saveload->Load(loadfile);
+	
+	UnHighlightSquares();	
+	RefreshDisplay();
+
 }
 
+void Controller::UnHighlightSquares(){
+	for (int i = 0; i < 8;i++){
+		for (int j=0;j < 8;j++){
+			view->UnHighlightSquare(i,j);
+		}
+	}
+}
 /**
  * Handle when the user selected the undo move button.
  */

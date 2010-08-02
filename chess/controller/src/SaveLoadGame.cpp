@@ -157,7 +157,15 @@ void SaveLoadGame::CleanLoad(){
 	tokenizer = NULL;
 }
 bool SaveLoadGame::IsValidChessFile(){
-	return true;
+	while(tokenizer->HasNextToken()){
+		HTMLToken token = tokenizer->GetNextToken();
+		HTMLTokenType type = token.GetType();
+		std::string tokenval = StringUtil::ToLowerCopy(token.GetValue());
+		if (tokenval == "chessgame" && type == TAG_START){
+			return true;
+		}
+	}
+	return false;
 }
 
 void SaveLoadGame::Load(std::string filename){
@@ -178,6 +186,8 @@ void SaveLoadGame::Load(std::string filename){
 		if (IsValidChessFile()){
 			board->NewBoard();
 			moves->Reset();
+			ParseBoard();
+			ParseMoveHistory();
 		}
 
 		CleanLoad();

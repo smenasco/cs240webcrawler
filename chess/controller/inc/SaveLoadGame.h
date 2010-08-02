@@ -16,10 +16,13 @@
 #include "ChessPiece.h"
 #include "MoveHistory.h"
 #include "Move.h"
+
 #include "CS240Exception.h"
 #include "HTMLTokenizer.h"
 #include "InputStream.h"
 #include "URLInputStream.h"
+#include "StringUtil.h"
+
 #include <string>
 #include <deque>
 #include <iostream>
