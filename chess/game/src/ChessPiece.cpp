@@ -57,7 +57,7 @@ set<BoardPosition> & ChessPiece::SimulateMoves(GameBoard * board,set<BoardPositi
 		
 		//move the piece
 		if (IsInCheck(board)){
-			checkMoves.erase(*it);
+			checkMoves.erase(it);
 
 		}
 		s->SetPiece(temp);

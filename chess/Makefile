@@ -58,18 +58,19 @@ BIN_FOLDER = bin
 #change this to a dynamic library name
 LIBRARY= $(VIEW_FOLDER)/cs240.a
 EXE_NAME = $(BIN_FOLDER)/chess
+TEST_DRIVER_NAME = $(BIN_FOLDER)/testdriver
 
 LIB_OBJ_FILES = $(VIEW_OBJ_FOLDER)/Chess.o $(VIEW_OBJ_FOLDER)/ChessGui.o \
 		$(VIEW_OBJ_FOLDER)/ChessGuiBoard.o $(VIEW_OBJ_FOLDER)/ChessGuiBoardCell.o \
 		$(VIEW_OBJ_FOLDER)/ChessGuiImages.o $(VIEW_OBJ_FOLDER)/SelectDialog.o
 		
-EXE_OBJ_FILES = $(OBJ_FOLDER)/main.o $(GAME_OBJ_FOLDER)/ChessPiece.o \
+EXE_OBJ_FILES =  $(GAME_OBJ_FOLDER)/ChessPiece.o \
 		$(GAME_OBJ_FOLDER)/Bishop.o $(GAME_OBJ_FOLDER)/Rook.o $(GAME_OBJ_FOLDER)/Queen.o \
 		$(GAME_OBJ_FOLDER)/King.o $(GAME_OBJ_FOLDER)/Pawn.o $(GAME_OBJ_FOLDER)/Knight.o \
 		$(GAME_OBJ_FOLDER)/Square.o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_OBJ_FOLDER)/BoardPosition.o \
 		$(OBJ_FOLDER)/ChessPlayer.o $(OBJ_FOLDER)/HumanPlayer.o $(OBJ_FOLDER)/CompPlayer.o \
 		$(OBJ_FOLDER)/Controller.o $(GAME_OBJ_FOLDER)/Move.o $(GAME_OBJ_FOLDER)/MoveHistory.o \
-		$(OBJ_FOLDER)/SaveLoadGame.o
+		$(OBJ_FOLDER)/SaveLoadGame.o 
 		
 CHESSPIECE_FILES = $(GAME_SRC_FOLDER)/Pawn.cpp $(GAME_INC_FOLDER)/Pawn.h \
 	$(GAME_SRC_FOLDER)/Queen.cpp $(GAME_INC_FOLDER)/Queen.h $(GAME_SRC_FOLDER)/Rook.cpp  \
@@ -106,8 +107,22 @@ debug : $(EXE_NAME)
 	
 lib : $(LIBRARY) $(LIB_FILE)
 
+##########---------BUILD THE TESTDRIVER-------------############
+
+test : testdriver
+	@$(TEST_DRIVER_NAME)
+testdriver : $(TEST_DRIVER_NAME)
+
+bin/testdriver : lib $(GAME_OBJ_FOLDER)/TestDriver.o $(EXE_OBJ_FILES) $(LIBRARY) $(LIB_FILE)
+	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(TEST_DRIVER_NAME) $(GAME_OBJ_FOLDER)/TestDriver.o $(EXE_OBJ_FILES) $(LIBRARY) $(LIB_FILE)
+	chmod ugo+x $(TEST_DRIVER_NAME)
+
+$(GAME_OBJ_FOLDER)/TestDriver.o : game/src/TestDriver.cpp game/inc/TestDriver.h #should put include files and source files
+	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/TestDriver.o $(GAME_SRC_FOLDER)/TestDriver.cpp
+
 clean: 
 	-rm -f $(EXE_NAME)
+	-rm -f $(TEST_DRIVER_NAME)
 	-rm -f $(EXE_OBJ_FILES)
 	-rm -f $(SRC_FOLDER)/*~ $(INC_FOLDER)/*~
 	-rm -f lib/*
@@ -119,7 +134,7 @@ clean:
 # File Construction
 # -----------------------------------------------------------------------------
 $(EXE_NAME): $(EXE_OBJ_FILES)  $(LIBRARY)  $(LIB_FILE)
-	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES)  $(LIBRARY) $(LIB_FILE)
+	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES) $(OBJ_FOLDER)/main.o $(LIBRARY) $(LIB_FILE)
 	
 $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/main.o $(SRC_FOLDER)/main.cpp
