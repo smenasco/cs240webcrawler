@@ -23,17 +23,29 @@ Controller::Controller(GameType mode):mode(mode){
 	saveload = new SaveLoadGame(board);
 }
 
-//! Destructor
-//! Maher-shalal-hash-baz 
-Controller::~Controller(){
+void Controller::Destruct(){
 	if (white != NULL)
 		delete white;
 	if (black != NULL)
 		delete black;
-	delete board;
-	delete saveload;
+	if (board != NULL)
+		delete board;
+	if (saveload != NULL)
+		delete saveload;
 	if (moves != NULL)
 		delete moves;
+	white = NULL;
+	black = NULL;
+	board = NULL;
+	moves = NULL;
+	saveload = NULL;
+}
+
+//! Destructor
+//! Maher-shalal-hash-baz 
+Controller::~Controller(){
+	Destruct();
+	
 }
 
 void Controller::NewGame(){
@@ -354,6 +366,7 @@ void Controller::on_QuitGame(){
 	 requirements of the project, but is available for your
 	 use.
 	 */
+	Destruct();
 	//Needs to call ClearGame() and clean up errythang
 }
 

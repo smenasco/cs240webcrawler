@@ -122,7 +122,7 @@ protected:
 	void ChangePlayer();
 	void NewGame();
 	void ClearGame();
-	
+	void Destruct();
 	//tells the gui to redraw the board
 	void RefreshDisplay();
 	void UnHighlightSquares();
