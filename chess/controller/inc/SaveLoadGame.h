@@ -27,6 +27,8 @@
 #include <deque>
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
 
 //Handles the saving and loading to and from valid xml
 //uses the HTML tokenizer to load and homebrew xml writer

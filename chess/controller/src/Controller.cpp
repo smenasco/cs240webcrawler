@@ -44,7 +44,7 @@ void Controller::NewGame(){
 	view->ClearMessageArea();
 	view->WriteMessageArea("New Game!\n");
 	view->WriteMessageArea("White's turn!\n");
-	mode = hh;
+	//mode = hh;
 	switch (mode){
 		case hh:
 			view->SetTopLabel("Human");
