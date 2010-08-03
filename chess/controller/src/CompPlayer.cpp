@@ -24,6 +24,19 @@ bool CompPlayer::on_CellSelected(int row, int col){
 	return false;
 }
 
+void CompPlayer::Init(){
+	
+	for (int i = 0; i < 8;i++){
+		for (int j=0;j < 8;j++){
+			view->UnHighlightSquare(i,j);
+		}
+	}
+	movingPiece = NULL;
+	movingSquare = NULL;
+	validMoves.clear();
+	row = -1;
+	col = -1;
+}
 bool CompPlayer::on_TimerEvent(){
 	bool changePlayer = false;
 	PieceColor movingPieceColor;

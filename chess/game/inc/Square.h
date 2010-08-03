@@ -35,7 +35,7 @@ public:
 	
 	//Getters and setters
 	void SetPiece(ChessPiece * cp);
-	void SetPiece(int row, int col, PieceColor color, PieceType);
+	void SetPiece(int row, int col, PieceColor color, PieceType type);
 	ChessPiece * GetPiece();
 	ChessPiece * MovePiece();
 	int GetRow();

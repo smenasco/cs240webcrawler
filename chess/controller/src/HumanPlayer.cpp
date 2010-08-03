@@ -14,6 +14,18 @@ HumanPlayer::HumanPlayer(GameBoard * board,PieceColor color):
 									ChessPlayer(board,color){
 	
 }
+void HumanPlayer::Init(){
+	
+	for (int i = 0; i < 8;i++){
+		for (int j=0;j < 8;j++){
+			view->UnHighlightSquare(i,j);
+		}
+	}
+	movingPiece = NULL;
+	movingSquare = NULL;
+	validMoves.clear();
+}
+
 bool HumanPlayer::on_CellSelected(int row, int col){
 	bool changePlayer = false;
 	if (movingSquare == NULL && movingPiece == NULL) {
@@ -31,7 +43,8 @@ bool HumanPlayer::on_CellSelected(int row, int col){
 			}else
 				Init();
 			
-		}
+		} else 
+			Init();
 		
 	} else if (movingSquare != NULL && movingPiece != NULL){
 		Square * s = board->GetSquare(row,col);

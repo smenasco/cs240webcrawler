@@ -168,10 +168,10 @@ bool SaveLoadGame::IsValidChessFile(){
 	return false;
 }
 
-void SaveLoadGame::Load(std::string filename){
-	board->Clear();
+PieceColor SaveLoadGame::Load(std::string filename){
 	
 	
+	lasttomove = BLACK;
 	//need to initialize HTML parser and begin tokenizing state-machine
 	if (filename.substr(0,7) != "file://"){
 		filename = "file://" + filename;
@@ -184,36 +184,238 @@ void SaveLoadGame::Load(std::string filename){
 		tokenizer = new HTMLTokenizer(stream);
 		stream->Close();
 		if (IsValidChessFile()){
+			board->Clear();
 			board->NewBoard();
 			moves->Reset();
 			ParseBoard();
 			ParseMoveHistory();
-		}
+		}else
+			throw FileException(std::string("This file is not a valid chess file! ") + filename);
 
 		CleanLoad();
 	}
 	catch (std::exception &e) {
 		std::cout << "Load: Exception Occurred:" << e.what() << std::endl;
 		CleanLoad();
+		lasttomove = (PieceColor)0;
 	}
 	catch (CS240Exception &e) {
 		std::cout << "Load: CS240Exception Occurred:" << e.GetMessage() << std::endl;
+		lasttomove = (PieceColor)0;
 		CleanLoad();
 	}
 	catch (...) {
 		std::cout << "Load: Unknown Exception Occurred" << std::endl;
+		lasttomove = (PieceColor)0;
 		CleanLoad();
 	}
-	
-	//set new pieces on squares
-	//construct move history using HTMLparser with xml
+	return lasttomove;
 }
 
 void SaveLoadGame::ParseBoard(){
+	while(tokenizer->HasNextToken()){
+		HTMLToken token = tokenizer->GetNextToken();
+		HTMLTokenType type = token.GetType();
+		ChessPiece *p;
+		std::string tokenval = StringUtil::ToLowerCopy(token.GetValue());
+		if (tokenval == "board" && type == TAG_START){
+			//cout << "We are in the board\n";
+		}
+		if (tokenval == "piece"){
+			p = ParsePieceBoard(token);
+			if (p == NULL){
+				//cout << "We have a problem\n";
+			}
+		}
+		if (tokenval == "board" && type == TAG_END){
+			//cout << "we should leave  the board\n";
+			return;
+		}
+		
+		
+	}
 }
-void SaveLoadGame::ParsePiece(){
+
+ChessPiece * SaveLoadGame::ParsePieceHistory(HTMLToken token){
+	ChessPiece * piece;
+	PieceType type;
+	PieceColor color;
+	int row;
+	int col;
 	
+	
+	
+	if (token.AttributeExists("color")){
+		string s = token.GetAttribute("color");
+		if (s == "white")
+			color = WHITE;
+		if (s == "black")
+			color = BLACK;
+		//cout << color;
+		//std::cout << "Found color: " << token.GetAttribute("color") << std::endl;
+	}
+	
+	if (token.AttributeExists("column")){
+		col = atoi((token.GetAttribute("column")).c_str());
+		//cout << "Found col: " << col <<":"<<token.GetAttribute("column") << endl;	
+	}
+	
+	if (token.AttributeExists("row")){
+		row = atoi((token.GetAttribute("row")).c_str());
+		//cout << "Found row: " << row <<":"<<token.GetAttribute("row") << endl;
+	}
+	
+	if (token.AttributeExists("type")){
+		string s = token.GetAttribute("type");
+		if (s == "bishop")
+			type = BISHOP;
+		if (s == "pawn")
+			type = PAWN;
+		if (s == "knight")
+			type = KNIGHT;
+		if (s == "rook")
+			type = ROOK;
+		if (s == "king")
+			type = KING;
+		if (s == "queen")
+			type = QUEEN;
+		//cout <<type;
+		//std::cout << "Found type: " << token.GetAttribute("type") << std::endl;
+	}
+	
+	switch (type){
+		case PAWN:
+			piece = new Pawn(row,col,color);
+			break;
+		case ROOK:
+			piece = new Rook(row,col,color);
+			break;
+		case KNIGHT:
+			piece = new Knight(row,col,color);
+			break;
+		case BISHOP:
+			piece = new Bishop(row,col,color);
+			break;
+		case KING:
+			piece = new King(row,col,color);
+			break;
+		case QUEEN:
+			piece = new Queen(row,col,color);
+			break;
+	}
+	return piece;
+}
+
+ChessPiece * SaveLoadGame::ParsePieceBoard(HTMLToken token){
+	Square * s;
+	PieceType type;
+	PieceColor color;
+	int row;
+	int col;
+	
+	if (token.AttributeExists("type")){
+		string s = token.GetAttribute("type");
+		if (s == "bishop")
+			type = BISHOP;
+		if (s == "pawn")
+			type = PAWN;
+		if (s == "knight")
+			type = KNIGHT;
+		if (s == "rook")
+			type = ROOK;
+		if (s == "king")
+			type = KING;
+		if (s == "queen")
+			type = QUEEN;
+		//cout <<type;
+		//std::cout << "Found type: " << token.GetAttribute("type") << std::endl;
+	}
+	
+	if (token.AttributeExists("color")){
+		string s = token.GetAttribute("color");
+		if (s == "white")
+			color = WHITE;
+		if (s == "black")
+			color = BLACK;
+		//cout << color;
+		//std::cout << "Found color: " << token.GetAttribute("color") << std::endl;
+	}
+	
+	if (token.AttributeExists("column")){
+		col = atoi((token.GetAttribute("column")).c_str());
+		//cout << "Found col: " << col <<":"<<token.GetAttribute("column") << endl;	
+	}
+	
+	if (token.AttributeExists("row")){
+		row = atoi((token.GetAttribute("row")).c_str());
+		//cout << "Found row: " << row <<":"<<token.GetAttribute("row") << endl;
+	}
+	
+	s = board->GetSquare(row,col);
+	s->SetPiece(row,col,color,type);
+	
+	return board->GetPiece(row,col);
 }
 void SaveLoadGame::ParseMoveHistory(){
+	while(tokenizer->HasNextToken()){
+		HTMLToken token = tokenizer->GetNextToken();
+		HTMLTokenType type = token.GetType();
 	
+		std::string tokenval = StringUtil::ToLowerCopy(token.GetValue());
+		
+		if (tokenval == "history" && type == TAG_START){
+			//cout << "We are in the history\n";
+		}
+		if (tokenval == "move" && type == TAG_START){
+			ParseMove(token);
+		}
+		if (tokenval == "history" && type == TAG_END){
+			//cout << "we should leave  the history\n";
+			return;
+		}
+		
+		
+	}
+}
+
+void SaveLoadGame::ParseMove(HTMLToken token){
+	int count = 0;
+	Move m;
+	while(tokenizer->HasNextToken()){
+		HTMLToken token = tokenizer->GetNextToken();
+		HTMLTokenType type = token.GetType();
+		ChessPiece * p= NULL;
+		std::string tokenval = StringUtil::ToLowerCopy(token.GetValue());
+
+		
+		
+		if (tokenval == "piece"){
+			count++;
+			if (count == 1){
+				p = ParsePieceHistory(token);
+				lasttomove = p->GetColor();
+				m.SetMoveFrom(p);
+			}
+			if (count == 2) {
+				p = ParsePieceHistory(token);
+				m.SetMoveTo(p);
+			}
+			if (count == 3) {
+				p = ParsePieceHistory(token);
+				m.SetKill(p);
+			}
+		}
+		if (p != NULL)
+			delete p;
+		
+		if (tokenval == "move" && type == TAG_END){
+			moves->Push(m);
+			//cout << "we should leave  the move\n";
+			return;
+		}
+		
+		
+	}
+	
+
 }

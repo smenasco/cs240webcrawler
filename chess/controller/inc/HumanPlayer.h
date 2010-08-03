@@ -24,6 +24,7 @@ public:
 	 */
 	bool on_CellSelected(int row, int col);
 	
+	void Init();
 	/**
 	 * Handle when the timeout duration has passed.
 	*  To be ignored for human player

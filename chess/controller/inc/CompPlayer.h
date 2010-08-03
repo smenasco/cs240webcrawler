@@ -26,6 +26,7 @@ public:
 	 */
 	bool on_CellSelected(int row, int col);
 	
+	void Init();
 	/**
 	 * Handle when the timeout duration has passed.
 	 * implements the move piece for computer player

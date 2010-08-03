@@ -126,6 +126,7 @@ protected:
 	//tells the gui to redraw the board
 	void RefreshDisplay();
 	void UnHighlightSquares();
+	void CheckGameState();
 };
 
 #endif

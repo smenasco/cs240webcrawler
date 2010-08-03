@@ -34,11 +34,7 @@ Controller::~Controller(){
 
 void Controller::NewGame(){
 	//Clear errythang ie. MoveHistory
-	for (int i = 0; i < 8;i++){
-		for (int j=0;j < 8;j++){
-			view->UnHighlightSquare(i,j);
-		}
-	}
+	UnHighlightSquares();	
 	board->Reset();
 	
 	
@@ -48,7 +44,7 @@ void Controller::NewGame(){
 	view->ClearMessageArea();
 	view->WriteMessageArea("New Game!\n");
 	view->WriteMessageArea("White's turn!\n");
-	mode = cc;
+	mode = hh;
 	switch (mode){
 		case hh:
 			view->SetTopLabel("Human");
@@ -180,6 +176,12 @@ void Controller::ChangePlayer(){
 		view->ClearMessageArea();
 		view->WriteMessageArea("White's turn\n");
 	}
+	CheckGameState();
+
+	
+}
+
+void Controller::CheckGameState(){
 	if (currentPlayer->IsCheckMate() && currentPlayer->IsInCheck()){
 		view->WriteMessageArea("CHECKMATE!\n");
 	}
@@ -187,8 +189,8 @@ void Controller::ChangePlayer(){
 		view->WriteMessageArea("STALEMATE!\n");
 	} else if (currentPlayer->IsInCheck())
 		view->WriteMessageArea("CHECK!\n");
-	
 }
+
 
 ///@param row where drag began
 ///@param col where drag began
@@ -265,8 +267,21 @@ void Controller::on_SaveGameAs(){
  */
 void Controller::on_LoadGame(){
 	string loadfile = view->SelectLoadFile();
-	saveload->Load(loadfile);
+	if (loadfile.empty())
+		return;
 	
+	PieceColor c = saveload->Load(loadfile);
+	if (c == WHITE){
+		if (currentPlayer == white)
+			ChangePlayer();
+	}else if (c == BLACK) {
+		if (currentPlayer == black)
+			ChangePlayer();
+	}
+	CheckGameState();
+	
+	black->Init();
+	white->Init();
 	UnHighlightSquares();	
 	RefreshDisplay();
 
@@ -307,9 +322,11 @@ void Controller::on_UndoMove(){
 			to->SetPiece(trow, tcol,m.GetColor(KILL), m.GetType(KILL));
 		}
 		moves->Pop();
+		currentPlayer->Init();
 		ChangePlayer();
+		UnHighlightSquares();
 	}
-	
+
 	RefreshDisplay();
 }
 

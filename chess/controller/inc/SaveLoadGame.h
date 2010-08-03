@@ -35,13 +35,14 @@ class SaveLoadGame {
 public:
 	SaveLoadGame(GameBoard * board);
 	~SaveLoadGame();
+
 	//saves the game using the current board and move history
 	//to filename
 	void Save(std::string filename);
 
 	//loads the game using the filename and sets up the move history
 	//and chess board
-	void Load(std::string filename);
+	PieceColor Load(std::string filename);
 	void SetMoveHistory(MoveHistory * moves);
 private:
 	GameBoard * board;
@@ -54,7 +55,11 @@ private:
 	bool IsValidChessFile();
 	void CleanLoad();
 	void ParseBoard();
-	void ParsePiece();
+	ChessPiece * ParsePieceBoard(HTMLToken token);
+	ChessPiece * ParsePieceHistory(HTMLToken token);
 	void ParseMoveHistory();
+	void ParseMove(HTMLToken token);
+	
+	PieceColor lasttomove;
 };
 #endif

@@ -22,7 +22,7 @@ public: //methods
 	
 	//Clears the highlights from the board
 	//And starts the turn over
-	void Init();
+	virtual void Init()=0;
 	
 	//Constructs a new Chess Player whether it be 
 	//Human or Computer
