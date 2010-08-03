@@ -50,29 +50,33 @@ set<BoardPosition> & ChessPiece::SimulateMoves(GameBoard * board,set<BoardPositi
 	Square * s;
 	p = board->GetSquare(pos)->MovePiece();
 
-	for ( it=checkMoves.begin() ; it != checkMoves.end(); it++ ){
+	for ( it=checkMoves.begin() ; it != checkMoves.end(); ){
 		s = board->GetSquare(*it);
 		temp = s->MovePiece();
 		s->SetPiece(p);
-		
 		//move the piece
 		if (IsInCheck(board)){
-			checkMoves.erase(it);
+			checkMoves.erase(it++);
 
-		}
+		}else 
+			++it;
 		s->SetPiece(temp);
+
 	}
-	for ( it=checkMoves.begin() ; it != checkMoves.end(); it++ ){
+	/*for ( it=checkMoves.begin() ; it != checkMoves.end(); ){
 		s = board->GetSquare(*it);
 		temp = s->MovePiece();
 		s->SetPiece(p);
 		
+		
 		//move the piece
 		if (IsInCheck(board)){
-			checkMoves.erase(it);
-		}
+			checkMoves.erase(it++);
+			
+		}else 
+			++it;
 		s->SetPiece(temp);
-	}
+	}*/
 	board->GetSquare(pos)->SetPiece(p);
 
 	return checkMoves;
