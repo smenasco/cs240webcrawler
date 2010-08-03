@@ -18,8 +18,7 @@ LIBS = `pkg-config $(GTKMM) $(SIGC) $(LIBGLADE) --libs` -L/usr/X11/lib
 
 #LIB_FLAGS D_LOG_DOMAIN is used by g_log in the ChessGui library to seperate logging messages from the library
 # from logging messages from the students code
-#IMPORTANT: You must add a compiler option here for the library to be dynamic
-LIB_FLAGS = -DG_LOG_DOMAIN=\"ChessGui\" -fPIC
+LIB_FLAGS =   -shared -DG_LOG_DOMAIN=\"ChessGui\" -fPIC
 
 LIB_SRC = utils/src
 LIB_OBJ = utils/obj
@@ -27,7 +26,7 @@ LIB_INC = utils/inc
 UTIL_OBJ_FILES = $(LIB_OBJ)/CommandRunner.o \
 	$(LIB_OBJ)/FileInputStream.o $(LIB_OBJ)/FileSystem.o $(LIB_OBJ)/HTMLToken.o $(LIB_OBJ)/HTMLTokenizer.o \
 	$(LIB_OBJ)/HTTPInputStream.o $(LIB_OBJ)/StringUtil.o $(LIB_OBJ)/URLInputStream.o 
-LIB_FILE = lib/libcs240utils.a
+LIB_FILE = lib/libcs240utils.so
 
 
 # -----------------------------------------------------------------------------
@@ -55,8 +54,8 @@ BIN_FOLDER = bin
 # -----------------------------------------------------------------------------
 # File Name Variables
 # -----------------------------------------------------------------------------
-#change this to a dynamic library name
-LIBRARY= $(VIEW_FOLDER)/cs240.a
+
+LIBRARY= $(VIEW_FOLDER)/libcs240.so
 EXE_NAME = $(BIN_FOLDER)/chess
 TEST_DRIVER_NAME = $(BIN_FOLDER)/testdriver
 
@@ -107,7 +106,9 @@ debug : $(EXE_NAME)
 	
 lib : $(LIBRARY) $(LIB_FILE)
 
-##########---------BUILD THE TESTDRIVER-------------############
+# -----------------------------------------------------------------------------
+# Construct the Testdriver
+# -----------------------------------------------------------------------------
 
 test : testdriver
 	@$(TEST_DRIVER_NAME)
@@ -131,7 +132,7 @@ clean:
 	-rm -f $(VIEW_SRC_FOLDER)/*~ $(VIEW_INC_FOLDER)/*~
 
 # -----------------------------------------------------------------------------
-# File Construction
+# Construct the Chess binary & associated .o's
 # -----------------------------------------------------------------------------
 $(EXE_NAME): $(EXE_OBJ_FILES) $(OBJ_FOLDER)/main.o $(LIBRARY)  $(LIB_FILE)
 	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES) $(OBJ_FOLDER)/main.o $(LIBRARY) $(LIB_FILE)
@@ -140,7 +141,7 @@ $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp $(SRC_FOLDER)/Controller.cpp $(INC_
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/main.o $(SRC_FOLDER)/main.cpp
 	
 	
-# Students: Place your makefile commands here
+# Construct OBJ's for Chess game controller and game files
 
 $(OBJ_FOLDER)/Controller.o: $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h $(INC_FOLDER)/ChessController.h $(INC_FOLDER)/ChessPlayer.h $(SRC_FOLDER)/HumanPlayer.cpp $(INC_FOLDER)/HumanPlayer.h $(SRC_FOLDER)/CompPlayer.cpp $(INC_FOLDER)/CompPlayer.h $(VIEW_INC_FOLDER)/ChessView.h $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLDER)/GameBoard.h
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(OBJ_FOLDER)/Controller.o $(SRC_FOLDER)/Controller.cpp
@@ -194,53 +195,52 @@ $(GAME_OBJ_FOLDER)/GameBoard.o: $(GAME_SRC_FOLDER)/GameBoard.cpp $(GAME_INC_FOLD
 	$(CC) -c $(FLAGS) $(CFLAGS) -o $(GAME_OBJ_FOLDER)/GameBoard.o $(GAME_SRC_FOLDER)/GameBoard.cpp	
 
 
-
-# Students: Place your makefile commands here
-	
-
 # -----------------------------------------------------------------------------
 # Library Construction
 # -----------------------------------------------------------------------------
 
 
-
+# -----------------------------------------------------------------------------
 # CS 240 UTILS 
 # -----------------------------------------------------------------------------
 
 	
 $(LIB_FILE) : $(UTIL_OBJ_FILES)
-	ar r lib/libcs240utils.a $(LIB_OBJ)/*.o
+	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) $(LIB_FLAGS) -o $(LIB_FILE) $(LIB_OBJ)/*.o
 
 $(LIB_OBJ)/CommandRunner.o : $(LIB_SRC)/CommandRunner.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h $(LIB_INC)/CommandRunner.h
-	g++ -Wall -g  -c -o $(LIB_OBJ)/CommandRunner.o -I $(LIB_INC) $(LIB_SRC)/CommandRunner.cpp
+	g++ -Wall -g  -c -fPIC -o $(LIB_OBJ)/CommandRunner.o -I $(LIB_INC) $(LIB_SRC)/CommandRunner.cpp
 
 $(LIB_OBJ)/FileInputStream.o : $(LIB_SRC)/FileInputStream.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/FileInputStream.h
-	g++ -Wall -g  -c -o $(LIB_OBJ)/FileInputStream.o -I $(LIB_INC) $(LIB_SRC)/FileInputStream.cpp
+	g++ -Wall -g  -c -fPIC -o $(LIB_OBJ)/FileInputStream.o -I $(LIB_INC) $(LIB_SRC)/FileInputStream.cpp
 	 
 $(LIB_OBJ)/FileSystem.o : $(LIB_SRC)/FileSystem.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/FileSystem.h $(LIB_INC)/UnitTest.h
-	g++ -Wall -g  -c -o $(LIB_OBJ)/FileSystem.o -I $(LIB_INC) $(LIB_SRC)/FileSystem.cpp
+	g++ -Wall -g  -c -fPIC -o $(LIB_OBJ)/FileSystem.o -I $(LIB_INC) $(LIB_SRC)/FileSystem.cpp
   
 $(LIB_OBJ)/HTMLToken.o : $(LIB_SRC)/HTMLToken.cpp $(LIB_INC)/HTMLToken.h
-	g++ -Wall -g  -c -o $(LIB_OBJ)/HTMLToken.o -I $(LIB_INC) $(LIB_SRC)/HTMLToken.cpp
+	g++ -Wall -g  -c -fPIC -o $(LIB_OBJ)/HTMLToken.o -I $(LIB_INC) $(LIB_SRC)/HTMLToken.cpp
 
 $(LIB_OBJ)/HTMLTokenizer.o : $(LIB_SRC)/HTMLTokenizer.cpp $(LIB_INC)/HTMLTokenizer.h
-	g++ -Wall -g  -c -o $(LIB_OBJ)/HTMLTokenizer.o -I $(LIB_INC) $(LIB_SRC)/HTMLTokenizer.cpp	 
+	g++ -Wall -g  -c -fPIC -o $(LIB_OBJ)/HTMLTokenizer.o -I $(LIB_INC) $(LIB_SRC)/HTMLTokenizer.cpp	 
 
 $(LIB_OBJ)/HTTPInputStream.o : $(LIB_SRC)/HTTPInputStream.cpp $(LIB_INC)/CS240Exception.h $(LIB_INC)/StringUtil.h $(LIB_INC)/HTTPInputStream.h
-	g++ -Wall -g  -c -o $(LIB_OBJ)/HTTPInputStream.o -I $(LIB_INC) $(LIB_SRC)/HTTPInputStream.cpp
+	g++ -Wall -g  -c -fPIC -o $(LIB_OBJ)/HTTPInputStream.o -I $(LIB_INC) $(LIB_SRC)/HTTPInputStream.cpp
 
 $(LIB_OBJ)/StringUtil.o : $(LIB_SRC)/StringUtil.cpp $(LIB_INC)/StringUtil.h
-	g++ -Wall -g  -c -o $(LIB_OBJ)/StringUtil.o -I $(LIB_INC) $(LIB_SRC)/StringUtil.cpp	 
+	g++ -Wall -g  -c -fPIC -o $(LIB_OBJ)/StringUtil.o -I $(LIB_INC) $(LIB_SRC)/StringUtil.cpp	 
 	
 $(LIB_OBJ)/URLInputStream.o : $(LIB_SRC)/URLInputStream.cpp $(LIB_INC)/URLInputStream.h $(LIB_INC)/StringUtil.h $(LIB_INC)/CS240Exception.h $(LIB_INC)/HTTPInputStream.h $(LIB_INC)/FileInputStream.h
-	g++ -Wall -g  -c -o $(LIB_OBJ)/URLInputStream.o -I $(LIB_INC) $(LIB_SRC)/URLInputStream.cpp	
+	g++ -Wall -g  -c -fPIC -o $(LIB_OBJ)/URLInputStream.o -I $(LIB_INC) $(LIB_SRC)/URLInputStream.cpp	
 	
 
 
-#This is currently a STATIC library, you must change it to a DYNAMIC library
-#You must also add a compiler option to the variable LIB_FLAGS in order for the library to be dynamic
+
+# -----------------------------------------------------------------------------
+# Chess Library
+# -----------------------------------------------------------------------------
+
 $(LIBRARY): $(LIB_OBJ_FILES) 
-	ar rcs $(LIBRARY) $(LIB_OBJ_FILES)
+	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) $(LIB_FLAGS) -o $(LIBRARY) $(LIB_OBJ_FILES)
 
 	
 ########DO NOT DELETE###########################################################################################3
