@@ -133,7 +133,7 @@ clean:
 # -----------------------------------------------------------------------------
 # File Construction
 # -----------------------------------------------------------------------------
-$(EXE_NAME): $(EXE_OBJ_FILES)  $(LIBRARY)  $(LIB_FILE)
+$(EXE_NAME): $(EXE_OBJ_FILES) $(OBJ_FOLDER)/main.o $(LIBRARY)  $(LIB_FILE)
 	$(CC) $(FLAGS) $(CFLAGS) $(LIBS) -o $(EXE_NAME) $(EXE_OBJ_FILES) $(OBJ_FOLDER)/main.o $(LIBRARY) $(LIB_FILE)
 	
 $(OBJ_FOLDER)/main.o: $(SRC_FOLDER)/main.cpp $(SRC_FOLDER)/Controller.cpp $(INC_FOLDER)/Controller.h
