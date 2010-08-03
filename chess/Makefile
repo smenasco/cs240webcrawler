@@ -100,7 +100,7 @@ runcc : $(EXE_NAME)
 	./$(EXE_NAME) 4
 	
 memtest: $(EXE_NAME)
-	valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --suppressions=chess.supp $(EXE_NAME)
+	valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --suppressions=chess.supp $(EXE_NAME) 4
 	
 debug : $(EXE_NAME)
 	gdb $(EXE_NAME)
