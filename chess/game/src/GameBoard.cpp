@@ -72,11 +72,11 @@ void GameBoard::Init(){
 							board[i].push_back ( s );
 							break;
 						case 3:
-							s = new Square(i,j,BLACK,KING);
+							s = new Square(i,j,BLACK,QUEEN);
 							board[i].push_back ( s );
 							break;
 						case 4:
-							s = new Square(i,j,BLACK,QUEEN);
+							s = new Square(i,j,BLACK,KING);
 							board[i].push_back ( s );
 							break;
 						case 5:
@@ -116,11 +116,11 @@ void GameBoard::Init(){
 							board[i].push_back ( s );
 							break;
 						case 3:
-							s = new Square(i,j,WHITE,KING);
+							s = new Square(i,j,WHITE,QUEEN);
 							board[i].push_back ( s );
 							break;
 						case 4:
-							s = new Square(i,j,WHITE,QUEEN);
+							s = new Square(i,j,WHITE,KING);
 							board[i].push_back ( s );
 							break;
 						case 5:
