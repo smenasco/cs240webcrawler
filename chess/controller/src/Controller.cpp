@@ -26,10 +26,14 @@ Controller::Controller(GameType mode):mode(mode){
 //! Destructor
 //! Maher-shalal-hash-baz 
 Controller::~Controller(){
-	delete white;
-	delete black;
+	if (white != NULL)
+		delete white;
+	if (black != NULL)
+		delete black;
 	delete board;
-	delete moves;
+	delete saveload;
+	if (moves != NULL)
+		delete moves;
 }
 
 void Controller::NewGame(){
@@ -239,8 +243,6 @@ bool Controller::on_DragEnd(int row,int col){
  * Handle when the user selected the new game button.
  */
 void Controller::on_NewGame(){
-	//Possibly ask to save the game
-	//ClearGame();
 	NewGame();
 	
 }
@@ -249,9 +251,13 @@ void Controller::on_NewGame(){
  * Handle when the user selected the save game button.
  */
 void Controller::on_SaveGame(){
-	if (savefile == "")
+	if (savefile.empty())
 		savefile = view->SelectSaveFile();
-	saveload->Save(savefile);
+	if (!savefile.empty()) {
+		view->SetStatusBar(savefile);
+		saveload->Save(savefile);
+	}
+		
 }
 
 /**
@@ -259,7 +265,10 @@ void Controller::on_SaveGame(){
  */
 void Controller::on_SaveGameAs(){
 	savefile = view->SelectSaveFile();
-	saveload->Save(savefile);
+	if (!savefile.empty()) {
+		view->SetStatusBar(savefile);
+		saveload->Save(savefile);
+	}
 }
 
 /**
